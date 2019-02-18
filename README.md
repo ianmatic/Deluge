@@ -1,0 +1,1 @@
+This repository holds the current version of our game in development. If you're interested in fun things like our design docs or architecture docs, reach out to me (jtv6445@g.rit.edu) and I can get those for you.
