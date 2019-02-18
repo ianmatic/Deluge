@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1351537041, guid: b20c2b512f92f504eaf8db9b1d939ab8, type: 3}
+  m_Name: Tiles
+  m_EditorClassIdentifier: 
+  tileSets:
+  - ident: 1
+    name: Tile Set 1
+    type: 0
+    autoType: 0
+    tiles:
+    - ident: 1
+      prefab:
+      - {fileID: 1800649794297387656, guid: d9f9fdc25ebd34d47af1218dd3a58211, type: 3}
+      tileIdx: -1
+      transitionIdx: -1
+      targetTransSet: 1
+      isRotating: 1
+      setTag: 0
+      tag: Untagged
+      setLayer: 0
+      layer: 0
+      setStaticFlags: 0
+      staticFlags: -1
+      setNavArea: 1
+      navArea: 0
+      setSort: 0
+      sortLayerId: 0
+      sortOrder: 0
+      customThumb: {fileID: 2800000, guid: da2b8c56351991c458f2bf57d5a1843a, type: 3}
+      meta: 
+    - ident: 2
+      prefab:
+      - {fileID: 3074491130322437300, guid: d1372f8340fba4942b4db40ea31d12f4, type: 3}
+      tileIdx: -1
+      transitionIdx: -1
+      targetTransSet: 1
+      isRotating: 1
+      setTag: 0
+      tag: Untagged
+      setLayer: 0
+      layer: 0
+      setStaticFlags: 0
+      staticFlags: -1
+      setNavArea: 1
+      navArea: 0
+      setSort: 0
+      sortLayerId: 0
+      sortOrder: 0
+      customThumb: {fileID: 2800000, guid: 42c66f17047dca24dbfb3ecc68848931, type: 3}
+      meta: 
+    - ident: 3
+      prefab:
+      - {fileID: 2883680917506778285, guid: cfb72876cabb52849b230e7ef6edc6f1, type: 3}
+      tileIdx: -1
+      transitionIdx: -1
+      targetTransSet: 1
+      isRotating: 1
+      setTag: 0
+      tag: Untagged
+      setLayer: 0
+      layer: 0
+      setStaticFlags: 0
+      staticFlags: -1
+      setNavArea: 1
+      navArea: 0
+      setSort: 0
+      sortLayerId: 0
+      sortOrder: 0
+      customThumb: {fileID: 2800000, guid: 7b50e33649d6ceb4b889dde8a3fb472f, type: 3}
+      meta: 
+    transitions: []
+    wallSystem: 0
+    setTag: 0
+    floorTag: Untagged
+    wallTag: Untagged
+    setLayer: 0
+    floorLayer: 0
+    wallLayer: 0
+    setStaticFlags: 1
+    floorStaticFlags: -1
+    wallStaticFlags: -1
+    setNavArea: 1
+    floorNavArea: 0
+    wallNavArea: 0
+    setSort: 0
+    floorSortLayeId: 0
+    wallSortLayeId: 0
+    floorSortOrder: 0
+    wallSortOrder: 0
+  lastTileSetIdent: 1
+  lastTileIdent: 3

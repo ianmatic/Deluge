@@ -1,0 +1,85 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerData : MonoBehaviour
+{
+    public bool inCombat;
+
+    //temporary
+    string direction;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        GetComponent<Entity>().time = 1.5f;
+        inCombat = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //in combat
+        if (inCombat)
+        {
+            //player's turn
+            if (GetComponent<Entity>().doingTurn)
+            {
+                //temporary hardcoded solution to test turns
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    direction = "up";
+                }
+                else if (Input.GetKeyDown(KeyCode.A))
+                {
+                    direction = "left";
+                }
+                else if (Input.GetKeyDown(KeyCode.D))
+                {
+                    direction = "right";
+                }
+                else if (Input.GetKeyDown(KeyCode.S))
+                {
+                    direction = "down";
+                }
+
+                //handle input
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    if (direction != null)
+                    {
+                        GetComponent<Entity>().MoveDirection(direction);
+                    }
+                    GetComponent<Timer>().remainingTime = 0;
+                }
+            }
+            else
+            {
+                //reset movement direction each turn
+                direction = null;
+            }
+
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                GetComponent<Entity>().MoveDirection("up");
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                GetComponent<Entity>().MoveDirection("left");
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                GetComponent<Entity>().MoveDirection("right");
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                GetComponent<Entity>().MoveDirection("down");
+            }
+        }
+
+
+    }
+}
