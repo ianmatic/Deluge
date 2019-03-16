@@ -30,7 +30,9 @@ public class Entity : MonoBehaviour
 
 
     //smooth Movement
-    private float smoothSpeed = 0.25f;
+    public float smoothSpeed = 0.25f;
+
+    public Vector3 velocity;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +41,7 @@ public class Entity : MonoBehaviour
 
         //temporary until proper parent tile is found
         Vector3 temporaryParent = transform.position;
-        temporaryParent.y -= 1;
+        temporaryParent.y -= .75f;
 
         parentTile = manager.GetComponent<TileManager>().UpdateParentTile(temporaryParent, null);
 
@@ -54,15 +56,31 @@ public class Entity : MonoBehaviour
     {
         //Smooth movement of GO
         Vector3 desiredPos = new Vector3(parentTile.transform.position.x,
-                                 parentTile.transform.position.y + 1, parentTile.transform.position.z);
+                                 parentTile.transform.position.y + .75f, parentTile.transform.position.z);
+
+        velocity = Vector3.Lerp(transform.position, desiredPos, smoothSpeed) - transform.position;
+
+
+        //clamp speed
+        velocity = Vector3.ClampMagnitude(velocity, .15f);
 
 
         //then update the position of GO
-        transform.position = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
+        transform.position += velocity;
 
+        //snap to the tile if close enough to it
+        Vector3 snapPosition = transform.position;
+        if (Mathf.Abs(transform.position.x - parentTile.transform.position.x) < .05f)
+        {
+            snapPosition.x = parentTile.transform.position.x;
+        }
+        if (Mathf.Abs(transform.position.z - parentTile.transform.position.z) < .05f)
+        {
+            snapPosition.z = parentTile.transform.position.z;
+        }
+        transform.position = snapPosition;
         //TODO: Apply attack function when neccesary
-
-
+        
     }
 
     /// <summary>
@@ -92,6 +110,35 @@ public class Entity : MonoBehaviour
         }
 
         //update the parent tile
-        parentTile = manager.GetComponent<TileManager>().UpdateParentTile(targetPosition, parentTile);
+        if (Vector3.Distance(new Vector3(transform.position.x, transform.position.y - .75f, transform.position.z), parentTile.transform.position) < 1.75)
+        {
+            parentTile = manager.GetComponent<TileManager>().UpdateParentTile(targetPosition, parentTile);
+        }
+    }
+
+    public void SetTileAsParentTile(GameObject tile)
+    {
+        parentTile = manager.GetComponent<TileManager>().UpdateParentTile(tile.transform.position, parentTile);
+    }
+
+    /// <summary>
+    /// Handles attacking GAMEOBJECTS
+    /// </summary>
+    /// <param name="GameObject"></param>
+    public void Attack(GameObject target)
+    {
+        // Resolve Damage
+        int dmgCalc = attack - target.GetComponent<Entity>().defense;
+        target.GetComponent<Entity>().health -= dmgCalc;
+
+        // Resolve Life Vamp
+
+        //health += (int)(dmgCalc * vamp);
+
+        health += dmgCalc;
+
+        print(name + " attacked " + target.name);
+        // TODO: Tricker Attack Animation
+
     }
 }

@@ -8,15 +8,23 @@ public class PlayerData : MonoBehaviour
     public bool inCombat;
     public Inventory inventory;
     private UI_Manager ui_manager;
+    private GameObject manager;
 
-    //temporary
-    string direction;
+    //which way the player is facing
+    public string direction;
+    bool moveInCombat = true;
+    bool newInput = false;
+    public string weaponSelected;
+    public List<GameObject> actionTiles;
+
 
     // Inventory
     public int invWidth;
     public int invHeight;
 
-    int counter = 0;
+    public int counter = 0;
+
+    public int divisor = 10;
 
     /// <summary>
     /// Called on the first frame of existance
@@ -25,9 +33,12 @@ public class PlayerData : MonoBehaviour
     {
         GetComponent<Entity>().time = 1.5f;
         inCombat = false;
-        inventory = new Inventory();
+        actionTiles = new List<GameObject>();
 
         ui_manager = GameObject.Find("UI Canvas Manager").GetComponent<UI_Manager>();
+        manager = GameObject.FindGameObjectWithTag("manager");
+
+        weaponSelected = "axe";
     }
 
     /// <summary>
@@ -46,73 +57,109 @@ public class PlayerData : MonoBehaviour
     /// </summary>
     void CheckPlayerInputs(bool inCombat)
     {
-        // Checking for main weapon swaps, can swap both in and out of combat
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            switch (inventory.currentMain)
-            {
-                case Inventory.main_item.bow:
-                    inventory.currentMain = Inventory.main_item.axe;
-                    break;
-                case Inventory.main_item.axe:
-                    inventory.currentMain = Inventory.main_item.spear;
-                    break;
-                case Inventory.main_item.spear:
-                    inventory.currentMain = Inventory.main_item.bow;
-                    break;
-
-                default:
-                    Debug.Log("Enum System Broken");
-                    break;
-            }
-
-            ui_manager.cycleIconMain();
-        }
 
         if (inCombat)
         {
             //player's turn
             if (GetComponent<Entity>().doingTurn)
             {
-                //temporary hardcoded solution to test turns
-                if (Input.GetKeyDown(KeyCode.W))
+                //Weapon toggling during turn
+                SelectWeapon();
+
+                //toggle moving and attacking
+                if (Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    moveInCombat = !moveInCombat;
+                }
+
+                //select direction via WASD
+                if (Input.GetKey(KeyCode.W))
                 {
                     direction = "up";
+                    newInput = true;
                 }
-                else if (Input.GetKeyDown(KeyCode.A))
+                else if (Input.GetKey(KeyCode.A))
                 {
                     direction = "left";
+                    newInput = true;
                 }
-                else if (Input.GetKeyDown(KeyCode.D))
+                else if (Input.GetKey(KeyCode.D))
                 {
                     direction = "right";
+                    newInput = true;
                 }
-                else if (Input.GetKeyDown(KeyCode.S))
+                else if (Input.GetKey(KeyCode.S))
                 {
                     direction = "down";
+                    newInput = true;
+                }
+                else
+                {
+                    newInput = false;
+                }
+
+                if (!moveInCombat)
+                {
+                    //untint all old tiles
+                    foreach (GameObject tile in actionTiles)
+                    {
+                        manager.GetComponent<ShaderManager>().Untint(tile);
+                    }
+
+                    //find action tiles
+                    actionTiles = manager.GetComponent<TileManager>().
+                         FindActionTiles(gameObject, direction);
+
+                    //tint new tiles
+                    foreach (GameObject tile in actionTiles)
+                    {
+                        manager.GetComponent<ShaderManager>().TintBlue(tile);
+                    }
                 }
 
                 //handle input/execute turn
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    //didn't pick a direction
+                    //picked a direction
                     if (direction != null)
                     {
-                        //don't move
-                        GetComponent<Entity>().MoveDirection(direction);
+                        //move when new input given
+                        if (moveInCombat && newInput)
+                        {
+                            GetComponent<Entity>().MoveDirection(direction);
+                        }
+                        //attack an enemy if possible
+                        else
+                        {
+                            manager.GetComponent<TurnManager>().AttackNearbyEnemies();
+                        }
+
                     }
                     GetComponent<Timer>().remainingTime = 0;
                 }
             }
             else
             {
-                //reset movement direction each turn
-                direction = null;
+
             }
 
         }
         else
         {
+            SelectWeapon();
+
+            //moving diagonally
+            if (Mathf.Abs(GetComponent<Entity>().velocity.x) > 0 && Mathf.Abs(GetComponent<Entity>().velocity.z) > 0)
+            {
+                GetComponent<Entity>().smoothSpeed = .175f;
+                divisor = 14;
+            }
+            else
+            {
+                GetComponent<Entity>().smoothSpeed = .25f;
+                divisor = 10;
+            }
+
             //reset counter on first frame of key press
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A)
                 || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
@@ -121,19 +168,19 @@ public class PlayerData : MonoBehaviour
             }
 
             //able to hold key in free roam mode
-            if (Input.GetKey(KeyCode.W) && counter % 10 == 0)
+            if (Input.GetKey(KeyCode.W) && counter % divisor == 0)
             {
                 GetComponent<Entity>().MoveDirection("up");
             }
-            if (Input.GetKey(KeyCode.A) && counter % 10 == 0)
+            if (Input.GetKey(KeyCode.A) && counter % divisor == 0)
             {
                 GetComponent<Entity>().MoveDirection("left");
             }
-            if (Input.GetKey(KeyCode.D) && counter % 10 == 0)
+            if (Input.GetKey(KeyCode.D) && counter % divisor == 0)
             {
                 GetComponent<Entity>().MoveDirection("right");
             }
-            if (Input.GetKey(KeyCode.S) && counter % 10 == 0)
+            if (Input.GetKey(KeyCode.S) && counter % divisor == 0)
             {
                 GetComponent<Entity>().MoveDirection("down");
             }
@@ -144,6 +191,38 @@ public class PlayerData : MonoBehaviour
             {
                 counter++;
             }
+        }
+    }
+
+    /// <summary>
+    /// Helper function that checks which weapon is selected in inventory
+    /// </summary>
+    void SelectWeapon()
+    {
+        // Checking for main weapon swaps, can swap both in and out of combat
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            switch (inventory.currentMain)
+            {
+                case Inventory.main_item.bow:
+                    inventory.currentMain = Inventory.main_item.axe;
+                    weaponSelected = "axe";
+                    break;
+                case Inventory.main_item.axe:
+                    inventory.currentMain = Inventory.main_item.spear;
+                    weaponSelected = "spear";
+                    break;
+                case Inventory.main_item.spear:
+                    inventory.currentMain = Inventory.main_item.bow;
+                    weaponSelected = "bow";
+                    break;
+
+                default:
+                    Debug.Log("Enum System Broken");
+                    break;
+            }
+
+            ui_manager.CycleIconMain();
         }
     }
 

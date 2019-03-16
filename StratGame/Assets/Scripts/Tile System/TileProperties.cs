@@ -22,7 +22,7 @@ public class TileProperties : MonoBehaviour
         
     }
 
-    int ManhattanDistance(int xPos, int zPos, int endX, int endZ)
+    public int ManhattanDistance(int xPos, int zPos, int endX, int endZ)
     {
         //estimate of how far this is from the end point
         return Mathf.Abs(xPos - endX) + Mathf.Abs(zPos - endZ);

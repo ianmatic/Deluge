@@ -6,6 +6,11 @@ using UnityEngine.UI;
 public class UI_Manager : MonoBehaviour
 {
     // FIELDS
+    // Main
+    public bool displaying = true;
+    private List<GameObject> ui_objects;
+    public GameObject uiHolder;
+
     // Icons
     public GameObject iconMain;
     private int iconMainTracker;
@@ -24,8 +29,10 @@ public class UI_Manager : MonoBehaviour
     public GameObject timeBar;
 
     // Text
-    public Text healthText;
-    public Text timeText;
+    public GameObject healthTextObject;
+    private Text healthText;
+    public GameObject timeTextObject;
+    private Text timeText;
 
     // External Info
     public GameObject player;
@@ -50,25 +57,50 @@ public class UI_Manager : MonoBehaviour
         playerHealth = 0;
         playerMaxHealth = 0;
 
+        // Pull the text component from the two text ui assets
+        healthText = healthTextObject.GetComponent<Text>();
+        timeText = timeTextObject.GetComponent<Text>();
+
         // Health Bar Data
         healthBarWidthInitial = healthBar.GetComponent<Transform>().localScale.x;
         healthBarWidthCurrent = healthBarWidthInitial;
 
         // Icon tracking
         iconMainTracker = 1;
+
+        // Add all objects to the ui_objects list for easy manipulation
+        ui_objects = new List<GameObject>();
+        ui_objects.Add(iconMain);
+        ui_objects.Add(iconOffhand);
+        ui_objects.Add(iconTorso);
+        ui_objects.Add(iconHat);
+        ui_objects.Add(healthBar);
+        ui_objects.Add(timeBar);
+        ui_objects.Add(uiHolder);
+        ui_objects.Add(healthTextObject);
+        ui_objects.Add(timeTextObject);
+
+        // Turn the UI on
+        ToggleAssets();
     }
 
     // Update is called once per frame
     void Update()
     {
-        adjustHealth();
-        adjustTime();
+        AdjustHealth();
+        AdjustTime();
+
+        // (For debugging) Moves all assets on or off screen when we tap '3'
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            ToggleAssets();
+        }
     }
 
     /// <summary>
     /// Updates the player's health in the UI
     /// </summary>
-    private void adjustHealth()
+    private void AdjustHealth()
     {
         // TODO: Get health from player
         playerHealth = playerData.health;
@@ -88,17 +120,20 @@ public class UI_Manager : MonoBehaviour
     /// <summary>
     /// Updates the time remaining in the UI
     /// </summary>
-    private void adjustTime()
+    private void AdjustTime()
     {
-        // TODO: Set up time system & pull time remaining
+        //Get the time
+        float time = player.GetComponent<Timer>().remainingTime;
 
         // TODO: Update visuals to fit
+        timeText.text = time + "s";
+        
     }
 
     /// <summary>
     /// Cycles through the main weapon
     /// </summary>
-    public void cycleIconMain()
+    public void CycleIconMain()
     {
         if(iconMainTracker == 3)
         {
@@ -125,4 +160,36 @@ public class UI_Manager : MonoBehaviour
                 break;
         }
     }
+
+    /// <summary>
+    /// Moves all the assets way off screen or back on screen when triggered
+    /// </summary>
+    public void ToggleAssets()
+    {
+        int mod;
+        if (displaying)
+        {
+            mod = 1000;
+        }
+        else
+        {
+            mod = -1000;
+        }
+
+        // Temporary vector to replace each position w/
+        Vector3 tempPosition = Vector3.zero;
+
+        // Modify the position of each item based on the modifier
+        foreach (GameObject ui_item in ui_objects)
+        {
+            tempPosition = ui_item.transform.position;
+            tempPosition.x += mod;
+            ui_item.transform.position = tempPosition;
+        }
+
+        // Flip displaying
+        displaying = !displaying;
+    }
+
+
 }

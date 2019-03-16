@@ -35,7 +35,7 @@ public class TurnManager : MonoBehaviour
     void Update()
     {
 
-        //First determine which enemies are close (in combat
+        //First determine which enemies are close (in combat)
         nearbyEnemies = GetNearbyEnemies(player, enemies);
 
         //in combat
@@ -49,8 +49,9 @@ public class TurnManager : MonoBehaviour
                 GetComponent<CameraManager>().target = player;
                 player.GetComponent<Entity>().doingTurn = true;
 
+
                 //out of time
-                if (player.GetComponent<Timer>().remainingTime <= 0)
+                if (player.GetComponent<Timer>().remainingTime < 0.05)
                 {
                     counter++;
                 }
@@ -72,7 +73,22 @@ public class TurnManager : MonoBehaviour
                         //end turn
                         if (nearbyEnemies[i].GetComponent<Timer>().remainingTime <= 0)
                         {
+                            foreach (GameObject tile in nearbyEnemies[i].GetComponent<EnemyData>().pathToPlayer)
+                            {
+                                GetComponent<ShaderManager>().Untint(tile);
+                            }
+
+                            //A* pathfinding
+                            nearbyEnemies[i].GetComponent<EnemyData>().pathToPlayer = 
+                                GetComponent<TileManager>().FindPath(nearbyEnemies[i], player);
+
+                            foreach (GameObject tile in nearbyEnemies[i].GetComponent<EnemyData>().pathToPlayer)
+                            {
+                                GetComponent<ShaderManager>().TintRed(tile);
+                            }
+
                             nearbyEnemies[i].GetComponent<EnemyData>().ProcessTurn();
+
                             nearbyEnemies[i].GetComponent<Entity>().doingTurn = false;
                             counter++;
                         }
@@ -111,13 +127,37 @@ public class TurnManager : MonoBehaviour
         //determine which enemies are close
         foreach (GameObject enemy in enemies)
         {
-            //3 tiles proximity
-            if (Vector3.Distance(player.transform.position, enemy.transform.position) < 3)
+            //n tiles proximity
+            if (Vector3.Distance(player.transform.position, enemy.transform.position) < 5)
             {
                 nearbyEnemies.Add(enemy);
             }
         }
 
         return nearbyEnemies;
+    }
+
+    public void AttackNearbyEnemies()
+    {
+        List<GameObject> hittableEnemies = new List<GameObject>();
+
+        //find enemies that are in target area
+        foreach (GameObject enemy in nearbyEnemies)
+        {
+            foreach (GameObject tile in player.GetComponent<PlayerData>().actionTiles)
+            {
+                //enemy is located on a tile that the player can attack
+                if (enemy.GetComponent<Entity>().parentTile == tile)
+                {
+                    hittableEnemies.Add(enemy);
+                }
+            }
+        }
+
+        foreach (GameObject enemy in hittableEnemies)
+        {
+            player.GetComponent<Entity>().Attack(enemy);
+        }
+
     }
 }

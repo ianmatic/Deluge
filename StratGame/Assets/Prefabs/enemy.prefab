@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2daa97a3dbded2f46a53a3d998002289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pathToPlayer: []
 --- !u!114 &5488792510702273953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,8 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 0
-  attack: 0
-  defense: 0
+  attack: 3
+  defense: 1
   vamp: 0
   invWidth: 0
   invHeight: 0
@@ -142,3 +143,5 @@ MonoBehaviour:
   parentTile: {fileID: 0}
   doingTurn: 0
   time: 0
+  smoothSpeed: 0.25
+  velocity: {x: 0, y: 0, z: 0}

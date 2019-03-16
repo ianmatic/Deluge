@@ -59,15 +59,15 @@ public class TileManager : MonoBehaviour
 
         //look for tile one above the horizontal
         Vector3 abovePotentialPosition = targetPosition;
-        abovePotentialPosition.y += 1;
+        abovePotentialPosition.y += .5f;
 
         //look for tile two below (can fall 2 tiles)
         Vector3 secondBelowPotentialPosition = targetPosition;
-        secondBelowPotentialPosition.y -= 2;
+        secondBelowPotentialPosition.y -= 1;
 
         //look for tile one below
         Vector3 belowPotentialPosition = targetPosition;
-        belowPotentialPosition.y -= 1;
+        belowPotentialPosition.y -= .5f;
 
         //first frame, just set the beginning parentTile (will always be directly underneath)
         if (oldParent == null)
@@ -84,11 +84,11 @@ public class TileManager : MonoBehaviour
                 if (GetTileAtPosition(abovePotentialPosition) != null)
                 {
                     //check if there is yet another tile on top of the previous one (can only move up by 1)
-                    abovePotentialPosition.y += 1;
+                    abovePotentialPosition.y += .5f;
                     //no tile too high, able to move up
                     if (GetTileAtPosition(abovePotentialPosition) == null)
                     {
-                        abovePotentialPosition.y -= 1;
+                        abovePotentialPosition.y -= .5f;
                         newParentTile = GetTileAtPosition(abovePotentialPosition);
 
                     }
@@ -111,12 +111,12 @@ public class TileManager : MonoBehaviour
                 if (GetTileAtPosition(abovePotentialPosition) != null)
                 {
                     //check if there is yet another tile on top of the previous one (can only move up by 1)
-                    abovePotentialPosition.y += 1;
+                    abovePotentialPosition.y += .5f;
                     //no tile too high, able to move up
                     if (GetTileAtPosition(abovePotentialPosition) == null)
                     {
                         //move gameobject to one tile up
-                        abovePotentialPosition.y -= 1;
+                        abovePotentialPosition.y -= .5f;
                         newParentTile = GetTileAtPosition(abovePotentialPosition);
                     }
                 }
@@ -124,14 +124,14 @@ public class TileManager : MonoBehaviour
                 else
                 {
                     //move 2 down if missing first block
-                    if (GetTileAtPosition(secondBelowPotentialPosition) != null 
+                    if (GetTileAtPosition(secondBelowPotentialPosition) != null
                         && GetTileAtPosition(belowPotentialPosition) == null)
                     {
                         newParentTile = GetTileAtPosition(secondBelowPotentialPosition);
                     }
                     //move 1 down if missing 2nd block or if both present
                     if ((GetTileAtPosition(belowPotentialPosition) != null
-                        && GetTileAtPosition(secondBelowPotentialPosition) == null) 
+                        && GetTileAtPosition(secondBelowPotentialPosition) == null)
                         ||
                         (GetTileAtPosition(belowPotentialPosition) != null
                         && GetTileAtPosition(secondBelowPotentialPosition) != null))
@@ -190,16 +190,24 @@ public class TileManager : MonoBehaviour
     /// <returns></returns>
     public List<GameObject> FindPath(GameObject start, GameObject end)
     {
+        //get end positions
         int endXPos = (int)end.GetComponent<Entity>().parentTile.transform.position.x;
-        int endYPos = (int)end.GetComponent<Entity>().parentTile.transform.position.z;
+        int endZPos = (int)end.GetComponent<Entity>().parentTile.transform.position.z;
 
+        //calculate each heuristic and reset the previous
+        foreach (GameObject tile in tiles)
+        {
+            tile.GetComponent<TileProperties>().heuristic =
+                tile.GetComponent<TileProperties>().ManhattanDistance((int)tile.transform.position.x, (int)tile.transform.position.z, endXPos, endZPos);
+
+            tile.GetComponent<TileProperties>().previous = null;
+        }
+
+        //get startTile
         GameObject startTile = start.GetComponent<Entity>().parentTile;
 
-        //exit loop when this is false
-        bool findingPath = true;
-
         //track which tiles have been visited
-        List<GameObject> openTiles = tiles;
+        List<GameObject> openTiles = new List<GameObject>();
         List<GameObject> closedTiles = new List<GameObject>();
 
         //returned path
@@ -208,10 +216,13 @@ public class TileManager : MonoBehaviour
         //start at the GO's position
         GameObject currentTile = startTile;
 
+        //Begin algorithm
+
+        //exit loop when this is false
+        bool findingPath = true;
+
         //put the start tile in the closed list
         closedTiles.Add(startTile);
-
-
 
         //search until we find the path, or determine there is no possible path
         while (findingPath)
@@ -222,16 +233,22 @@ public class TileManager : MonoBehaviour
                 for (int currentZ = (int)currentTile.transform.position.z - 1; currentZ <= currentTile.transform.position.z + 1; currentZ++)
                 {
                     //if it's this cell, ignore it
-                    if (currentX == currentTile.transform.position.x && currentZ == currentTile.transform.position.y)
+                    if (currentX == currentTile.transform.position.x && currentZ == currentTile.transform.position.z)
                     {
                         continue;
                     }
 
                     //ignore diagonals
-                    if ((currentX == currentTile.transform.position.x - 1 && currentZ == currentTile.transform.position.y - 1) ||
-                        (currentX == currentTile.transform.position.x - 1 && currentZ == currentTile.transform.position.y + 1) ||
-                        (currentX == currentTile.transform.position.x + 1 && currentZ == currentTile.transform.position.y - 1) ||
-                        (currentX == currentTile.transform.position.x + 1 && currentZ == currentTile.transform.position.y + 1))
+                    if ((currentX == currentTile.transform.position.x - 1 && currentZ == currentTile.transform.position.z - 1) ||
+                        (currentX == currentTile.transform.position.x - 1 && currentZ == currentTile.transform.position.z + 1) ||
+                        (currentX == currentTile.transform.position.x + 1 && currentZ == currentTile.transform.position.z - 1) ||
+                        (currentX == currentTile.transform.position.x + 1 && currentZ == currentTile.transform.position.z + 1))
+                    {
+                        continue;
+                    }
+
+                    //don't check tiles that don't exist
+                    if (GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)) == null)
                     {
                         continue;
                     }
@@ -242,7 +259,7 @@ public class TileManager : MonoBehaviour
                     for (int i = 0; i < closedTiles.Count; i++)
                     {
                         //found the current Tile in closed tiles
-                        if (closedTiles[i].transform.position.x == GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.x 
+                        if (closedTiles[i].transform.position.x == GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.x
                             && closedTiles[i].transform.position.z == GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.z)
                         {
                             inClosed = true;
@@ -257,8 +274,8 @@ public class TileManager : MonoBehaviour
                     }
 
                     //found the end Tile
-                    if (GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.x == endXPos 
-                        && GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.z == endYPos)
+                    if (GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.x == endXPos
+                        && GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.z == endZPos)
                     {
                         //set the end's parent
                         GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).GetComponent<TileProperties>().previous = currentTile;
@@ -291,14 +308,14 @@ public class TileManager : MonoBehaviour
 
                     //at this point, the current Tile is valid
 
-                    int xDistance = (int)(GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.z - currentTile.transform.position.x);
+                    int xDistance = (int)(GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.x - currentTile.transform.position.x);
                     int zDistance = (int)(GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.z - currentTile.transform.position.z);
 
                     //calculate movement distance using distance formula + path distance
                     int moveCost = currentTile.GetComponent<TileProperties>().pathDistance + (int)Mathf.Sqrt(Mathf.Pow(xDistance, 2) + Mathf.Pow(zDistance, 2));
 
                     //no parent Tile or the current Tile's path distance is shorter
-                    if (GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).GetComponent<TileProperties>().previous == null 
+                    if (GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).GetComponent<TileProperties>().previous == null
                         || moveCost < GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).GetComponent<TileProperties>().pathDistance)
                     {
                         //that means we should use this Tile
@@ -324,7 +341,7 @@ public class TileManager : MonoBehaviour
                             for (int i = 0; i < openTiles.Count; i++)
                             {
                                 //Tile already inside open tiles
-                                if (openTiles[i].transform.position.x == GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.x 
+                                if (openTiles[i].transform.position.x == GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.x
                                     && openTiles[i].transform.position.z == GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).transform.position.z)
                                 {
                                     inOpen = true;
@@ -387,5 +404,222 @@ public class TileManager : MonoBehaviour
 
         //should NOT hit this if the maze is solvable
         return path;
+    }
+
+    /// <summary>
+    /// Finds the tiles that the player can interact with in combat
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public List<GameObject> FindActionTiles(GameObject player, string direction)
+    {
+
+        List<GameObject> tiles = new List<GameObject>();
+        Vector3 parentTilePosition = player.GetComponent<Entity>().parentTile.transform.position;
+
+        if (direction == null)
+        {
+            return tiles;
+        }
+        else
+        {
+            //determine tiles based on weapon
+            if (player.GetComponent<PlayerData>().weaponSelected == "axe")
+            {
+                //By default, sword hits top right and adjacent, relative to direction
+                //z + 1
+                if (direction == "up")
+                {
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z + 1
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x + 1,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z + 1
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x + 1,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                }
+                //x + 1                                     
+                else if (direction == "right")
+                {
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x + 1,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x + 1,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z - 1
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z - 1
+                                    )));
+                }
+                //z - 1
+                else if (direction == "down")
+                {
+                    tiles.Add(GetTileAtPosition(
+                         new Vector3(parentTilePosition.x,
+                                     parentTilePosition.y,
+                                     parentTilePosition.z - 1
+                                     )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x - 1,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z - 1
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x - 1,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                }
+                //x - 1
+                else if (direction == "left")
+                {
+                    tiles.Add(GetTileAtPosition(
+                    new Vector3(parentTilePosition.x - 1,
+                                parentTilePosition.y,
+                                parentTilePosition.z
+                                )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x - 1,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z + 1
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z + 1
+                                    )));
+                }
+            }
+            else if (player.GetComponent<PlayerData>().weaponSelected == "spear")
+            {
+                if (direction == "up")
+                {
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z + 1
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z + 2
+                                    )));
+                }
+                else if (direction == "right")
+                {
+                    tiles.Add(GetTileAtPosition(
+                         new Vector3(parentTilePosition.x + 1,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x + 2,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                }
+                else if (direction == "down")
+                {
+                    tiles.Add(GetTileAtPosition(
+                         new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z - 2
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z - 1
+                                    )));
+                }
+                else if (direction == "left")
+                {
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x - 1,
+                                   parentTilePosition.y,
+                                   parentTilePosition.z
+                                   )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x - 2,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                }
+            }
+            else if (player.GetComponent<PlayerData>().weaponSelected == "bow")
+            {
+                if (direction == "up")
+                {
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z + 2
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z + 3
+                                    )));
+                }
+                else if (direction == "right")
+                {
+                    tiles.Add(GetTileAtPosition(
+                         new Vector3(parentTilePosition.x + 2,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x + 3,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                }
+                else if (direction == "down")
+                {
+                    tiles.Add(GetTileAtPosition(
+                         new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z - 3
+                                    )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z - 2
+                                    )));
+                }
+                else if (direction == "left")
+                {
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x - 3,
+                                   parentTilePosition.y,
+                                   parentTilePosition.z
+                                   )));
+                    tiles.Add(GetTileAtPosition(
+                        new Vector3(parentTilePosition.x - 2,
+                                    parentTilePosition.y,
+                                    parentTilePosition.z
+                                    )));
+                }
+            }
+        }
+
+
+        //remove any null tiles
+        tiles.RemoveAll(tile => tile == null);
+
+        return tiles;
     }
 }
