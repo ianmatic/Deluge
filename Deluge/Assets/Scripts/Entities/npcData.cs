@@ -15,7 +15,7 @@ public class npcData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dialogueManager = GameObject.FindGameObjectWithTag("dialogueManager");
+        dialogueManager = GameObject.Find("dialogue_ui");
         GetComponent<Entity>().type = entityType.npc;
         player = GameObject.FindGameObjectWithTag("Player");
     }
