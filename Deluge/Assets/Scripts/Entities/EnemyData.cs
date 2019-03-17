@@ -13,6 +13,7 @@ public class EnemyData : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         pathToPlayer = new List<GameObject>();
         GetComponent<Entity>().maxTime = 0.5f;
+        GetComponent<Entity>().type = entityType.enemy;
     }
 
     // Update is called once per frame

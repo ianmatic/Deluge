@@ -2,6 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FaceDirection
+{
+    left,
+    right,
+    forward,
+    backward,
+    none
+}
+
+public enum entityType
+{
+    player,
+    enemy,
+    npc
+}
+
 public class Entity : MonoBehaviour
 {
     // FIELDS
@@ -12,6 +28,9 @@ public class Entity : MonoBehaviour
     public int attack;
     public int defense;
     public float vamp;
+
+    public FaceDirection direction = FaceDirection.none;
+    public entityType type;
 
     // Inventory
     public int invWidth;
@@ -87,24 +106,24 @@ public class Entity : MonoBehaviour
     /// This function only handles 2d movement, vertical movement is handled by UpdateParentTile
     /// </summary>
     /// <param name="direction"></param>
-    public void MoveDirection(string direction)
+    public void MoveDirection(FaceDirection direction)
     {
         //where the object wants to go
         Vector3 targetPosition = parentTile.transform.position;
         //handle 2d movement
-        if (direction == "up")
-        {
+        if (direction == FaceDirection.forward)
+        { 
             targetPosition.z += 1;
         }
-        else if (direction == "right")
+        else if (direction == FaceDirection.right)
         {
             targetPosition.x += 1;
         }
-        else if (direction == "down")
+        else if (direction == FaceDirection.backward)
         {
             targetPosition.z -= 1;
         }
-        else if (direction == "left")
+        else if (direction == FaceDirection.left)
         {
             targetPosition.x -= 1;
         }

@@ -85,7 +85,7 @@ public class Dialogue_Manager : MonoBehaviour
     /// <summary>
     /// Displays the basic UI that holds all dialogue assets
     /// </summary>
-    void ToggleAssets()
+    private void ToggleAssets()
     {
         // Turn of the main ui overlay
         main_ui_manager.ToggleAssets();
@@ -116,7 +116,7 @@ public class Dialogue_Manager : MonoBehaviour
     /// Read in the current section's text body and store it in currentDialogue
     /// </summary>
     /// <param name="current"></param>
-    void ReadText(TextAsset current)
+    private void ReadText(TextAsset current)
     {
         // Clear out whatever was is leftover in the dialogue save-offs
         speakerList.Clear();
@@ -150,7 +150,7 @@ public class Dialogue_Manager : MonoBehaviour
     /// <summary>
     /// Updates the displayed GUI text to the next applicable line in the set
     /// </summary>
-    private void UpdateText()
+    public void UpdateText()
     {
         if (currentTextLine < speakerList.Count - 1)  //make sure there are more sections to display
         {

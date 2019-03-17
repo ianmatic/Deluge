@@ -8,6 +8,7 @@ public class TileProperties : MonoBehaviour
     public GameObject previous;
     public int heuristic;
     public int pathDistance;
+    public bool isParent = false;
 
     // Start is called before the first frame update
     void Start()

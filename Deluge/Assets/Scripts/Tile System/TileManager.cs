@@ -147,14 +147,21 @@ public class TileManager : MonoBehaviour
 
         }
 
-        //no suitable tile found, no movement
-        if (newParentTile == null)
+        //no suitable tile found or the suitable tile is taken, no movement
+        if (newParentTile == null || newParentTile.GetComponent<TileProperties>().isParent)
         {
             return oldParent;
         }
         //found suitable tile, movement
         else
         {
+            //update parenting of tiles
+            if (oldParent != null)
+            {
+                oldParent.GetComponent<TileProperties>().isParent = false;
+            }
+            newParentTile.GetComponent<TileProperties>().isParent = true;
+
             return newParentTile;
         }
 
@@ -411,13 +418,13 @@ public class TileManager : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-    public List<GameObject> FindActionTiles(GameObject player, string direction)
+    public List<GameObject> FindActionTiles(GameObject player, FaceDirection direction)
     {
 
         List<GameObject> tiles = new List<GameObject>();
         Vector3 parentTilePosition = player.GetComponent<Entity>().parentTile.transform.position;
 
-        if (direction == null)
+        if (direction == FaceDirection.none)
         {
             return tiles;
         }
@@ -428,7 +435,7 @@ public class TileManager : MonoBehaviour
             {
                 //By default, sword hits top right and adjacent, relative to direction
                 //z + 1
-                if (direction == "up")
+                if (direction == FaceDirection.forward)
                 {
                     tiles.Add(GetTileAtPosition(
                         new Vector3(parentTilePosition.x,
@@ -447,7 +454,7 @@ public class TileManager : MonoBehaviour
                                     )));
                 }
                 //x + 1                                     
-                else if (direction == "right")
+                else if (direction == FaceDirection.right)
                 {
                     tiles.Add(GetTileAtPosition(
                         new Vector3(parentTilePosition.x + 1,
@@ -466,7 +473,7 @@ public class TileManager : MonoBehaviour
                                     )));
                 }
                 //z - 1
-                else if (direction == "down")
+                else if (direction == FaceDirection.backward)
                 {
                     tiles.Add(GetTileAtPosition(
                          new Vector3(parentTilePosition.x,
@@ -485,7 +492,7 @@ public class TileManager : MonoBehaviour
                                     )));
                 }
                 //x - 1
-                else if (direction == "left")
+                else if (direction == FaceDirection.left)
                 {
                     tiles.Add(GetTileAtPosition(
                     new Vector3(parentTilePosition.x - 1,
@@ -506,7 +513,7 @@ public class TileManager : MonoBehaviour
             }
             else if (player.GetComponent<PlayerData>().weaponSelected == "spear")
             {
-                if (direction == "up")
+                if (direction == FaceDirection.forward)
                 {
                     tiles.Add(GetTileAtPosition(
                         new Vector3(parentTilePosition.x,
@@ -519,7 +526,7 @@ public class TileManager : MonoBehaviour
                                     parentTilePosition.z + 2
                                     )));
                 }
-                else if (direction == "right")
+                else if (direction == FaceDirection.right)
                 {
                     tiles.Add(GetTileAtPosition(
                          new Vector3(parentTilePosition.x + 1,
@@ -532,7 +539,7 @@ public class TileManager : MonoBehaviour
                                     parentTilePosition.z
                                     )));
                 }
-                else if (direction == "down")
+                else if (direction == FaceDirection.backward)
                 {
                     tiles.Add(GetTileAtPosition(
                          new Vector3(parentTilePosition.x,
@@ -545,7 +552,7 @@ public class TileManager : MonoBehaviour
                                     parentTilePosition.z - 1
                                     )));
                 }
-                else if (direction == "left")
+                else if (direction == FaceDirection.left)
                 {
                     tiles.Add(GetTileAtPosition(
                         new Vector3(parentTilePosition.x - 1,
@@ -561,7 +568,7 @@ public class TileManager : MonoBehaviour
             }
             else if (player.GetComponent<PlayerData>().weaponSelected == "bow")
             {
-                if (direction == "up")
+                if (direction == FaceDirection.forward)
                 {
                     tiles.Add(GetTileAtPosition(
                         new Vector3(parentTilePosition.x,
@@ -574,7 +581,7 @@ public class TileManager : MonoBehaviour
                                     parentTilePosition.z + 3
                                     )));
                 }
-                else if (direction == "right")
+                else if (direction == FaceDirection.right)
                 {
                     tiles.Add(GetTileAtPosition(
                          new Vector3(parentTilePosition.x + 2,
@@ -587,7 +594,7 @@ public class TileManager : MonoBehaviour
                                     parentTilePosition.z
                                     )));
                 }
-                else if (direction == "down")
+                else if (direction == FaceDirection.backward)
                 {
                     tiles.Add(GetTileAtPosition(
                          new Vector3(parentTilePosition.x,
@@ -600,7 +607,7 @@ public class TileManager : MonoBehaviour
                                     parentTilePosition.z - 2
                                     )));
                 }
-                else if (direction == "left")
+                else if (direction == FaceDirection.left)
                 {
                     tiles.Add(GetTileAtPosition(
                         new Vector3(parentTilePosition.x - 3,
@@ -621,5 +628,44 @@ public class TileManager : MonoBehaviour
         tiles.RemoveAll(tile => tile == null);
 
         return tiles;
+    }
+
+    /// <summary>
+    /// Finds the tile that the player can interact with outside of combat (based on direction)
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    public GameObject FindInteractTile(GameObject player, FaceDirection direction)
+    {
+        //get the position
+        Vector3 parentTilePosition = player.GetComponent<Entity>().parentTile.transform.position;
+
+        //choose appropriate tile based on direction
+        //z + 1
+        if (direction == FaceDirection.forward)
+        {
+            parentTilePosition.z += 1;
+        }
+        //z - 1
+        else if (direction == FaceDirection.backward)
+        {
+            parentTilePosition.z -= 1;
+        }
+        //x - 1
+        else if (direction == FaceDirection.left)
+        {
+            parentTilePosition.x -= 1;
+        }
+        //x + 1
+        else if (direction == FaceDirection.right)
+        {
+            parentTilePosition.x += 1;
+        }
+        else
+        {
+            return null;
+        }
+
+        return GetTileAtPosition(parentTilePosition);
     }
 }
