@@ -12,4 +12,2001 @@ MonoBehaviour:
   m_Script: {fileID: 1969567529, guid: b20c2b512f92f504eaf8db9b1d939ab8, type: 3}
   m_Name: TileTemplates
   m_EditorClassIdentifier: 
-  templates: []
+  templates:
+  - name: Template 1
+    guid: b87c30a25ac642d6af1c89a5f8bcf48e
+    toolIdent: 1
+    prefab: {fileID: 6265527932002475998, guid: e98c18218c3b27148b694cce096b3f73,
+      type: 3}
+    texture: {fileID: 2800000, guid: 0a72446150eddd64aa8af6397a791a80, type: 3}
+    tiles:
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 3
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 3
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 3
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 3
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 3
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 3
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 3
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 3
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 3
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 3
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 3
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 3
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 4
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 4
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 2
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 2
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 2
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 2
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 2
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 2
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 2
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 2
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 2
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 2
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 2
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 2
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 2
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 2
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 2
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 2
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 2
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 2
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 2
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 2
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 2
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 2
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 2
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 2
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 2
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 2
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 2
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 2
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 2
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 2
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 1
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 1
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 1
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 1
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 1
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 1
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 1
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 1
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 1
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 1
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 1
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 1
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 1
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 1
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 1
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 1
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 1
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 1
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 1
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 1
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 1
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 1
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 1
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 1
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 1
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 1
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 1
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 1
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 1
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 1
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 1
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 1
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 1
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 1
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 1
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 1
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 1
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 1
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 1
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 1
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 1
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 1
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 1
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 1
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 1
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 1
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 1
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 1
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 1
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 1
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 1
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 1
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 1
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 1
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 1
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 1
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 6
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 7
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 8
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 9
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 0
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 1
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 2
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 5
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 7
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 8
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 9
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 6
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 4
+        _y: 0
+        _z: 5
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 0
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 1
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 2
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 0100000008000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: 3
+        _y: 0
+        _z: 4
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
