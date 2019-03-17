@@ -23,7 +23,6 @@ public class Dialogue_Manager : MonoBehaviour
     private Text textName;
     private Text textBody;
     private int currentTextLine;
-    private int maxTextLine;
 
     // Dialogue UI Setup
     public GameObject gui_tint;
@@ -62,7 +61,6 @@ public class Dialogue_Manager : MonoBehaviour
 
         // Set up max text count & initialize current text line
         currentTextLine = -1;               // defaults to -1 so we can tell if text has been
-        maxTextLine = speakerList.Count;    // read in yet or not -- also so UpdateText starts at 0
 
         // Move dialogue offscreen by default
         ToggleAssets();
@@ -74,7 +72,7 @@ public class Dialogue_Manager : MonoBehaviour
         // Check if the UI is toggled
         if (Input.GetKeyDown(KeyCode.T))
         {
-            ToggleAssets();
+            TriggerDialogue(inputFile);
         }
 
         // Check if dialogue should be updated
@@ -154,11 +152,29 @@ public class Dialogue_Manager : MonoBehaviour
     /// </summary>
     private void UpdateText()
     {
-        if (currentTextLine < maxTextLine)  //make sure there are more sections to display
+        if (currentTextLine < speakerList.Count - 1)  //make sure there are more sections to display
         {
             currentTextLine++;
             textBody.text = dialogueList[currentTextLine];
             textName.text = speakerList[currentTextLine];
         }
+        else
+        {
+            ToggleAssets();
+            displaying = false;
+            currentTextLine = 0;
+        }
+
+    }
+
+    public void TriggerDialogue(TextAsset current)
+    {
+        // Flip the assets to show this screen
+        ToggleAssets();
+        displaying = true;
+
+        // Read in and update the GUI with the current text lines
+        ReadText(current);
+        UpdateText();
     }
 }

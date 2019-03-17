@@ -35,7 +35,7 @@ public class PlayerData : MonoBehaviour
         inCombat = false;
         actionTiles = new List<GameObject>();
 
-        ui_manager = GameObject.Find("UI Canvas Manager").GetComponent<UI_Manager>();
+        ui_manager = GameObject.Find("main_ui").GetComponent<UI_Manager>();
         manager = GameObject.FindGameObjectWithTag("manager");
 
         weaponSelected = "axe";
