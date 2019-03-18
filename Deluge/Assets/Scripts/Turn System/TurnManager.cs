@@ -130,7 +130,12 @@ public class TurnManager : MonoBehaviour
             //n tiles proximity
             if (Vector3.Distance(player.transform.position, enemy.transform.position) < 5)
             {
+                enemy.GetComponent<EnemyData>().inCombat = true;
                 nearbyEnemies.Add(enemy);
+            }
+            else
+            {
+                enemy.GetComponent<EnemyData>().inCombat = false;
             }
         }
 

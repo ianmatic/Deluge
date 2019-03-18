@@ -668,4 +668,50 @@ public class TileManager : MonoBehaviour
 
         return GetTileAtPosition(parentTilePosition);
     }
+
+    /// <summary>
+    /// Finds tiles around the entity
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public List<GameObject> FindAdjacentTiles(GameObject entity, bool corners)
+    {
+        List<GameObject> nearbyTiles = new List<GameObject>();
+        GameObject parentTile = entity.GetComponent<Entity>().parentTile;
+
+        if (corners)
+        {
+            //find all tiles in 3x3 grid around parentTile (not including parentTile)
+            for (float x = parentTile.transform.position.x - 1; x < parentTile.transform.position.x + 1; x++)
+            {
+                for (float z = parentTile.transform.position.z - 1; z < parentTile.transform.position.z + 1; z++)
+                {
+                    //ignore parent tile
+                    if (parentTile.transform.position.x == x && parentTile.transform.position.z == z)
+                    {
+                        continue;
+                    }
+
+                    //add the tiles
+                    nearbyTiles.Add(GetTileAtPosition(new Vector3(x, parentTile.transform.position.y, z)));
+                }
+            }
+        }
+        else
+        {
+            Vector3 parentPos = parentTile.transform.position;
+
+            //only cardinal direction
+            nearbyTiles.Add(GetTileAtPosition(new Vector3(parentPos.x - 1, parentPos.y, parentPos.z)));
+            nearbyTiles.Add(GetTileAtPosition(new Vector3(parentPos.x + 1, parentPos.y, parentPos.z)));
+
+            nearbyTiles.Add(GetTileAtPosition(new Vector3(parentPos.x, parentPos.y, parentPos.z - 1)));
+            nearbyTiles.Add(GetTileAtPosition(new Vector3(parentPos.x, parentPos.y, parentPos.z + 1)));
+        }
+
+        //remove any null tiles
+        nearbyTiles.RemoveAll(tile => tile == null);
+
+        return nearbyTiles;
+    }
 }
