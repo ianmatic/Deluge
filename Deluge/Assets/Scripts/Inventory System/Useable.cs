@@ -6,8 +6,8 @@ public class Useable : Item
 {
     // FIELDS
     // Basics
-    private Entity holder;
     public int usesRemaining = 0;
+    Entity holder;
 
     // For Temporary Items
     public bool temporary = false;
@@ -17,7 +17,6 @@ public class Useable : Item
     // Start is called before the first frame update
     void Start()
     {
-        holder = itemHolder.GetComponent<Entity>();
     }
 
     // Update is called once per frame
@@ -32,8 +31,11 @@ public class Useable : Item
 
 
     // Applies the effects of the useable item to the item holder
-    private void ApplyEffects()
+    private void ApplyEffects(GameObject user)
     {
+        // Get the holder component
+        UpdateHolder(user);
+
         // Degrade the amount of uses
         usesRemaining--;
 
@@ -53,9 +55,15 @@ public class Useable : Item
         }
     }
 
+    private void UpdateHolder(GameObject user)
+    {
+        holder = user.GetComponent<Entity>();
+    }
+
     // Invokeable method to remove previously applied effects
     private void RemoveEffects()
     {
+        // Remove the effects
         holder.attack -= bonusAtk;
         holder.defense -= bonusDef;
         holder.health -= bonusHP;

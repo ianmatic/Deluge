@@ -5,10 +5,10 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     // FIELDS
-
     // Identifiers
     public int itemID;
-    public GameObject itemHolder;
+    //public GameObject itemHolder;     //checking if this is still in use
+    public Texture2D sprite;
 
     // Basic Stats
     public int bonusAtk = 0;

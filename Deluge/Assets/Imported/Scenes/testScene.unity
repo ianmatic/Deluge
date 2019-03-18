@@ -11660,9 +11660,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2370f926361d98d43b70130f2fda4b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unlitDefault: {fileID: 4800000, guid: 2bf7ad3001b34924ca29d3751cbbc6c0, type: 3}
-  unlitColorShift: {fileID: 4800000, guid: 69d3f586438ee744ea8e0b08a2e8fd54, type: 3}
-  testObject: {fileID: 1552777428}
+  unlitDefault: {fileID: 0}
+  unlitColorShift: {fileID: 0}
+  testObject: {fileID: 0}
 --- !u!4 &807365422 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1470851312021578644, guid: d9f9fdc25ebd34d47af1218dd3a58211,
@@ -12582,7 +12582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &882738878
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14295,7 +14295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61f928f3dccb7d346aaa562a2383007e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMain: 1
+  currentMain: 0
   currentHat: {fileID: 0}
   currentTorso: {fileID: 0}
   currentOffHand: {fileID: 0}
@@ -16870,7 +16870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23a2f6e1c89854468abc729447a8311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displaying: 0
+  displaying: 1
   uiHolder: {fileID: 1895970754}
   iconMain: {fileID: 516335746}
   iconHat: {fileID: 269693744}
@@ -21721,12 +21721,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9f9fdc25ebd34d47af1218dd3a58211, type: 3}
---- !u!1 &1552777428 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1470851312021578640, guid: d9f9fdc25ebd34d47af1218dd3a58211,
-    type: 3}
-  m_PrefabInstance: {fileID: 1888610021}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1568188740
 PrefabInstance:
   m_ObjectHideFlags: 0
