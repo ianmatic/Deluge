@@ -21,6 +21,7 @@ public class Timer : MonoBehaviour
         {
             remainingTime -= Time.deltaTime;
         }
+        //otherwise reset time
         else
         {
             remainingTime = GetComponent<Entity>().maxTime;
