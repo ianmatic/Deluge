@@ -171,7 +171,6 @@ public class Dialogue_Manager : MonoBehaviour
     {
         // Flip the assets to show this screen
         ToggleAssets();
-        displaying = true;
 
         // Read in and update the GUI with the current text lines
         ReadText(current);

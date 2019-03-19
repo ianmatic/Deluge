@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Inventory_UI_Manager : MonoBehaviour
 {
+    // FIELDS
+    // Pulling data from other places
+    public Inventory playerInventory;
 
+    // Pulling gameobject UI data
+    public GameObject itemContainer;
 
     // Start is called before the first frame update
     void Start()
