@@ -15,7 +15,8 @@ public enum entityType
 {
     player,
     enemy,
-    npc
+    npc,
+    chest
 }
 
 public class Entity : MonoBehaviour
@@ -60,6 +61,10 @@ public class Entity : MonoBehaviour
 
         //temporary until proper parent tile is found
         Vector3 temporaryParent = transform.position;
+
+        //move y to below entity
+        float height = GetComponent<Renderer>().bounds.size.y;
+
         temporaryParent.y -= .75f;
 
         parentTile = manager.GetComponent<TileManager>().UpdateParentTile(temporaryParent, null);
@@ -100,7 +105,6 @@ public class Entity : MonoBehaviour
                 snapPosition.z = parentTile.transform.position.z;
             }
             transform.position = snapPosition;
-            //TODO: Apply attack function when neccesary
         }
     }
 

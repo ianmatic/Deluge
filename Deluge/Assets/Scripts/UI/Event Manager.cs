@@ -47,4 +47,16 @@ public class EventManager : MonoBehaviour
             OnDialogueBegin();
         }
     }
+
+    public delegate void ChestOpenAction();
+
+    public static event ChestOpenAction OnChestOpen;
+
+    public static void ChestOpen()
+    {
+        if (OnChestOpen != null)
+        {
+            OnChestOpen();
+        }
+    }
 }

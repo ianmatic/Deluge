@@ -21,6 +21,9 @@ public class Item : MonoBehaviour
     public float bonusVamp = 0.0f;
     public int healthPerTurn = 0;
 
+    //questing
+    public bool questItem;
+
     // Start is called before the first frame update
     void Start()
     {

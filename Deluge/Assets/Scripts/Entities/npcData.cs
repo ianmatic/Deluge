@@ -34,6 +34,13 @@ public class npcData : MonoBehaviour
     public void OnPlayerPrompt()
     {
         //Update current dialogue here if needed
+        
+
+        //hardcoded for now
+        if (GameObject.FindGameObjectWithTag("chest").GetComponent<ChestData>().opened)
+        {
+            currentDialogue = dialogueList[1];
+        }
 
         GameData.ToggleGameplayPaused();
 

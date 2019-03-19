@@ -162,9 +162,9 @@ public class TileManager : MonoBehaviour
     public GameObject GetTileAtPosition(Vector3 position)
     {
         foreach (GameObject tile in tiles)
-        {
-            //found a tile
-            if (tile.transform.position == position)
+        { 
+            //found a tile within the collider box
+            if (tile.GetComponent<BoxCollider>().bounds.Contains(position))
             {
                 return tile;
             }

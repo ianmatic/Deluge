@@ -252,7 +252,12 @@ public class PlayerData : MonoBehaviour
                                         EventManager.DialogueExit();
                                     }
                                     break;
+                                case entityType.chest:
+                                    EventManager.ChestOpen();
+                                    break;
                             }
+
+                            
                         }
                     }
                 }
@@ -328,6 +333,9 @@ public class PlayerData : MonoBehaviour
 
         //add all npcs
         objects.AddRange(GameObject.FindGameObjectsWithTag("npc"));
+
+        //add all chests
+        objects.AddRange(GameObject.FindGameObjectsWithTag("chest"));
 
         return objects;
     }
