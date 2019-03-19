@@ -15,7 +15,8 @@ public enum entityType
 {
     player,
     enemy,
-    npc
+    npc,
+    chest
 }
 
 public class Entity : MonoBehaviour
@@ -60,6 +61,10 @@ public class Entity : MonoBehaviour
 
         //temporary until proper parent tile is found
         Vector3 temporaryParent = transform.position;
+
+        //move y to below entity
+        float height = GetComponent<Renderer>().bounds.size.y;
+
         temporaryParent.y -= .75f;
 
         parentTile = manager.GetComponent<TileManager>().UpdateParentTile(temporaryParent, null);
@@ -73,33 +78,34 @@ public class Entity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Smooth movement of GO
-        Vector3 desiredPos = new Vector3(parentTile.transform.position.x,
-                                 parentTile.transform.position.y + .75f, parentTile.transform.position.z);
-
-        velocity = Vector3.Lerp(transform.position, desiredPos, smoothSpeed) - transform.position;
-
-
-        //clamp speed
-        velocity = Vector3.ClampMagnitude(velocity, .15f);
-
-
-        //then update the position of GO
-        transform.position += velocity;
-
-        //snap to the tile if close enough to it
-        Vector3 snapPosition = transform.position;
-        if (Mathf.Abs(transform.position.x - parentTile.transform.position.x) < .05f)
+        if (!GameData.GameplayPaused)
         {
-            snapPosition.x = parentTile.transform.position.x;
+            //Smooth movement of GO
+            Vector3 desiredPos = new Vector3(parentTile.transform.position.x,
+                                     parentTile.transform.position.y + .75f, parentTile.transform.position.z);
+
+            velocity = Vector3.Lerp(transform.position, desiredPos, smoothSpeed) - transform.position;
+
+
+            //clamp speed
+            velocity = Vector3.ClampMagnitude(velocity, .15f);
+
+
+            //then update the position of GO
+            transform.position += velocity;
+
+            //snap to the tile if close enough to it
+            Vector3 snapPosition = transform.position;
+            if (Mathf.Abs(transform.position.x - parentTile.transform.position.x) < .05f)
+            {
+                snapPosition.x = parentTile.transform.position.x;
+            }
+            if (Mathf.Abs(transform.position.z - parentTile.transform.position.z) < .05f)
+            {
+                snapPosition.z = parentTile.transform.position.z;
+            }
+            transform.position = snapPosition;
         }
-        if (Mathf.Abs(transform.position.z - parentTile.transform.position.z) < .05f)
-        {
-            snapPosition.z = parentTile.transform.position.z;
-        }
-        transform.position = snapPosition;
-        //TODO: Apply attack function when neccesary
-        
     }
 
     /// <summary>

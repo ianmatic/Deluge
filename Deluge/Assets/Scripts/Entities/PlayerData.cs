@@ -18,7 +18,6 @@ public class PlayerData : MonoBehaviour
     public List<GameObject> actionTiles;
     public GameObject interactTile;
     public List<GameObject> interactiveObjects;
-    public bool interacting = false;
 
 
     // Inventory
@@ -60,6 +59,12 @@ public class PlayerData : MonoBehaviour
 
         //Handle keyboard input and end turn
         CheckPlayerInputs(inCombat);
+
+        //toggle pausing
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            GameData.ToggleFullPaused();
+        }
     }
 
     /// <summary>
@@ -67,182 +72,207 @@ public class PlayerData : MonoBehaviour
     /// </summary>
     void CheckPlayerInputs(bool inCombat)
     {
-
-        if (inCombat)
+        //can't move, fight, or interact when paused
+        if (!GameData.FullPaused)
         {
-            //player's turn
-            if (GetComponent<Entity>().doingTurn)
+            if (inCombat)
             {
-                //Weapon toggling during turn
-                SelectWeapon();
 
-                //toggle moving and attacking
-                if (Input.GetKeyDown(KeyCode.LeftShift))
+                //player's turn
+                if (GetComponent<Entity>().doingTurn)
                 {
-                    moveInCombat = !moveInCombat;
-                }
+                    //Weapon toggling during turn
+                    SelectWeapon();
 
-                //select direction via WASD
-                if (Input.GetKey(KeyCode.W))
-                {
-                    GetComponent<Entity>().direction = FaceDirection.forward;
-                    newInput = true;
-                }
-                else if (Input.GetKey(KeyCode.A))
-                {
-                    GetComponent<Entity>().direction = FaceDirection.left;
-                    newInput = true;
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    GetComponent<Entity>().direction = FaceDirection.right;
-                    newInput = true;
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    GetComponent<Entity>().direction = FaceDirection.backward;
-                    newInput = true;
-                }
-                else
-                {
-                    newInput = false;
-                }
-
-                if (!moveInCombat)
-                {
-                    //untint all old tiles
-                    foreach (GameObject tile in actionTiles)
+                    //toggle moving and attacking
+                    if (Input.GetKeyDown(KeyCode.LeftShift))
                     {
-                        manager.GetComponent<ShaderManager>().Untint(tile);
+                        moveInCombat = !moveInCombat;
                     }
 
-                    //find action tiles
-                    actionTiles = manager.GetComponent<TileManager>().
-                         FindActionTiles(gameObject, GetComponent<Entity>().direction);
-
-                    //tint new tiles
-                    foreach (GameObject tile in actionTiles)
+                    //select direction via WASD
+                    if (Input.GetKey(KeyCode.W))
                     {
-                        manager.GetComponent<ShaderManager>().TintBlue(tile);
+                        GetComponent<Entity>().direction = FaceDirection.forward;
+                        newInput = true;
+                    }
+                    else if (Input.GetKey(KeyCode.A))
+                    {
+                        GetComponent<Entity>().direction = FaceDirection.left;
+                        newInput = true;
+                    }
+                    else if (Input.GetKey(KeyCode.D))
+                    {
+                        GetComponent<Entity>().direction = FaceDirection.right;
+                        newInput = true;
+                    }
+                    else if (Input.GetKey(KeyCode.S))
+                    {
+                        GetComponent<Entity>().direction = FaceDirection.backward;
+                        newInput = true;
+                    }
+                    else
+                    {
+                        newInput = false;
+                    }
+
+                    if (!moveInCombat)
+                    {
+                        //untint all old tiles
+                        foreach (GameObject tile in actionTiles)
+                        {
+                            manager.GetComponent<ShaderManager>().Untint(tile);
+                        }
+
+                        //find action tiles
+                        actionTiles = manager.GetComponent<TileManager>().
+                             FindActionTiles(gameObject, GetComponent<Entity>().direction);
+
+                        //tint new tiles
+                        foreach (GameObject tile in actionTiles)
+                        {
+                            manager.GetComponent<ShaderManager>().TintBlue(tile);
+                        }
+                    }
+
+                    //handle input/execute turn
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        //picked a direction
+                        if (GetComponent<Entity>().direction != FaceDirection.none)
+                        {
+                            //move when new input given
+                            if (moveInCombat && newInput)
+                            {
+                                GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                            }
+                            //attack an enemy if possible
+                            else
+                            {
+                                manager.GetComponent<TurnManager>().AttackNearbyEnemies();
+                            }
+
+                        }
+                        GetComponent<Timer>().remainingTime = 0;
+                    }
+                }
+            }
+            else
+            {
+                //no movement when in dialogue
+                if (!GameData.GameplayPaused)
+                {
+                    SelectWeapon();
+
+                    //moving diagonally
+                    if (Mathf.Abs(GetComponent<Entity>().velocity.x) > 0 && Mathf.Abs(GetComponent<Entity>().velocity.z) > 0)
+                    {
+                        GetComponent<Entity>().smoothSpeed = .175f;
+                        divisor = 14;
+                    }
+                    else
+                    {
+                        GetComponent<Entity>().smoothSpeed = .25f;
+                        divisor = 10;
+                    }
+
+                    //reset counter on first frame of key press
+                    if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A)
+                        || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
+                    {
+                        counter = 0;
+                    }
+
+                    //able to hold key in free roam mode
+                    if (Input.GetKey(KeyCode.W) && counter % divisor == 0)
+                    {
+                        GetComponent<Entity>().direction = FaceDirection.forward;
+                        GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                    }
+                    if (Input.GetKey(KeyCode.A) && counter % divisor == 0)
+                    {
+                        GetComponent<Entity>().direction = FaceDirection.left;
+                        GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                    }
+                    if (Input.GetKey(KeyCode.D) && counter % divisor == 0)
+                    {
+                        GetComponent<Entity>().direction = FaceDirection.right;
+                        GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                    }
+                    if (Input.GetKey(KeyCode.S) && counter % divisor == 0)
+                    {
+                        GetComponent<Entity>().direction = FaceDirection.backward;
+                        GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                    }
+
+                    #region temporarilyHighlightInteractTile
+                    if (interactTile != null)
+                    {
+                        manager.GetComponent<ShaderManager>().Untint(interactTile);
+                    }
+
+                    //update interact tile after direction is set
+                    interactTile = manager.GetComponent<TileManager>().FindInteractTile(gameObject, GetComponent<Entity>().direction);
+
+                    if (interactTile != null)
+                    {
+                        manager.GetComponent<ShaderManager>().TintGreen(interactTile);
+                    }
+                    #endregion
+
+                    //increment counter if a key is being held
+                    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
+                        || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S))
+                    {
+                        counter++;
                     }
                 }
 
-                //handle input/execute turn
+
+                //environment interaction
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    foreach (GameObject interactiveObject in interactiveObjects)
+                    {
+                        //the player found an object to interact with
+                        if (interactTile == interactiveObject.GetComponent<Entity>().parentTile)
+                        {
+                            //check different kinds of objects
+                            switch (interactiveObject.GetComponent<Entity>().type)
+                            {
+                                case entityType.npc:
+                                    //begin dialogue
+                                    if (!GameData.GameplayPaused)
+                                    {
+                                        EventManager.DialogueBegin();
+                                    }
+                                    //end dialogue
+                                    else
+                                    {
+                                        EventManager.DialogueExit();
+                                    }
+                                    break;
+                                case entityType.chest:
+                                    EventManager.ChestOpen();
+                                    break;
+                            }
+
+                            
+                        }
+                    }
+                }
+                //continue through dialogue
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    //picked a direction
-                    if (GetComponent<Entity>().direction != FaceDirection.none)
+                    if (GameData.GameplayPaused)
                     {
-                        //move when new input given
-                        if (moveInCombat && newInput)
-                        {
-                            GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
-                        }
-                        //attack an enemy if possible
-                        else
-                        {
-                            manager.GetComponent<TurnManager>().AttackNearbyEnemies();
-                        }
-
-                    }
-                    GetComponent<Timer>().remainingTime = 0;
-                }
-            }
-            else
-            {
-
-            }
-
-        }
-        else if (!interacting)
-        {
-            SelectWeapon();
-
-            //moving diagonally
-            if (Mathf.Abs(GetComponent<Entity>().velocity.x) > 0 && Mathf.Abs(GetComponent<Entity>().velocity.z) > 0)
-            {
-                GetComponent<Entity>().smoothSpeed = .175f;
-                divisor = 14;
-            }
-            else
-            {
-                GetComponent<Entity>().smoothSpeed = .25f;
-                divisor = 10;
-            }
-
-            //reset counter on first frame of key press
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A)
-                || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
-            {
-                counter = 0;
-            }
-
-            //able to hold key in free roam mode
-            if (Input.GetKey(KeyCode.W) && counter % divisor == 0)
-            {
-                GetComponent<Entity>().direction = FaceDirection.forward;
-                GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
-            }
-            if (Input.GetKey(KeyCode.A) && counter % divisor == 0)
-            {
-                GetComponent<Entity>().direction = FaceDirection.left;
-                GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
-            }
-            if (Input.GetKey(KeyCode.D) && counter % divisor == 0)
-            {
-                GetComponent<Entity>().direction = FaceDirection.right;
-                GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
-            }
-            if (Input.GetKey(KeyCode.S) && counter % divisor == 0)
-            {
-                GetComponent<Entity>().direction = FaceDirection.backward;
-                GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
-            }
-
-            #region temporarilyHighlightInteractTile
-            if (interactTile != null)
-            {
-                manager.GetComponent<ShaderManager>().Untint(interactTile);
-            }
-
-            //update interact tile after direction is set
-            interactTile = manager.GetComponent<TileManager>().FindInteractTile(gameObject, GetComponent<Entity>().direction);
-
-            if (interactTile != null)
-            {
-                manager.GetComponent<ShaderManager>().TintGreen(interactTile);
-            }
-            #endregion
-
-            //increment counter if a key is being held
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
-                || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S))
-            {
-                counter++;
-            }
-
-            //environment interaction
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                foreach (GameObject interactiveObject in interactiveObjects)
-                {
-                    //the player found an object to interact with
-                    if (interactTile == interactiveObject.GetComponent<Entity>().parentTile)
-                    {
-                        entityType temp = interactiveObject.GetComponent<Entity>().type;
-
-                        //check different kinds of objects
-                        switch (temp)
-                        {
-                            case entityType.npc:
-                                interactiveObject.GetComponent<npcData>().OnPlayerPrompt();
-                                interacting = true;
-                                break;
-                        }
+                        EventManager.DialogueContinue();
                     }
                 }
             }
         }
+
+        //menu navigation goes here
     }
 
     /// <summary>
@@ -303,6 +333,9 @@ public class PlayerData : MonoBehaviour
 
         //add all npcs
         objects.AddRange(GameObject.FindGameObjectsWithTag("npc"));
+
+        //add all chests
+        objects.AddRange(GameObject.FindGameObjectsWithTag("chest"));
 
         return objects;
     }

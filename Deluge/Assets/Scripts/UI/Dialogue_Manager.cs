@@ -22,7 +22,7 @@ public class Dialogue_Manager : MonoBehaviour
     public GameObject textBodyGO;
     private Text textName;
     private Text textBody;
-    private int currentTextLine;
+    private int currentTextLine = 0;
 
     // Dialogue UI Setup
     public GameObject gui_tint;
@@ -46,12 +46,6 @@ public class Dialogue_Manager : MonoBehaviour
         textName = textNameGO.GetComponent<Text>();
         textBody = textBodyGO.GetComponent<Text>();
 
-        // Populate the speaker & dialogue lists
-        ReadText(inputFile);
-
-        // Update the UI to hold the first item from each list
-        UpdateText();
-
         // Populating GUI Elements list
         gui_elements.Add(gui_tint);
         gui_elements.Add(gui_overlay);
@@ -59,33 +53,14 @@ public class Dialogue_Manager : MonoBehaviour
         gui_elements.Add(textNameGO);
         gui_elements.Add(textBodyGO);
 
-        // Set up max text count & initialize current text line
-        currentTextLine = -1;               // defaults to -1 so we can tell if text has been
-
         // Move dialogue offscreen by default
         ToggleAssets();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Check if the UI is toggled
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            TriggerDialogue(inputFile);
-        }
-
-        // Check if dialogue should be updated
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            UpdateText();
-        }
     }
 
     /// <summary>
     /// Displays the basic UI that holds all dialogue assets
     /// </summary>
-    private void ToggleAssets()
+    public void ToggleAssets()
     {
         // Turn of the main ui overlay
         main_ui_manager.ToggleAssets();
@@ -143,8 +118,6 @@ public class Dialogue_Manager : MonoBehaviour
             //Simplified Version
             dialogueList[i] = dialogueList[i].Substring(0, dialogueList[i].Length - 2);
         }
-
-        int bugtesting = 3;
     }
 
     /// <summary>
@@ -158,11 +131,15 @@ public class Dialogue_Manager : MonoBehaviour
             textBody.text = dialogueList[currentTextLine];
             textName.text = speakerList[currentTextLine];
         }
+        //end dialogue
         else
         {
             ToggleAssets();
             displaying = false;
             currentTextLine = 0;
+
+            //Unpause
+            GameData.ToggleGameplayPaused();
         }
 
     }
@@ -174,6 +151,17 @@ public class Dialogue_Manager : MonoBehaviour
 
         // Read in and update the GUI with the current text lines
         ReadText(current);
-        UpdateText();
+
+        //start at beginning
+        textBody.text = dialogueList[0];
+        textName.text = speakerList[0];
+    }
+
+    public void EndDialogue()
+    {
+        // Flip the assets to hide this screen
+        ToggleAssets();
+
+        currentTextLine = 0;
     }
 }

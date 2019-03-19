@@ -8,25 +8,12 @@ public class TileManager : MonoBehaviour
 {
     public List<GameObject> tiles;
 
-    //do this before the other GOs need the tiles
+    //do this before the other GOs need the tiles, so use Awake
     private void Awake()
     {
         tiles = new List<GameObject>();
         tiles.AddRange(GameObject.FindGameObjectsWithTag("tile"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("spawn"));
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
 
@@ -175,9 +162,9 @@ public class TileManager : MonoBehaviour
     public GameObject GetTileAtPosition(Vector3 position)
     {
         foreach (GameObject tile in tiles)
-        {
-            //found a tile
-            if (tile.transform.position == position)
+        { 
+            //found a tile within the collider box
+            if (tile.GetComponent<BoxCollider>().bounds.Contains(position))
             {
                 return tile;
             }
