@@ -16,15 +16,18 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //entity's turn
-        if (GetComponent<Entity>().doingTurn)
+        if (!GameData.GameplayPaused && !GameData.FullPaused)
         {
-            remainingTime -= Time.deltaTime;
-        }
-        //otherwise reset time
-        else
-        {
-            remainingTime = GetComponent<Entity>().maxTime;
+            //entity's turn
+            if (GetComponent<Entity>().doingTurn)
+            {
+                remainingTime -= Time.deltaTime;
+            }
+            //otherwise reset time
+            else
+            {
+                remainingTime = GetComponent<Entity>().maxTime;
+            }
         }
     }
 }

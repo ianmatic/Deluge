@@ -4,62 +4,59 @@ using UnityEngine;
 
 public class npcData : MonoBehaviour
 {
-    public TextAsset currentDialogue;
+    public List<TextAsset> dialogueList;
+    private TextAsset currentDialogue;
     public GameObject dialogueManager;
     private GameObject player;
-    private bool inDialogue = false;
-
-    //makes dialogue close after 1 frame, prevents bug
-    private bool justLeftDialogue = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        //don't do new List of TextAssets for dialogueList
+        //since it is filled by Unity
+
         dialogueManager = GameObject.Find("dialogue_ui");
         GetComponent<Entity>().type = entityType.npc;
         player = GameObject.FindGameObjectWithTag("Player");
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //put before inDialogue so it occurs on next frame
-        //exits player from dialouge after 1 frame of attempt
-        if (justLeftDialogue)
-        {
-            player.GetComponent<PlayerData>().interacting = false;
-            justLeftDialogue = false;
-        }
+        //Fill dialogue list in Unity
+        //first dialogue is current
+        currentDialogue = dialogueList[0];
 
-        if (inDialogue)
-        {
-            //press space to advance dialogue
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                dialogueManager.GetComponent<Dialogue_Manager>().UpdateText();
-            }
-
-            //Exit dialogue
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                //placeholder, need an "exitDialogue()" method in Dialogue_Manager
-                dialogueManager.GetComponent<Dialogue_Manager>().TriggerDialogue(currentDialogue);
-                inDialogue = false;
-                justLeftDialogue = true;
-            }
-        }
+        EventManager.OnDialogueBegin += OnPlayerPrompt;
+        EventManager.OnDialogueContinue += OnPlayerContinue;
+        EventManager.OnDialogueExit += OnPlayerEnd;
     }
 
     /// <summary>
-    /// Activates when the player interacts with this npc
+    /// Activates when the player interacts with this npc, subscribed to OnDialogueBegin
     /// </summary>
     public void OnPlayerPrompt()
     {
-        //temporary until importing dialogue is sorted
-        currentDialogue = dialogueManager.GetComponent<Dialogue_Manager>().inputFile;
+        //Update current dialogue here if needed
 
-        //active text dialogue
+        GameData.ToggleGameplayPaused();
+
         dialogueManager.GetComponent<Dialogue_Manager>().TriggerDialogue(currentDialogue);
-        inDialogue = true;
+    }
+
+    /// <summary>
+    /// Activates when the player progresses in dialogue, subscribed to OnDialogueContinue
+    /// </summary>
+    public void OnPlayerContinue()
+    {
+        dialogueManager.GetComponent<Dialogue_Manager>().UpdateText();
+    }
+
+    /// <summary>
+    /// Activates when the player ends interaction with npc, subscribed to OnDialogueExit
+    /// </summary>
+    public void OnPlayerEnd()
+    { 
+        //Update current dialogue here if needed
+
+        GameData.ToggleGameplayPaused();
+
+        dialogueManager.GetComponent<Dialogue_Manager>().EndDialogue();
     }
 }

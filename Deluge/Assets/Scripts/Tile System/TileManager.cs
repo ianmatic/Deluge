@@ -8,25 +8,12 @@ public class TileManager : MonoBehaviour
 {
     public List<GameObject> tiles;
 
-    //do this before the other GOs need the tiles
+    //do this before the other GOs need the tiles, so use Awake
     private void Awake()
     {
         tiles = new List<GameObject>();
         tiles.AddRange(GameObject.FindGameObjectsWithTag("tile"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("spawn"));
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
 

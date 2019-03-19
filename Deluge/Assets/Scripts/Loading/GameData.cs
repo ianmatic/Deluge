@@ -12,4 +12,36 @@ public static class GameData
         get { return targetScene; }
         set { targetScene = value; }
     }
+
+    //pauses most gameplay, used for dialogue
+    private static bool gameplayPaused;
+
+    public static bool GameplayPaused
+    {
+        get { return gameplayPaused; }
+        set { gameplayPaused = value; }
+    }
+
+    //hard pauses the game
+    private static bool fullPaused;
+
+    public static bool FullPaused
+    {
+        get { return fullPaused; }
+        set { fullPaused = value; }
+    }
+
+
+    /// <summary>
+    /// Toggles pausing
+    /// </summary>
+    public static void ToggleGameplayPaused()
+    {
+        gameplayPaused = !gameplayPaused;
+    }
+
+    public static void ToggleFullPaused()
+    {
+        fullPaused = !fullPaused;
+    }
 }

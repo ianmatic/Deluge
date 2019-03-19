@@ -11,7 +11,7 @@ public class EnemyData : MonoBehaviour
 
     private float wanderTimer = 1.0f;
 
-    enum enemyType
+    enum EnemyType
     {
         melee
     }
@@ -33,65 +33,69 @@ public class EnemyData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //wander
-        if (!inCombat)
+        //no combat when paused
+        if (!GameData.GameplayPaused && !GameData.FullPaused)
         {
-            wanderTimer -= Time.deltaTime;
-
-            //timer ends
-            if (wanderTimer < 0)
+            //wander
+            if (!inCombat)
             {
-                //only cardinal directions
-                wanderTiles = manager.GetComponent<TileManager>().FindAdjacentTiles(gameObject, false);
+                wanderTimer -= Time.deltaTime;
 
-                //tiles to wander to
-                if (wanderTiles.Count > 0)
+                //timer ends
+                if (wanderTimer < 0)
                 {
-                    //the + 1 is so that there is a chance the entity does nothing
-                    int randomNumber = Random.Range(0, wanderTiles.Count + 1);
+                    //only cardinal directions
+                    wanderTiles = manager.GetComponent<TileManager>().FindAdjacentTiles(gameObject, false);
 
-                    //wander to random tile if number is not beyond list indices
-                    if (randomNumber < wanderTiles.Count)
+                    //tiles to wander to
+                    if (wanderTiles.Count > 0)
                     {
-                        //update direction
-                        GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
-                            GetComponent<Entity>().parentTile, wanderTiles[randomNumber]);
+                        //the + 1 is so that there is a chance the entity does nothing
+                        int randomNumber = Random.Range(0, wanderTiles.Count + 1);
 
-                        GetComponent<Entity>().SetTileAsParentTile(wanderTiles[randomNumber]);
+                        //wander to random tile if number is not beyond list indices
+                        if (randomNumber < wanderTiles.Count)
+                        {
+                            //update direction
+                            GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                                GetComponent<Entity>().parentTile, wanderTiles[randomNumber]);
+
+                            GetComponent<Entity>().SetTileAsParentTile(wanderTiles[randomNumber]);
+                        }
+
+
                     }
 
 
+                    //reset timer
+                    wanderTimer = 1.0f;
                 }
-
-
-                //reset timer
+            }
+            else
+            {
                 wanderTimer = 1.0f;
             }
-        }
-        else
-        {
-            wanderTimer = 1.0f;
-        }
 
-        #region testing directionality of enemies with tinting
-        if (GetComponent<Entity>().direction == FaceDirection.forward)
-        {
-            manager.GetComponent<ShaderManager>().TintBlue(gameObject);
-        }
-        else if (GetComponent<Entity>().direction == FaceDirection.backward)
-        {
-            manager.GetComponent<ShaderManager>().TintRed(gameObject);
-        }
-        else if (GetComponent<Entity>().direction == FaceDirection.right)
-        {
-            manager.GetComponent<ShaderManager>().TintGreen(gameObject);
-        }
-        else if (GetComponent<Entity>().direction == FaceDirection.left)
-        {
-            manager.GetComponent<ShaderManager>().Untint(gameObject);
-        }
-        #endregion
+            #region testing directionality of enemies with tinting
+            if (GetComponent<Entity>().direction == FaceDirection.forward)
+            {
+                manager.GetComponent<ShaderManager>().TintBlue(gameObject);
+            }
+            else if (GetComponent<Entity>().direction == FaceDirection.backward)
+            {
+                manager.GetComponent<ShaderManager>().TintRed(gameObject);
+            }
+            else if (GetComponent<Entity>().direction == FaceDirection.right)
+            {
+                manager.GetComponent<ShaderManager>().TintGreen(gameObject);
+            }
+            else if (GetComponent<Entity>().direction == FaceDirection.left)
+            {
+                manager.GetComponent<ShaderManager>().Untint(gameObject);
+            }
+            #endregion
 
+        }
     }
 
     public void ProcessTurn()
