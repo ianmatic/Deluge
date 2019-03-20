@@ -138,6 +138,26 @@ MonoBehaviour:
       sortOrder: 0
       customThumb: {fileID: 0}
       meta: 
+    - ident: 10
+      prefab:
+      - {fileID: 7667224648278281206, guid: 6a041b5c6e832974ca44ed3a374a2e4c, type: 3}
+      tileIdx: -1
+      transitionIdx: -1
+      targetTransSet: 1
+      isRotating: 1
+      setTag: 0
+      tag: Untagged
+      setLayer: 0
+      layer: 0
+      setStaticFlags: 0
+      staticFlags: -1
+      setNavArea: 0
+      navArea: 1
+      setSort: 0
+      sortLayerId: 0
+      sortOrder: 0
+      customThumb: {fileID: 0}
+      meta: 
     transitions: []
     wallSystem: 0
     setTag: 0
@@ -158,4 +178,4 @@ MonoBehaviour:
     floorSortOrder: 0
     wallSortOrder: 0
   lastTileSetIdent: 1
-  lastTileIdent: 9
+  lastTileIdent: 10
