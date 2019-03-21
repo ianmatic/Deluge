@@ -20,8 +20,8 @@ public class Inventory_UI_Manager : MonoBehaviour
     List<GameObject> itemSlots;
 
     public GameObject itemIconContainer;
-    public GameObject defaultItemIconOverlay;
-    List<GameObject> itemIconOverlays;
+    public GameObject defaultItemIcon;
+    List<GameObject> itemIcons;
 
     // Pulling the bg images
     public Texture2D pack_frame_hat;
@@ -42,8 +42,8 @@ public class Inventory_UI_Manager : MonoBehaviour
         itemSlots = new List<GameObject>();
         itemSlots.Add(defaultItemSlot);
 
-        itemIconOverlays = new List<GameObject>();
-        itemIconOverlays.Add(defaultItemIconOverlay);
+        itemIcons = new List<GameObject>();
+        itemIcons.Add(defaultItemIcon);
 
         displayVec = Vector3.one;
 
@@ -53,11 +53,13 @@ public class Inventory_UI_Manager : MonoBehaviour
             GameObject newItemSlot = Instantiate(defaultItemSlot, itemContainer.transform);
             itemSlots.Add(newItemSlot);
             newItemSlot.transform.localScale = displayVec;
+        }
 
-            GameObject newItemIcon = Instantiate(defaultItemIconOverlay);
-            newItemIcon.transform.SetParent(itemIconContainer.transform);
-            //itemSlotIconOverlays.Add(newItemIcon);
-            //newItemIcon.transform.localScale = displayVec;
+        for (int i = 0; i < 19; i++)
+        {
+            GameObject newItemIcon = Instantiate(defaultItemIcon, itemIconContainer.transform);
+            itemIcons.Add(newItemIcon);
+            newItemIcon.transform.localScale = displayVec;
         }
 
         // Move the bits off the screen
