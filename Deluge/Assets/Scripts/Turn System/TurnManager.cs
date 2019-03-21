@@ -5,119 +5,130 @@ using UnityEngine;
 public class TurnManager : MonoBehaviour
 {
     //all enemies in the scene
-    private List<GameObject> enemies;
+    public List<GameObject> enemies;
 
     private GameObject player;
 
-    //enemies that are active and cause the turn system to activate
-    private List<GameObject> nearbyEnemies;
-
     //which enemy is having its turn
     private int counter;
+
+    public List<GameObject> combatEntities;
 
     // Start is called before the first frame update
     void Start()
     {
         enemies = new List<GameObject>();
-        nearbyEnemies = new List<GameObject>();
+        combatEntities = new List<GameObject>();
 
         player = GameObject.FindGameObjectWithTag("Player");
 
         enemies.AddRange(GameObject.FindGameObjectsWithTag("enemy"));
 
-        nearbyEnemies = GetNearbyEnemies(player, enemies);
-
-        counter = -1;
+        counter = 0;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (!GameData.GameplayPaused && !GameData.FullPaused)
         {
-            //First determine which enemies are close (in combat)
-            nearbyEnemies = GetNearbyEnemies(player, enemies);
+            //Get all entities that want to fight
+            combatEntities = GetCombatEntities();
 
-            //in combat
-            if (nearbyEnemies.Count > 0)
+            //in combat when more than just player in list
+            if (combatEntities.Count > 1)
             {
-                player.GetComponent<PlayerData>().inCombat = true;
+                player.GetComponent<Entity>().inCombat = true;
 
-                //player's turn
-                if (counter == -1)
+                GetComponent<CameraManager>().target = combatEntities[counter];
+                combatEntities[counter].GetComponent<Entity>().doingTurn = true;
+
+                //do specific code for different entities, player handled in playerData
+                switch (combatEntities[counter].GetComponent<Entity>().type)
                 {
-                    GetComponent<CameraManager>().target = player;
-                    player.GetComponent<Entity>().doingTurn = true;
-
-
-                    //out of time
-                    if (player.GetComponent<Timer>().remainingTime < 0.05)
-                    {
-                        counter++;
-                    }
-                }
-                //go through each enemy
-                else
-                {
-                    player.GetComponent<Entity>().doingTurn = false;
-
-                    for (int i = 0; i < nearbyEnemies.Count; i++)
-                    {
-                        //handle the current enemy
-                        if (counter == i)
+                    case entityType.enemy:
+                        //end turn
+                        if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.05)
                         {
-                            //update camera
-                            GetComponent<CameraManager>().target = nearbyEnemies[i];
-                            nearbyEnemies[i].GetComponent<Entity>().doingTurn = true;
-
-                            //end turn
-                            if (nearbyEnemies[i].GetComponent<Timer>().remainingTime <= 0)
+                            foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
                             {
-                                foreach (GameObject tile in nearbyEnemies[i].GetComponent<EnemyData>().pathToPlayer)
-                                {
-                                    GetComponent<ShaderManager>().Untint(tile);
-                                }
-
-                                //A* pathfinding
-                                nearbyEnemies[i].GetComponent<EnemyData>().pathToPlayer =
-                                    GetComponent<TileManager>().FindPath(nearbyEnemies[i], player);
-
-                                foreach (GameObject tile in nearbyEnemies[i].GetComponent<EnemyData>().pathToPlayer)
-                                {
-                                    GetComponent<ShaderManager>().TintRed(tile);
-                                }
-
-                                nearbyEnemies[i].GetComponent<EnemyData>().ProcessTurn();
-
-                                nearbyEnemies[i].GetComponent<Entity>().doingTurn = false;
-                                counter++;
+                                GetComponent<ShaderManager>().Untint(tile);
                             }
-                        }
-                    }
 
-                    //last enemy ended turn
-                    if (counter == nearbyEnemies.Count)
-                    {
-                        //go back to player
-                        counter = -1;
-                    }
+                            //A* pathfinding
+                            combatEntities[counter].GetComponent<EnemyData>().pathToPlayer =
+                                GetComponent<TileManager>().FindPath(combatEntities[counter], player);
+
+                            foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                            {
+                                GetComponent<ShaderManager>().TintRed(tile);
+                            }
+
+                            combatEntities[counter].GetComponent<EnemyData>().ProcessTurn();
+
+                            combatEntities[counter].GetComponent<Entity>().doingTurn = false;
+                            counter++;
+                        }
+                        break;
+                    case entityType.player:
+                        //out of time
+                        if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.05)
+                        {
+                            combatEntities[counter].GetComponent<Entity>().doingTurn = false;
+                            counter++;
+                        }
+                        break;
                 }
 
+                //last entity ended turn
+                if (counter == combatEntities.Count)
+                {
+                    //go back to player
+                    counter = 0;
+                }     
             }
+            //end combat
             else
             {
                 //for now, have the player go first every time
-                counter = -1;
+                counter = 0;
                 GetComponent<CameraManager>().target = player;
-                player.GetComponent<PlayerData>().inCombat = false;
+                player.GetComponent<Entity>().inCombat = false;
             }
         }
     }
 
 
     /// <summary>
-    /// Returns a list of enemies that are 3 tiles or less from the player
+    /// Removes any null (dead) entities from multiple lists
+    /// </summary>
+    public void RemoveNullAndUpdateEntities()
+    {
+        for (int i = 0; i < combatEntities.Count; i++)
+        {
+            if (combatEntities[i] == null)
+            {
+                combatEntities.Remove(combatEntities[i]);
+            }
+        }
+    }
+
+    public List<GameObject> GetCombatEntities()
+    {
+        List<GameObject> entities = new List<GameObject>();
+
+        entities.Add(player);
+
+        entities.AddRange(GetNearbyEnemies(player, enemies));
+
+        return entities;
+    }
+
+
+    /// <summary>
+    /// Returns a list of enemies that are 3 tiles or less from the player, also sets all enemy inCombat value
     /// </summary>
     /// <param name="player"></param>
     /// <param name="enemies"></param>
@@ -132,12 +143,12 @@ public class TurnManager : MonoBehaviour
             //n tiles proximity
             if (Vector3.Distance(player.transform.position, enemy.transform.position) < 5)
             {
-                enemy.GetComponent<EnemyData>().inCombat = true;
+                enemy.GetComponent<Entity>().inCombat = true;
                 nearbyEnemies.Add(enemy);
             }
             else
             {
-                enemy.GetComponent<EnemyData>().inCombat = false;
+                enemy.GetComponent<Entity>().inCombat = false;
             }
         }
 
@@ -148,17 +159,23 @@ public class TurnManager : MonoBehaviour
     {
         List<GameObject> hittableEnemies = new List<GameObject>();
 
-        //find enemies that are in target area
-        foreach (GameObject enemy in nearbyEnemies)
+        //find entities that are in target area
+        foreach (GameObject entity in combatEntities)
         {
-            foreach (GameObject tile in player.GetComponent<PlayerData>().actionTiles)
+            switch (entity.GetComponent<Entity>().type)
             {
-                //enemy is located on a tile that the player can attack
-                if (enemy.GetComponent<Entity>().parentTile == tile)
-                {
-                    hittableEnemies.Add(enemy);
-                }
+                case entityType.enemy:
+                    foreach (GameObject tile in player.GetComponent<PlayerData>().actionTiles)
+                    {
+                        //enemy is located on a tile that the player can attack
+                        if (entity.GetComponent<Entity>().parentTile == tile)
+                        {
+                            hittableEnemies.Add(entity);
+                        }
+                    }
+                    break;
             }
+
         }
 
         foreach (GameObject enemy in hittableEnemies)

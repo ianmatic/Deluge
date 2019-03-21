@@ -10,6 +10,7 @@ TagManager:
   - tile
   - manager
   - npc
+  - chest
   layers:
   - Default
   - TransparentFX

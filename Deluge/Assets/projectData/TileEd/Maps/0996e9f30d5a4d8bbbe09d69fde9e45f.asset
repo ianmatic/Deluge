@@ -20,7 +20,7 @@ MonoBehaviour:
     combined: 0
     tileSize: 1
     tileHeight: 0.25
-    gridYPos: 11
+    gridYPos: 3
     brushSize: 1
     showPreview: 1
     tiles:
@@ -6320,6 +6320,16 @@ MonoBehaviour:
         _x: -3
         _y: 11
         _z: 3
+        _defined: 1
+      offsPos: {x: 0, y: 0, z: 0}
+      extraData: []
+      meta: 
+    - toolIdent: 1
+      data: 010000000a000000ffffffff000000000000000001000000ffffffff01000000
+      gridPos:
+        _x: -10
+        _y: 3
+        _z: 9
         _defined: 1
       offsPos: {x: 0, y: 0, z: 0}
       extraData: []

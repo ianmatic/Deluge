@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
     // FIELDS
-    public bool inCombat;
     public Inventory inventory;
     private UI_Manager ui_manager;
     private GameObject manager;
@@ -34,7 +33,6 @@ public class PlayerData : MonoBehaviour
     void Start()
     {
         GetComponent<Entity>().maxTime = 1.5f;
-        inCombat = false;
         actionTiles = new List<GameObject>();
         interactiveObjects = new List<GameObject>();
 
@@ -43,7 +41,7 @@ public class PlayerData : MonoBehaviour
 
         weaponSelected = "axe";
 
-        GetComponent<Entity>().health = 20;
+        GetComponent<Entity>().health = 4;
         GetComponent<Entity>().maxHealth = 34;
         GetComponent<Entity>().type = entityType.player;
     }
@@ -58,7 +56,7 @@ public class PlayerData : MonoBehaviour
         CheckDebugInputs();
 
         //Handle keyboard input and end turn
-        CheckPlayerInputs(inCombat);
+        CheckPlayerInputs(GetComponent<Entity>().inCombat);
 
         //toggle pausing
         if (Input.GetKeyDown(KeyCode.P))
@@ -77,7 +75,6 @@ public class PlayerData : MonoBehaviour
         {
             if (inCombat)
             {
-
                 //player's turn
                 if (GetComponent<Entity>().doingTurn)
                 {
@@ -87,6 +84,16 @@ public class PlayerData : MonoBehaviour
                     //toggle moving and attacking
                     if (Input.GetKeyDown(KeyCode.LeftShift))
                     {
+                        //unhighlight tiles for attacking
+                        if (!moveInCombat)
+                        {
+                            //untint all old tiles
+                            foreach (GameObject tile in actionTiles)
+                            {
+                                manager.GetComponent<ShaderManager>().Untint(tile);
+                            }
+                        }
+
                         moveInCombat = !moveInCombat;
                     }
 
@@ -116,6 +123,7 @@ public class PlayerData : MonoBehaviour
                         newInput = false;
                     }
 
+                    //trying to attack rather than move
                     if (!moveInCombat)
                     {
                         //untint all old tiles
@@ -338,5 +346,21 @@ public class PlayerData : MonoBehaviour
         objects.AddRange(GameObject.FindGameObjectsWithTag("chest"));
 
         return objects;
+    }
+
+    /// <summary>
+    /// Finds respawn point and puts player at it
+    /// </summary>
+    public void Respawn()
+    {
+        //move the player
+        GameObject respawn = GameObject.FindGameObjectWithTag("spawn");
+        GetComponent<Entity>().SetTileAsParentTile(respawn);
+
+        //reset health
+        GetComponent<Entity>().health = 14;
+
+        //indicate to Entity that the player is respawning
+        GetComponent<Entity>().respawning = true;
     }
 }
