@@ -29,6 +29,8 @@ public class Entity : MonoBehaviour
     public int attack;
     public int defense;
     public float vamp;
+    public bool respawning = false;
+    public bool inCombat;
 
     public FaceDirection direction = FaceDirection.none;
     public entityType type;
@@ -49,6 +51,7 @@ public class Entity : MonoBehaviour
     public float maxTime;
 
 
+
     //smooth Movement
     public float smoothSpeed = 0.25f;
 
@@ -57,6 +60,10 @@ public class Entity : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //default health values
+        health = 10;
+        maxHealth = 20;
+
         manager = GameObject.FindGameObjectWithTag("manager");
 
         //temporary until proper parent tile is found
@@ -72,6 +79,7 @@ public class Entity : MonoBehaviour
         inventory = new GameObject[invWidth, invHeight];
 
         doingTurn = false;
+        inCombat = false;
         //TODO: Populate inventory from save data or generation
     }
 
@@ -80,32 +88,62 @@ public class Entity : MonoBehaviour
     {
         if (!GameData.GameplayPaused)
         {
-            //Smooth movement of GO
-            Vector3 desiredPos = new Vector3(parentTile.transform.position.x,
+            //handle death
+            if (health <= 0)
+            {
+                KillEntity(gameObject);
+            }
+            else
+            {
+                //respawning should be instant, no smooth movement
+                if (!respawning)
+                {
+                    UpdateMovementSmoothly();
+                }
+                else
+                {
+                    //only respawn for 1 frame
+                    respawning = false;
+                    transform.position = new Vector3(parentTile.transform.position.x,
                                      parentTile.transform.position.y + .75f, parentTile.transform.position.z);
-
-            velocity = Vector3.Lerp(transform.position, desiredPos, smoothSpeed) - transform.position;
-
-
-            //clamp speed
-            velocity = Vector3.ClampMagnitude(velocity, .15f);
-
-
-            //then update the position of GO
-            transform.position += velocity;
-
-            //snap to the tile if close enough to it
-            Vector3 snapPosition = transform.position;
-            if (Mathf.Abs(transform.position.x - parentTile.transform.position.x) < .05f)
-            {
-                snapPosition.x = parentTile.transform.position.x;
+                }
             }
-            if (Mathf.Abs(transform.position.z - parentTile.transform.position.z) < .05f)
-            {
-                snapPosition.z = parentTile.transform.position.z;
-            }
-            transform.position = snapPosition;
+
+
+
         }
+    }
+
+    /// <summary>
+    /// smooths the translation of the GO
+    /// </summary>
+    public void UpdateMovementSmoothly()
+    {
+        //Smooth movement of GO
+        Vector3 desiredPos = new Vector3(parentTile.transform.position.x,
+                                 parentTile.transform.position.y + .75f, parentTile.transform.position.z);
+
+        velocity = Vector3.Lerp(transform.position, desiredPos, smoothSpeed) - transform.position;
+
+
+        //clamp speed
+        velocity = Vector3.ClampMagnitude(velocity, .15f);
+
+
+        //then update the position of GO
+        transform.position += velocity;
+
+        //snap to the tile if close enough to it
+        Vector3 snapPosition = transform.position;
+        if (Mathf.Abs(transform.position.x - parentTile.transform.position.x) < .05f)
+        {
+            snapPosition.x = parentTile.transform.position.x;
+        }
+        if (Mathf.Abs(transform.position.z - parentTile.transform.position.z) < .05f)
+        {
+            snapPosition.z = parentTile.transform.position.z;
+        }
+        transform.position = snapPosition;
     }
 
     /// <summary>
@@ -156,14 +194,43 @@ public class Entity : MonoBehaviour
         int dmgCalc = attack - target.GetComponent<Entity>().defense;
         target.GetComponent<Entity>().health -= dmgCalc;
 
-        // Resolve Life Vamp
+        //limit health
+        if (health + dmgCalc > maxHealth)
+        {
+            health = maxHealth;
+        }
+        else
+        {
+            health += dmgCalc;
+        }
 
-        //health += (int)(dmgCalc * vamp);
-
-        health += dmgCalc;
 
         print(name + " attacked " + target.name);
-        // TODO: Tricker Attack Animation
+        // TODO: Trigger Attack Animation
+
+    }
+
+    public void KillEntity(GameObject entity)
+    {
+        switch (entity.GetComponent<Entity>().type)
+        {
+            case entityType.player:
+                entity.GetComponent<PlayerData>().Respawn();
+                break;
+            case entityType.enemy:
+                //update combat order and parent tile
+                entity.GetComponent<Entity>().doingTurn = false;
+                entity.GetComponent<Entity>().parentTile.GetComponent<TileProperties>().isParent = false;
+                entity.GetComponent<Entity>().parentTile = null;
+
+
+                //remove from list
+                manager.GetComponent<TurnManager>().enemies.Remove(entity);
+
+                //finally, eliminate the enemy
+                Destroy(entity);            
+                break;
+        }
 
     }
 }

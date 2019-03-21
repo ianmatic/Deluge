@@ -16,8 +16,6 @@ public class EnemyData : MonoBehaviour
         melee
     }
 
-    public bool inCombat = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +25,7 @@ public class EnemyData : MonoBehaviour
         wanderTiles = new List<GameObject>();
         GetComponent<Entity>().maxTime = 0.5f;
         GetComponent<Entity>().type = entityType.enemy;
-
+        GetComponent<Entity>().health = 10;
     }
 
     // Update is called once per frame
@@ -37,7 +35,7 @@ public class EnemyData : MonoBehaviour
         if (!GameData.GameplayPaused && !GameData.FullPaused)
         {
             //wander
-            if (!inCombat)
+            if (!GetComponent<Entity>().inCombat)
             {
                 wanderTimer -= Time.deltaTime;
 

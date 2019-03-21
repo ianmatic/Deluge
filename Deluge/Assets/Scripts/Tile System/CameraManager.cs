@@ -22,6 +22,26 @@ public class CameraManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        //in combat
+        if (GameObject.FindGameObjectWithTag("Player").GetComponent<Entity>().inCombat)
+        {
+            //find whichever GO is taking its turn
+            foreach (GameObject entity in GetComponent<TurnManager>().combatEntities)
+            {
+                if (entity != null)
+                {
+                    //switch to that GO for camera
+                    if (entity.GetComponent<Entity>().doingTurn)
+                    {
+                        target = entity;
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        //update camera
         Vector3 targetPos = target.transform.position;
 
         Vector3 desiredPosition = targetPos + offset;

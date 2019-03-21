@@ -5,13 +5,11 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
     // FIELDS
-    public bool inCombat;
     public Inventory inventory;
     private UI_Manager ui_manager;
     private GameObject manager;
 
     //which way the player is facing
-    bool moveInCombat = true;
     bool newInput = false;
 
     public string weaponSelected;
@@ -34,7 +32,6 @@ public class PlayerData : MonoBehaviour
     void Start()
     {
         GetComponent<Entity>().maxTime = 1.5f;
-        inCombat = false;
         actionTiles = new List<GameObject>();
         interactiveObjects = new List<GameObject>();
 
@@ -43,7 +40,7 @@ public class PlayerData : MonoBehaviour
 
         weaponSelected = "axe";
 
-        GetComponent<Entity>().health = 20;
+        GetComponent<Entity>().health = 18;
         GetComponent<Entity>().maxHealth = 34;
         GetComponent<Entity>().type = entityType.player;
     }
@@ -58,7 +55,7 @@ public class PlayerData : MonoBehaviour
         CheckDebugInputs();
 
         //Handle keyboard input and end turn
-        CheckPlayerInputs(inCombat);
+        CheckPlayerInputs(GetComponent<Entity>().inCombat);
 
         //toggle pausing
         if (Input.GetKeyDown(KeyCode.P))
@@ -75,38 +72,37 @@ public class PlayerData : MonoBehaviour
         //can't move, fight, or interact when paused
         if (!GameData.FullPaused)
         {
+            //untint all old targeting
+            foreach (GameObject tile in actionTiles)
+            {
+                manager.GetComponent<ShaderManager>().Untint(tile);
+            }
+
             if (inCombat)
             {
-
                 //player's turn
                 if (GetComponent<Entity>().doingTurn)
                 {
                     //Weapon toggling during turn
                     SelectWeapon();
 
-                    //toggle moving and attacking
-                    if (Input.GetKeyDown(KeyCode.LeftShift))
-                    {
-                        moveInCombat = !moveInCombat;
-                    }
-
-                    //select direction via WASD
-                    if (Input.GetKey(KeyCode.W))
+                    //select direction via Arrow Keys
+                    if (Input.GetKey(KeyCode.UpArrow))
                     {
                         GetComponent<Entity>().direction = FaceDirection.forward;
                         newInput = true;
                     }
-                    else if (Input.GetKey(KeyCode.A))
+                    else if (Input.GetKey(KeyCode.LeftArrow))
                     {
                         GetComponent<Entity>().direction = FaceDirection.left;
                         newInput = true;
                     }
-                    else if (Input.GetKey(KeyCode.D))
+                    else if (Input.GetKey(KeyCode.RightArrow))
                     {
                         GetComponent<Entity>().direction = FaceDirection.right;
                         newInput = true;
                     }
-                    else if (Input.GetKey(KeyCode.S))
+                    else if (Input.GetKey(KeyCode.DownArrow))
                     {
                         GetComponent<Entity>().direction = FaceDirection.backward;
                         newInput = true;
@@ -116,43 +112,42 @@ public class PlayerData : MonoBehaviour
                         newInput = false;
                     }
 
-                    if (!moveInCombat)
+                    //find action tiles
+                    actionTiles = manager.GetComponent<TileManager>().
+                         FindActionTiles(gameObject, GetComponent<Entity>().direction);
+
+                    //tint new tiles
+                    foreach (GameObject tile in actionTiles)
                     {
-                        //untint all old tiles
-                        foreach (GameObject tile in actionTiles)
-                        {
-                            manager.GetComponent<ShaderManager>().Untint(tile);
-                        }
-
-                        //find action tiles
-                        actionTiles = manager.GetComponent<TileManager>().
-                             FindActionTiles(gameObject, GetComponent<Entity>().direction);
-
-                        //tint new tiles
-                        foreach (GameObject tile in actionTiles)
-                        {
-                            manager.GetComponent<ShaderManager>().TintBlue(tile);
-                        }
+                        manager.GetComponent<ShaderManager>().TintBlue(tile);
                     }
 
-                    //handle input/execute turn
+                    //movement
+                    if (Input.GetKeyDown(KeyCode.W))
+                    {
+                        GetComponent<Entity>().MoveDirection(FaceDirection.forward);
+                        GetComponent<Timer>().remainingTime = 0;
+                    }
+                    if (Input.GetKeyDown(KeyCode.A))
+                    {
+                        GetComponent<Entity>().MoveDirection(FaceDirection.left);
+                        GetComponent<Timer>().remainingTime = 0;
+                    }
+                    if (Input.GetKeyDown(KeyCode.D))
+                    {
+                        GetComponent<Entity>().MoveDirection(FaceDirection.right);
+                        GetComponent<Timer>().remainingTime = 0;
+                    }
+                    if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        GetComponent<Entity>().MoveDirection(FaceDirection.backward);
+                        GetComponent<Timer>().remainingTime = 0;
+                    }
+
+                    //attack
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
-                        //picked a direction
-                        if (GetComponent<Entity>().direction != FaceDirection.none)
-                        {
-                            //move when new input given
-                            if (moveInCombat && newInput)
-                            {
-                                GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
-                            }
-                            //attack an enemy if possible
-                            else
-                            {
-                                manager.GetComponent<TurnManager>().AttackNearbyEnemies();
-                            }
-
-                        }
+                        manager.GetComponent<TurnManager>().AttackNearbyEnemies();
                         GetComponent<Timer>().remainingTime = 0;
                     }
                 }
@@ -257,7 +252,7 @@ public class PlayerData : MonoBehaviour
                                     break;
                             }
 
-                            
+
                         }
                     }
                 }
@@ -338,5 +333,21 @@ public class PlayerData : MonoBehaviour
         objects.AddRange(GameObject.FindGameObjectsWithTag("chest"));
 
         return objects;
+    }
+
+    /// <summary>
+    /// Finds respawn point and puts player at it
+    /// </summary>
+    public void Respawn()
+    {
+        //move the player
+        GameObject respawn = GameObject.FindGameObjectWithTag("spawn");
+        GetComponent<Entity>().SetTileAsParentTile(respawn);
+
+        //reset health
+        GetComponent<Entity>().health = 14;
+
+        //indicate to Entity that the player is respawning
+        GetComponent<Entity>().respawning = true;
     }
 }
