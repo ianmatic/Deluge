@@ -6,7 +6,8 @@ public class Inventory : MonoBehaviour
 {
     // FIELDS
     // Main Pack
-    Item[,] mainPack;
+    public Item[,] mainPack;
+    public GameObject testItem;
 
     // Current Items
     public main_item currentMain;
@@ -21,10 +22,16 @@ public class Inventory : MonoBehaviour
     public Item currentTorso;
     public Item currentOffHand;
 
+    // Runs all startup instantiation/connection code
     void Start()
     {
         mainPack = new Item[4, 5];
+        AddItem(testItem.GetComponent<Item>());
+
+        Debug.Log("Main Pack:" + mainPack);
+
         currentMain = main_item.spear;
+
     }
 
     /// <summary>
@@ -40,9 +47,9 @@ public class Inventory : MonoBehaviour
             for (int j = 0; j < mainPack.GetLength(1); j++)
             {
                 // If a slot is open, set the item in that slot and return true
-                if (mainPack[i, j] != null)
+                if (mainPack[j, i] != null)
                 {
-                    mainPack[i, j] = newItem;
+                    mainPack[j, i] = newItem;
                     return true;
                 }
             }

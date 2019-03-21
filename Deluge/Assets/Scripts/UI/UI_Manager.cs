@@ -182,23 +182,18 @@ public class UI_Manager : MonoBehaviour
         int mod;
         if (displaying)
         {
-            mod = 1000;
+            mod = 10000;
         }
         else
         {
-            mod = -1000;
+            mod = -10000;
         }
 
-        // Temporary vector to replace each position w/
+        // Move the whole thing over
         Vector3 tempPosition = Vector3.zero;
-
-        // Modify the position of each item based on the modifier
-        foreach (GameObject ui_item in ui_objects)
-        {
-            tempPosition = ui_item.transform.position;
-            tempPosition.x += mod;
-            ui_item.transform.position = tempPosition;
-        }
+        tempPosition = gameObject.transform.position;
+        tempPosition.x += mod;
+        gameObject.transform.position = tempPosition;
 
         // Flip displaying
         displaying = !displaying;

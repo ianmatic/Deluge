@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8679294376410890291
+--- !u!1 &3039995148782886908
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8200293559771744453}
-  - component: {fileID: 5507691285040301164}
+  - component: {fileID: 6628578405877918395}
+  - component: {fileID: 3039995148782886909}
   m_Layer: 0
   m_Name: Item_Generic
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8200293559771744453
+--- !u!4 &6628578405877918395
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8679294376410890291}
+  m_GameObject: {fileID: 3039995148782886908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,20 +31,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5507691285040301164
+--- !u!114 &3039995148782886909
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8679294376410890291}
+  m_GameObject: {fileID: 3039995148782886908}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c004a1921b3edf4e9c21694e86ac516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemID: 0
-  itemHolder: {fileID: 0}
+  sprite: {fileID: 2800000, guid: ba3a1d43bbcb76940b9e2bb7bbce86a3, type: 3}
+  ItemType: 0
   bonusAtk: 1
   bonusDef: 1
   bonusHP: 5
@@ -52,3 +53,4 @@ MonoBehaviour:
   bonusTime: 0
   bonusVamp: 0
   healthPerTurn: 0
+  questItem: 0
