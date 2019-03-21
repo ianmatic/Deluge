@@ -96,6 +96,7 @@ public class TurnManager : MonoBehaviour
                 counter = 0;
                 GetComponent<CameraManager>().target = player;
                 player.GetComponent<Entity>().inCombat = false;
+                player.GetComponent<Entity>().doingTurn = false;
             }
         }
     }

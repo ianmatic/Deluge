@@ -194,8 +194,6 @@ public class Entity : MonoBehaviour
         int dmgCalc = attack - target.GetComponent<Entity>().defense;
         target.GetComponent<Entity>().health -= dmgCalc;
 
-        // Resolve Life Vamp
-
         //limit health
         if (health + dmgCalc > maxHealth)
         {
