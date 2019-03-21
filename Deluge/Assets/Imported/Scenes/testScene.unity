@@ -14158,8 +14158,8 @@ MonoBehaviour:
   parentContainer: {fileID: 882738877}
   itemContainer: {fileID: 180360602}
   defaultItemSlot: {fileID: 1714340175}
-  defaultItemIconOverlay: {fileID: 361233726}
   itemIconContainer: {fileID: 1476280303}
+  defaultItemIcon: {fileID: 1714340175}
   pack_frame_hat: {fileID: 2800000, guid: da533a5918cc0654999e94e9df54e9fa, type: 3}
   pack_frame_torso: {fileID: 2800000, guid: cb6aafc4ec4f77f45a6c7476c6e529b4, type: 3}
   pack_frame_weapon: {fileID: 2800000, guid: 1179cf99fa5549b49a0c22ca4aa83dff, type: 3}
