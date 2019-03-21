@@ -23,15 +23,13 @@ public class Inventory : MonoBehaviour
     public Item currentOffHand;
 
     // Runs all startup instantiation/connection code
-    void Start()
+    void Awake()
     {
         mainPack = new Item[4, 5];
         AddItem(testItem.GetComponent<Item>());
-
-        Debug.Log("Main Pack:" + mainPack);
+        AddItem(testItem.GetComponent<Item>());
 
         currentMain = main_item.spear;
-
     }
 
     /// <summary>
@@ -42,12 +40,12 @@ public class Inventory : MonoBehaviour
     public bool AddItem(Item newItem)
     {
         // Cycle through the whole inventory pack looking for an open slot
-        for (int i = 0; i < mainPack.GetLength(0); i++)
+        for (int i = 0; i < mainPack.GetLength(1); i++)
         {
-            for (int j = 0; j < mainPack.GetLength(1); j++)
+            for (int j = 0; j < mainPack.GetLength(0); j++)
             {
                 // If a slot is open, set the item in that slot and return true
-                if (mainPack[j, i] != null)
+                if (mainPack[j, i] == null)
                 {
                     mainPack[j, i] = newItem;
                     return true;
@@ -62,10 +60,6 @@ public class Inventory : MonoBehaviour
     /// <summary>
     /// Used for adding items to a specific slot - use in save loading
     /// </summary>
-    /// <param name="newItem">The item being added to the inventory</param>
-    /// <param name="xPos">X position of the item in the inventory</param>
-    /// <param name="yPos">Y position of the item in the inventory</param>
-    /// <returns></returns>
     public bool AddItem(Item newItem, int xPos, int yPos)
     {
         // Check if the slot is occupied & add item to that slot if it's not
@@ -78,6 +72,4 @@ public class Inventory : MonoBehaviour
         // If the slot is already filled, return false;
         return false;
     }
-
-
 }
