@@ -5,10 +5,20 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     // FIELDS
+    public enum itemType
+    {
+        weapon,
+        hat,
+        torso,
+        offhand,
+        useable
+    }
+
     // Identifiers
     public int itemID;
-    //public GameObject itemHolder;     //checking if this is still in use
     public Texture2D sprite;
+    public itemType ItemType;
+
 
     // Basic Stats
     public int bonusAtk = 0;
