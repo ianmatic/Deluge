@@ -14,6 +14,8 @@ public class TurnManager : MonoBehaviour
 
     public List<GameObject> combatEntities;
 
+    private float timer = 0.35f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,43 +45,66 @@ public class TurnManager : MonoBehaviour
                 player.GetComponent<Entity>().inCombat = true;
 
                 GetComponent<CameraManager>().target = combatEntities[counter];
-                combatEntities[counter].GetComponent<Entity>().doingTurn = true;
 
-                //do specific code for different entities, player handled in playerData
-                switch (combatEntities[counter].GetComponent<Entity>().type)
+                //timer has been triggered
+                if (timer < .35f)
                 {
-                    case entityType.enemy:
-                        //end turn
-                        if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.05)
-                        {
-                            foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                    timer -= Time.deltaTime;
+                }
+                else
+                {
+                    //timer hasn't been triggered yet, so doing turn
+                    combatEntities[counter].GetComponent<Entity>().doingTurn = true;
+
+                    //do specific code for different entities, player handled in playerData
+                    switch (combatEntities[counter].GetComponent<Entity>().type)
+                    {
+                        case entityType.enemy:
+                            //end turn
+                            if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.35f)
                             {
-                                GetComponent<ShaderManager>().Untint(tile);
+                                foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                                {
+                                    GetComponent<ShaderManager>().Untint(tile);
+                                }
+
+                                //A* pathfinding
+                                combatEntities[counter].GetComponent<EnemyData>().pathToPlayer =
+                                    GetComponent<TileManager>().Find3DPath(combatEntities[counter], player);
+
+                                foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                                {
+                                    GetComponent<ShaderManager>().TintRed(tile);
+                                }
+
+                                combatEntities[counter].GetComponent<EnemyData>().ProcessTurn();
+
+                                //trigger end of turn timer
+                                timer = combatEntities[counter].GetComponent<Timer>().remainingTime;
+                                combatEntities[counter].GetComponent<Entity>().doingTurn = false;
+                            }
+                            break;
+                        case entityType.player:
+                            
+                            //trigger end of turn timer 
+                            if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.05f)
+                            {
+                                timer = 0.349f;
+                                combatEntities[counter].GetComponent<Entity>().doingTurn = false;
                             }
 
-                            //A* pathfinding
-                            combatEntities[counter].GetComponent<EnemyData>().pathToPlayer =
-                                GetComponent<TileManager>().FindPath(combatEntities[counter], player);
 
-                            foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
-                            {
-                                GetComponent<ShaderManager>().TintRed(tile);
-                            }
-
-                            combatEntities[counter].GetComponent<EnemyData>().ProcessTurn();
-
-                            combatEntities[counter].GetComponent<Entity>().doingTurn = false;
-                            counter++;
-                        }
-                        break;
-                    case entityType.player:
-                        //out of time
-                        if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.05)
-                        {
-                            combatEntities[counter].GetComponent<Entity>().doingTurn = false;
-                            counter++;
-                        }
-                        break;
+                            break;
+                    }
+                }
+            
+                //timer has ended
+                if (timer <= 0.0f)
+                {
+                    //advance to next entity
+                    combatEntities[counter].GetComponent<Entity>().doingTurn = false;
+                    counter++;
+                    timer = 0.35f;
                 }
 
                 //last entity ended turn
@@ -87,7 +112,7 @@ public class TurnManager : MonoBehaviour
                 {
                     //go back to player
                     counter = 0;
-                }     
+                }
             }
             //end combat
             else

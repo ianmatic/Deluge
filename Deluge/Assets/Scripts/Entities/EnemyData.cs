@@ -23,7 +23,7 @@ public class EnemyData : MonoBehaviour
         manager = GameObject.FindGameObjectWithTag("manager");
         pathToPlayer = new List<GameObject>();
         wanderTiles = new List<GameObject>();
-        GetComponent<Entity>().maxTime = 0.5f;
+        GetComponent<Entity>().maxTime = 1.0f;
         GetComponent<Entity>().type = entityType.enemy;
         GetComponent<Entity>().health = 10;
     }
@@ -122,8 +122,8 @@ public class EnemyData : MonoBehaviour
 
             GetComponent<Entity>().SetTileAsParentTile(pathToPlayer[1]);
         }
-        //attack the player
-        else if (pathToPlayer.Count <= 2)
+        //attack the player (2 because includes enemy's and player's tiles)
+        else if (pathToPlayer.Count == 2)
         {
             GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
                 GetComponent<Entity>().parentTile, player.GetComponent<Entity>().parentTile);

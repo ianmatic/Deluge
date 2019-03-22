@@ -14,7 +14,7 @@ public class TileManager : MonoBehaviour
         tiles = new List<GameObject>();
         tiles.AddRange(GameObject.FindGameObjectsWithTag("tile"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("spawn"));
-        tiles.AddRange(GameObject.FindGameObjectsWithTag("exit"));
+        //tiles.AddRange(GameObject.FindGameObjectsWithTag("exit"));
     }
 
 
@@ -163,7 +163,7 @@ public class TileManager : MonoBehaviour
     public GameObject GetTileAtPosition(Vector3 position)
     {
         foreach (GameObject tile in tiles)
-        { 
+        {
             //found a tile within the collider box
             if (tile.GetComponent<BoxCollider>().bounds.Contains(position))
             {
@@ -244,6 +244,12 @@ public class TileManager : MonoBehaviour
 
                     //don't check tiles that don't exist
                     if (GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)) == null)
+                    {
+                        continue;
+                    }
+
+                    //don't check walls
+                    if (GetTileAtPosition(new Vector3(currentX, startTile.transform.position.y, currentZ)).GetComponent<TileProperties>().isWall)
                     {
                         continue;
                     }
@@ -368,6 +374,239 @@ public class TileManager : MonoBehaviour
 
                 //so start from the beginning
                 int shortestDistance = openTiles[0].GetComponent<TileProperties>().GetWeightedDistance();
+                int shortestIndex = 0;
+
+                //check each Tile, start at 1 since already set to beginning
+                for (int i = 1; i < openTiles.Count; i++)
+                {
+                    //found a shorter distance
+                    if (openTiles[i].GetComponent<TileProperties>().GetWeightedDistance() < shortestDistance)
+                    {
+                        //set to new shortest distance
+                        shortestDistance = openTiles[i].GetComponent<TileProperties>().GetWeightedDistance();
+                        shortestIndex = i;
+                    }
+                }
+
+                //set the current Tile to the one with the shortest distance
+                currentTile = openTiles[shortestIndex];
+
+                //since we've checked it, add it to the closed list
+                closedTiles.Add(currentTile);
+
+                //remove it from the open list
+                openTiles.Remove(currentTile);
+            }
+            else //no open tiles means no path was found
+            {
+                findingPath = false;
+            }
+        }
+
+        //should NOT hit this if the maze is solvable
+        return path;
+    }
+
+    /// <summary>
+    /// Given start GO and end GO, find shortest path (currently only works horizontally)
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="enemy"></param>
+    /// <param name="tiles"></param>
+    /// <returns></returns>
+    public List<GameObject> Find3DPath(GameObject start, GameObject end)
+    {
+        //shouldn't be hardcoded since tile height may change
+        float tileHeight = start.GetComponent<Renderer>().bounds.size.y;
+
+        //get end positions
+        float endXPos = end.GetComponent<Entity>().parentTile.transform.position.x;
+        float endYPos = end.GetComponent<Entity>().parentTile.transform.position.y;
+        float endZPos = end.GetComponent<Entity>().parentTile.transform.position.z;
+
+        //calculate each heuristic and reset the previous
+        foreach (GameObject tile in tiles)
+        {
+            tile.GetComponent<TileProperties>().heuristic3D =
+                tile.GetComponent<TileProperties>().Manhattan3DDistance(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z, endXPos, endYPos, endZPos);
+
+            tile.GetComponent<TileProperties>().previous = null;
+        }
+
+        //get startTile
+        GameObject startTile = start.GetComponent<Entity>().parentTile;
+
+        //track which tiles have been visited
+        List<GameObject> openTiles = new List<GameObject>();
+        List<GameObject> closedTiles = new List<GameObject>();
+
+        //returned path
+        List<GameObject> path = new List<GameObject>();
+
+        //start at the GO's position
+        GameObject currentTile = startTile;
+        Vector3 currentPos = start.transform.position;
+
+        //Begin algorithm
+
+        //exit loop when this is false
+        bool findingPath = true;
+
+        //put the start tile in the closed list
+        closedTiles.Add(startTile);
+
+        //search until we find the path, or determine there is no possible path
+        while (findingPath)
+        {
+            //check the neighbors of each tile
+            for (float currentX = currentTile.transform.position.x - 1; currentX <= currentTile.transform.position.x + 1; currentX++)
+            {
+                for (float currentZ = currentTile.transform.position.z - 1; currentZ <= currentTile.transform.position.z + 1; currentZ++)
+                {
+                    //check each vertical layer of tiles
+                    for (float currentY = currentTile.transform.position.y - (tileHeight * 2); currentY <= currentTile.transform.position.y + tileHeight; currentY += tileHeight)
+                    {
+                        currentPos = new Vector3(currentX, currentY, currentZ);
+
+                        //if it's this cell, ignore it
+                        if (currentPos == currentTile.transform.position)
+                        {
+                            continue;
+                        }
+
+                        //ignore diagonals
+                        if ((currentX == currentTile.transform.position.x - 1 && currentZ == currentTile.transform.position.z - 1) ||
+                            (currentX == currentTile.transform.position.x - 1 && currentZ == currentTile.transform.position.z + 1) ||
+                            (currentX == currentTile.transform.position.x + 1 && currentZ == currentTile.transform.position.z - 1) ||
+                            (currentX == currentTile.transform.position.x + 1 && currentZ == currentTile.transform.position.z + 1))
+                        {
+                            continue;
+                        }
+
+                        //don't check tiles that don't exist
+                        if (GetTileAtPosition(currentPos) == null)
+                        {
+                            continue;
+                        }
+
+                        //don't check walls (tiles that have 2 tiles above it)
+                        if (GetTileAtPosition(currentPos).GetComponent<TileProperties>().isWall)
+                        {
+                            continue;
+                        }
+
+                        //don't check tiles with 1 tile above
+                        if (GetTileAtPosition(new Vector3(currentX, currentY + tileHeight, currentZ)) != null)
+                        {
+                            continue;
+                        }
+
+                        //don't check tiles in closed list
+                        if (closedTiles.Contains(GetTileAtPosition(currentPos)))
+                        {
+                            continue;
+                        }
+
+                        //found the end Tile
+                        if (GetTileAtPosition(currentPos).transform.position.x == endXPos
+                            && GetTileAtPosition(currentPos).transform.position.z == endZPos)
+                        {
+                            //set the end's parent
+                            GetTileAtPosition(currentPos).GetComponent<TileProperties>().previous = currentTile;
+
+                            //add the current Tile to the visited list
+                            closedTiles.Add(GetTileAtPosition(currentPos));
+
+                            //set the current Tile to the end so that we traverse from the end to the beginning
+                            currentTile = GetTileAtPosition(currentPos);
+
+                            //add the end to the path, add ends to the end in c#
+                            path.Add(currentTile);
+
+                            //while current isn't the start Tile
+                            while (currentTile.GetComponent<TileProperties>().previous != null)
+                            {
+                                //add parent to the front of the list
+                                path.Insert(0, currentTile.GetComponent<TileProperties>().previous);
+
+                                //setup Tile for next iteration (singly linked list essentially)
+                                currentTile = currentTile.GetComponent<TileProperties>().previous;
+                            }
+
+                            //no longer need to keep searching
+                            findingPath = false;
+
+                            //return the path we've found
+                            return path;
+                        }
+
+                        //at this point, the current Tile is valid
+
+                        float xDistance = GetTileAtPosition(currentPos).transform.position.x - currentTile.transform.position.x;
+                        float yDistance = GetTileAtPosition(currentPos).transform.position.y - currentTile.transform.position.y;
+                        float zDistance = GetTileAtPosition(currentPos).transform.position.z - currentTile.transform.position.z;
+
+                        //calculate movement distance using distance formula + path distance
+                        float moveCost = currentTile.GetComponent<TileProperties>().path3DDistance + Mathf.Sqrt(Mathf.Pow(xDistance, 2) + Mathf.Pow(yDistance, 2) + Mathf.Pow(zDistance, 2));
+
+                        //no parent Tile or the current Tile's path distance is shorter
+                        if (GetTileAtPosition(currentPos).GetComponent<TileProperties>().previous == null
+                            || moveCost < GetTileAtPosition(currentPos).GetComponent<TileProperties>().path3DDistance)
+                        {
+                            //that means we should use this Tile
+                            //so assign it as a parent
+                            //and update the path3DDistance
+                            GetTileAtPosition(currentPos).GetComponent<TileProperties>().previous = currentTile;
+                            GetTileAtPosition(currentPos).GetComponent<TileProperties>().path3DDistance = moveCost;
+
+                            //check if the Tile is on the open list, if not, then add it
+
+                            //nothing in open tiles, which means there's no way the Tile is already inside
+                            if (openTiles.Count == 0)
+                            {
+                                openTiles.Add(GetTileAtPosition(currentPos));
+                            }
+                            //open tiles has contents
+                            else
+                            {
+
+                                bool inOpen = false;
+
+                                //loop through open tiles and check each Tile
+                                for (int i = 0; i < openTiles.Count; i++)
+                                {
+                                    //Tile already inside open tiles
+                                    if (openTiles[i].transform.position == GetTileAtPosition(currentPos).transform.position)
+                                    {
+                                        inOpen = true;
+
+                                        //no reason to traverse anymore, so break
+                                        break;
+                                    }
+                                }
+
+                                //Tile not in openTiles
+                                if (!inOpen)
+                                {
+                                    //add the Tile to open tiles
+                                    openTiles.Add(GetTileAtPosition(currentPos));
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            //at this pofloat, we've checked the neighbors of the current Tile
+
+            //if open tiles has tiles inside it, that means we have more tiles to check
+            if (openTiles.Count != 0)
+            {
+                //find the shortest distance in the open list
+
+                //so start from the beginning
+                float shortestDistance = openTiles[0].GetComponent<TileProperties>().GetWeightedDistance();
                 int shortestIndex = 0;
 
                 //check each Tile, start at 1 since already set to beginning

@@ -6,8 +6,13 @@ public class TileProperties : MonoBehaviour
 {
     //used for pathfinding
     public GameObject previous;
+
     public int heuristic;
+    public float heuristic3D;
+
     public int pathDistance;
+    public float path3DDistance;
+
     public bool isParent = false;
     public bool isWall = false;
 
@@ -34,6 +39,12 @@ public class TileProperties : MonoBehaviour
     {
         //estimate of how far this is from the end point
         return Mathf.Abs(xPos - endX) + Mathf.Abs(zPos - endZ);
+    }
+
+    public float Manhattan3DDistance(float xPos, float yPos, float zPos, float endX, float endY, float endZ)
+    {
+        //estimate of how far this is from the end point
+        return Mathf.Abs(xPos - endX) + Mathf.Abs(yPos - endY) + Mathf.Abs(zPos - endZ);
     }
 
     //cost to reach this vertex from the start plus heuristic vlaue
