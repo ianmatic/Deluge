@@ -20,7 +20,7 @@ MonoBehaviour:
     combined: 0
     tileSize: 1
     tileHeight: 0.25
-    gridYPos: 3
+    gridYPos: 0
     brushSize: 1
     showPreview: 1
     tiles:

@@ -14,6 +14,7 @@ public class TileManager : MonoBehaviour
         tiles = new List<GameObject>();
         tiles.AddRange(GameObject.FindGameObjectsWithTag("tile"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("spawn"));
+        tiles.AddRange(GameObject.FindGameObjectsWithTag("exit"));
     }
 
 

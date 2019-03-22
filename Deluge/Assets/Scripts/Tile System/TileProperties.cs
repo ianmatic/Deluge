@@ -9,12 +9,19 @@ public class TileProperties : MonoBehaviour
     public int heuristic;
     public int pathDistance;
     public bool isParent = false;
+    public bool isWall = false;
+
+    public GameObject manager;
 
     // Start is called before the first frame update
     void Start()
     {
         previous = null;
         pathDistance = 0;
+
+        manager = GameObject.FindGameObjectWithTag("manager");
+
+        isWall = IsWall();
     }
 
     // Update is called once per frame
@@ -33,5 +40,33 @@ public class TileProperties : MonoBehaviour
     public int GetWeightedDistance()
     {
         return pathDistance + heuristic;
+    }
+
+    /// <summary>
+    /// Based on surrounding tiles, determines if wall
+    /// </summary>
+    /// <returns></returns>
+    public bool IsWall()
+    {
+        float height = GetComponent<Renderer>().bounds.size.y;
+
+        Vector3 pos = transform.position;
+        pos.y += height;
+
+        GameObject aboveOne = manager.GetComponent<TileManager>().GetTileAtPosition(pos);
+
+        pos.y += height;
+
+        GameObject aboveTwo = manager.GetComponent<TileManager>().GetTileAtPosition(pos);
+
+        //tiles found above, so this is a wall
+        if (aboveOne != null && aboveTwo != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
