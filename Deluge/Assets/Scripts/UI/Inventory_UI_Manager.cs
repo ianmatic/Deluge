@@ -14,7 +14,7 @@ public class Inventory_UI_Manager : MonoBehaviour
     // Pulling gameobject UI data
     public GameObject parentContainer;
 
-    // Settnig up item container overlays
+    // Setting up item container overlays
     public GameObject itemContainer;
     public GameObject defaultItemSlot;
     List<GameObject> itemSlots;
@@ -22,6 +22,17 @@ public class Inventory_UI_Manager : MonoBehaviour
     public GameObject itemIconContainer;
     public GameObject defaultItemIcon;
     List<GameObject> itemIcons;
+
+    // Setting up left container
+    public GameObject panelItemIcon;
+    public GameObject panelNameText;
+    public List<GameObject> panelStatText;
+    public List<GameObject> panelItemLevelMods;
+    public List<GameObject> panelItemLevelIndicators;
+    public GameObject panelItemExperienceBar;
+    public GameObject panelItemSpellText;
+    public GameObject panelItemSpellIcon;
+    public GameObject panelFlavorText;
 
     // Pulling the bg images
     public Texture2D pack_frame_hat;
@@ -130,7 +141,7 @@ public class Inventory_UI_Manager : MonoBehaviour
         // Find the slot to put the item into
         int slotNumber = (yPos * xPos) + xPos;
 
-        // Pull the item's type & sprite
+        // Pull the item's type
         switch (itemData.ItemType)
         {
             case Item.itemType.hat:
@@ -150,13 +161,34 @@ public class Inventory_UI_Manager : MonoBehaviour
                 break;
         }
 
+        // Pull the item's sprite
+        itemIcons[slotNumber].GetComponent<RawImage>().texture = itemData.sprite;
     }
 
     /// <summary>
     /// Updates the left side info panel with information from a given item
     /// </summary>
-    void UpdateInfoPanel(GameObject item)
+    void UpdateInfoPanel(GameObject itemGO)
     {
+        // Get the Item script so we don't have to keep calling GetComponent<whatever>()
+        Item item = itemGO.GetComponent<Item>();
 
+        // Update icon
+        panelItemIcon.GetComponent<RawImage>().texture = item.sprite;
+
+        // Update name text & flavor text
+        panelNameText.GetComponent<Text>().text = item.itemName;
+        panelFlavorText.GetComponent<Text>().text = item.itemFlavor;
+
+        // Update stats text
+        panelStatText[0].GetComponent<Text>().text = "+" + item.bonusMaxHP.ToString();
+        panelStatText[1].GetComponent<Text>().text = "+" + item.bonusAtk.ToString();
+        panelStatText[2].GetComponent<Text>().text = "+" + item.bonusDef.ToString();
+        panelStatText[3].GetComponent<Text>().text = "+" + item.bonusVamp.ToString() + "%";
+
+        // Update item level xp info
+
+
+        // TODO: Create spells to update spell info from
     }
 }
