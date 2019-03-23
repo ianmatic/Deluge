@@ -7,10 +7,8 @@ public class TileProperties : MonoBehaviour
     //used for pathfinding
     public GameObject previous;
 
-    public int heuristic;
     public float heuristic3D;
 
-    public int pathDistance;
     public float path3DDistance;
 
     public bool isParent = false;
@@ -22,7 +20,6 @@ public class TileProperties : MonoBehaviour
     void Start()
     {
         previous = null;
-        pathDistance = 0;
 
         manager = GameObject.FindGameObjectWithTag("manager");
 
@@ -35,22 +32,16 @@ public class TileProperties : MonoBehaviour
         
     }
 
-    public int ManhattanDistance(int xPos, int zPos, int endX, int endZ)
+    public float Manhattan3DDistance(Vector3 start, Vector3 end)
     {
         //estimate of how far this is from the end point
-        return Mathf.Abs(xPos - endX) + Mathf.Abs(zPos - endZ);
-    }
-
-    public float Manhattan3DDistance(float xPos, float yPos, float zPos, float endX, float endY, float endZ)
-    {
-        //estimate of how far this is from the end point
-        return Mathf.Abs(xPos - endX) + Mathf.Abs(yPos - endY) + Mathf.Abs(zPos - endZ);
+        return Vector3.Distance(start,end);
     }
 
     //cost to reach this vertex from the start plus heuristic vlaue
-    public int GetWeightedDistance()
+    public float GetWeightedDistance()
     {
-        return pathDistance + heuristic;
+        return path3DDistance + heuristic3D;
     }
 
     /// <summary>

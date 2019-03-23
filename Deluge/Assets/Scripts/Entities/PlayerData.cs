@@ -9,7 +9,7 @@ public class PlayerData : MonoBehaviour
     private UI_Manager ui_manager;
     private GameObject manager;
 
-    //which way the player is facing
+    //update player directionality
     bool newInput = false;
 
     public string weaponSelected;

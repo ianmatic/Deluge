@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 
 public class EnemyData : MonoBehaviour
@@ -10,6 +11,9 @@ public class EnemyData : MonoBehaviour
     public List<GameObject> wanderTiles;
 
     private float wanderTimer = 1.0f;
+
+    GameObject currentStartTile;
+    GameObject currentEndTile;
 
     enum EnemyType
     {
@@ -73,6 +77,24 @@ public class EnemyData : MonoBehaviour
             {
                 wanderTimer = 1.0f;
             }
+
+
+            //A* Pathfinding
+            //if the parent tiles have changed since last path was found is the other part
+            if (currentStartTile != GetComponent<Entity>().parentTile || currentEndTile != player.GetComponent<Entity>().parentTile)
+            {
+                //try to find a path
+                if (Vector3.Distance(player.transform.position, transform.position) < 10)
+                {
+                    pathToPlayer = manager.GetComponent<TileManager>().Find3DPath(gameObject, player);
+                }
+                //set tiles regardless of success of A*
+                currentStartTile = GetComponent<Entity>().parentTile;
+                currentEndTile = player.GetComponent<Entity>().parentTile;
+            }
+
+
+
 
             #region testing directionality of enemies with tinting
             if (GetComponent<Entity>().direction == FaceDirection.forward)
@@ -170,4 +192,13 @@ public class EnemyData : MonoBehaviour
     }
 
     
+}
+
+public struct MyJob : IJob
+{
+
+    public void Execute()
+    {
+        //result[0] = a + b;
+    }
 }

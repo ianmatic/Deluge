@@ -68,10 +68,6 @@ public class TurnManager : MonoBehaviour
                                     GetComponent<ShaderManager>().Untint(tile);
                                 }
 
-                                //A* pathfinding
-                                combatEntities[counter].GetComponent<EnemyData>().pathToPlayer =
-                                    GetComponent<TileManager>().Find3DPath(combatEntities[counter], player);
-
                                 foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
                                 {
                                     GetComponent<ShaderManager>().TintRed(tile);
@@ -167,7 +163,7 @@ public class TurnManager : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             //n tiles proximity
-            if (Vector3.Distance(player.transform.position, enemy.transform.position) < 5)
+            if (enemy.GetComponent<EnemyData>().pathToPlayer.Count > 0 && enemy.GetComponent<EnemyData>().pathToPlayer.Count < 10)
             {
                 enemy.GetComponent<Entity>().inCombat = true;
                 nearbyEnemies.Add(enemy);
