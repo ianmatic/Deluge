@@ -43,6 +43,7 @@ public class PlayerData : MonoBehaviour
         GetComponent<Entity>().health = 18;
         GetComponent<Entity>().maxHealth = 34;
         GetComponent<Entity>().type = entityType.player;
+        GetComponent<Entity>().attack = 4;
     }
 
     /// <summary>

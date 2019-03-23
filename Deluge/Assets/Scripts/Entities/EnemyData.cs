@@ -15,9 +15,12 @@ public class EnemyData : MonoBehaviour
     GameObject currentStartTile;
     GameObject currentEndTile;
 
-    enum EnemyType
+    public EnemyType type;
+
+    public enum EnemyType
     {
-        melee
+        melee,
+        archer
     }
 
     // Start is called before the first frame update
@@ -134,24 +137,48 @@ public class EnemyData : MonoBehaviour
     public void CalculateAction()
     {
         //Actual pathfinding is calculated in Turn Manager
-
-        //approach the player
-        if (pathToPlayer.Count > 2)
+        switch (type)
         {
-            //update directionality
-            GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
-                GetComponent<Entity>().parentTile, pathToPlayer[1]);
+            case EnemyType.melee:
+                //approach the player
+                if (pathToPlayer.Count > 2)
+                {
+                    //update directionality
+                    GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                        GetComponent<Entity>().parentTile, pathToPlayer[1]);
 
-            GetComponent<Entity>().SetTileAsParentTile(pathToPlayer[1]);
-        }
-        //attack the player (2 because includes enemy's and player's tiles)
-        else if (pathToPlayer.Count == 2)
-        {
-            GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
-                GetComponent<Entity>().parentTile, player.GetComponent<Entity>().parentTile);
+                    GetComponent<Entity>().SetTileAsParentTile(pathToPlayer[1]);
+                }
+                //attack the player (2 because includes enemy's and player's tiles)
+                else if (pathToPlayer.Count == 2)
+                {
+                    GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                        GetComponent<Entity>().parentTile, player.GetComponent<Entity>().parentTile);
 
-            GetComponent<Entity>().Attack(player);
+                    GetComponent<Entity>().Attack(player);
+                }
+                break;
+            case EnemyType.archer:
+                //approach the player
+                if (pathToPlayer.Count > 5)
+                {
+                    //update directionality
+                    GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                        GetComponent<Entity>().parentTile, pathToPlayer[1]);
+
+                    GetComponent<Entity>().SetTileAsParentTile(pathToPlayer[1]);
+                }
+                //attack the player (2 because includes enemy's and player's tiles)
+                else if (pathToPlayer.Count > 1)
+                {
+                    GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                        GetComponent<Entity>().parentTile, player.GetComponent<Entity>().parentTile);
+
+                    GetComponent<Entity>().Attack(player);
+                }
+                break;
         }
+        
     }
 
     /// <summary>
@@ -192,13 +219,4 @@ public class EnemyData : MonoBehaviour
     }
 
     
-}
-
-public struct MyJob : IJob
-{
-
-    public void Execute()
-    {
-        //result[0] = a + b;
-    }
 }
