@@ -5,16 +5,21 @@ using UnityEngine;
 
 public class EnemyData : MonoBehaviour
 {
+    [HideInInspector]
     public List<GameObject> pathToPlayer;
-    private GameObject player;
+    [HideInInspector]
     public GameObject manager;
+    [HideInInspector]
     public List<GameObject> wanderTiles;
+
+    private GameObject player;
 
     private float wanderTimer = 1.0f;
 
     GameObject currentStartTile;
     GameObject currentEndTile;
 
+    //set in inspector
     public EnemyType type;
 
     public enum EnemyType
@@ -61,11 +66,16 @@ public class EnemyData : MonoBehaviour
                         //wander to random tile if number is not beyond list indices
                         if (randomNumber < wanderTiles.Count)
                         {
-                            //update direction
-                            GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
-                                GetComponent<Entity>().parentTile, wanderTiles[randomNumber]);
+                            //don't go through walls
+                            if (!wanderTiles[randomNumber].GetComponent<TileProperties>().isWall)
+                            {
+                                //update direction and parentTile
+                                GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                                    GetComponent<Entity>().parentTile, wanderTiles[randomNumber]);
 
-                            GetComponent<Entity>().SetTileAsParentTile(wanderTiles[randomNumber]);
+                                GetComponent<Entity>().SetTileAsParentTile(wanderTiles[randomNumber]);
+                            }
+
                         }
 
 
@@ -73,12 +83,13 @@ public class EnemyData : MonoBehaviour
 
 
                     //reset timer
-                    wanderTimer = 1.0f;
+                    wanderTimer = Random.Range(.8f, 1.2f);
                 }
             }
             else
             {
-                wanderTimer = 1.0f;
+                //reset timer
+                wanderTimer = Random.Range(.8f, 1.2f);
             }
 
 
@@ -89,7 +100,7 @@ public class EnemyData : MonoBehaviour
                 //try to find a path
                 if (Vector3.Distance(player.transform.position, transform.position) < 10)
                 {
-                    pathToPlayer = manager.GetComponent<TileManager>().Find3DPath(gameObject, player);
+                    pathToPlayer = manager.GetComponent<TileManager>().FindPath(gameObject, player);
                 }
                 //set tiles regardless of success of A*
                 currentStartTile = GetComponent<Entity>().parentTile;

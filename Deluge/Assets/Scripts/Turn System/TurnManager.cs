@@ -5,14 +5,17 @@ using UnityEngine;
 public class TurnManager : MonoBehaviour
 {
     //all enemies in the scene
+    [HideInInspector]
     public List<GameObject> enemies;
+
+    //entities that are in fight
+    [HideInInspector]
+    public List<GameObject> combatEntities;
 
     private GameObject player;
 
     //which enemy is having its turn
     private int counter;
-
-    public List<GameObject> combatEntities;
 
     private float timer = 0.35f;
 

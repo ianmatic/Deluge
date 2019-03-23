@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class npcData : MonoBehaviour
 {
+    //Set in inspector
     public List<TextAsset> dialogueList;
-    private TextAsset currentDialogue;
+
+    [HideInInspector]
     public GameObject dialogueManager;
+
+    private TextAsset currentDialogue;
     private GameObject player;
 
     // Start is called before the first frame update

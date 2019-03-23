@@ -12,9 +12,13 @@ public class PlayerData : MonoBehaviour
     //update player directionality
     bool newInput = false;
 
+    [HideInInspector]
     public string weaponSelected;
+    [HideInInspector]
     public List<GameObject> actionTiles;
+    [HideInInspector]
     public GameObject interactTile;
+    [HideInInspector]
     public List<GameObject> interactiveObjects;
 
 
@@ -22,8 +26,10 @@ public class PlayerData : MonoBehaviour
     public int invWidth;
     public int invHeight;
 
+    [HideInInspector]
     public int counter = 0;
 
+    [HideInInspector]
     public int divisor = 10;
 
     /// <summary>
@@ -70,6 +76,17 @@ public class PlayerData : MonoBehaviour
     /// </summary>
     void CheckPlayerInputs(bool inCombat)
     {
+
+        //press tab to speedup
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            Time.timeScale = 10.0f;
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+        }
+
         //can't move, fight, or interact when paused
         if (!GameData.FullPaused)
         {

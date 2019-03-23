@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class npcInterest : MonoBehaviour
 {
+    //Set in inspector
+    public TextAsset questInfo;
+
     enum QuestType
     {
         retrieval,
         elimination
     }
 
-    public TextAsset questInfo;
+
 
     private QuestType type;
 

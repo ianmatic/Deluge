@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
+    [HideInInspector]
     public Dictionary<Vector3,GameObject> tiles;
 
     //do this before the other GOs need the tiles, so use Awake
@@ -190,7 +191,7 @@ public class TileManager : MonoBehaviour
     /// <param name="enemy"></param>
     /// <param name="tiles"></param>
     /// <returns></returns>
-    public List<GameObject> Find3DPath(GameObject start, GameObject end)
+    public List<GameObject> FindPath(GameObject start, GameObject end)
     {
         //shouldn't be hardcoded since tile height may change
 
@@ -200,7 +201,7 @@ public class TileManager : MonoBehaviour
         //calculate each heuristic and reset the previous
         foreach (KeyValuePair<Vector3, GameObject> tile in tiles)
         {
-            tile.Value.GetComponent<TileProperties>().heuristic3D =
+            tile.Value.GetComponent<TileProperties>().heuristic =
                 Vector3.Distance(tile.Value.transform.position,endPos);
 
             tile.Value.GetComponent<TileProperties>().previous = null;
@@ -323,17 +324,17 @@ public class TileManager : MonoBehaviour
                         float zDistance = loopTile.transform.position.z - currentTile.transform.position.z;
 
                         //calculate movement distance using distance formula + path distance
-                        float moveCost = currentTile.GetComponent<TileProperties>().path3DDistance + Mathf.Sqrt(Mathf.Pow(xDistance, 2) + Mathf.Pow(yDistance, 2) + Mathf.Pow(zDistance, 2));
+                        float moveCost = currentTile.GetComponent<TileProperties>().pathDistance + Mathf.Sqrt(Mathf.Pow(xDistance, 2) + Mathf.Pow(yDistance, 2) + Mathf.Pow(zDistance, 2));
 
                         //no parent Tile or the current Tile's path distance is shorter
                         if (loopTile.GetComponent<TileProperties>().previous == null
-                            || moveCost < loopTile.GetComponent<TileProperties>().path3DDistance)
+                            || moveCost < loopTile.GetComponent<TileProperties>().pathDistance)
                         {
                             //that means we should use this Tile
                             //so assign it as a parent
                             //and update the path3DDistance
                             loopTile.GetComponent<TileProperties>().previous = currentTile;
-                            loopTile.GetComponent<TileProperties>().path3DDistance = moveCost;
+                            loopTile.GetComponent<TileProperties>().pathDistance = moveCost;
 
                             //check if the Tile is on the open list, if not, then add it
 
@@ -444,92 +445,92 @@ public class TileManager : MonoBehaviour
                     if (direction == FaceDirection.forward)
                     {
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(1, 0, 1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 1), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
                     }
                     //x + 1                                     
                     else if (direction == FaceDirection.right)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(1, 0, -1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, -1), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
                     }
                     //z - 1
                     else if (direction == FaceDirection.backward)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(-1, 0, -1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, -1), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
                     }
                     //x - 1
                     else if (direction == FaceDirection.left)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(-1, 0, 1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 1), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
                     }
                 }
                 else if (player.GetComponent<PlayerData>().weaponSelected == "spear")
                 {
                     if (direction == FaceDirection.forward)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight));
                     }
                     else if (direction == FaceDirection.right)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight));
                     }
                     else if (direction == FaceDirection.backward)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
                     }
                     else if (direction == FaceDirection.left)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(-2, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-2, 0, 0), tileHeight));
                     }
                 }
                 else if (player.GetComponent<PlayerData>().weaponSelected == "bow")
                 {
                     if (direction == FaceDirection.forward)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, 3), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 3), tileHeight));
                     }
                     else if (direction == FaceDirection.right)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(3, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(3, 0, 0), tileHeight));
                     }
                     else if (direction == FaceDirection.backward)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, -3), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -3), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight));
                     }
                     else if (direction == FaceDirection.left)
                     {
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(-3, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-3, 0, 0), tileHeight));
 
-                        tiles.Add(FindHighestTile(parentTilePosition + new Vector3(-2, 0, 0), tileHeight));
+                        tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-2, 0, 0), tileHeight));
                     }
                 }
             }      
@@ -549,6 +550,10 @@ public class TileManager : MonoBehaviour
     /// <returns></returns>
     public GameObject FindInteractTile(GameObject player, FaceDirection direction)
     {
+        //needed to find vertically highest tile
+
+        float tileHeight = player.GetComponent<Entity>().parentTile.GetComponent<Renderer>().bounds.size.y;
+
         //get the position
         Vector3 parentTilePosition = player.GetComponent<Entity>().parentTile.transform.position;
 
@@ -578,7 +583,8 @@ public class TileManager : MonoBehaviour
             return null;
         }
 
-        return GetTileAtPosition(parentTilePosition);
+        //check for vertical interactivity
+        return GetHighestTile(parentTilePosition, tileHeight);
     }
 
     /// <summary>
@@ -588,6 +594,9 @@ public class TileManager : MonoBehaviour
     /// <returns></returns>
     public List<GameObject> FindAdjacentTiles(GameObject entity, bool corners)
     {
+        //used to determine vertical selection
+        float tileHeight = entity.GetComponent<Entity>().parentTile.GetComponent<Renderer>().bounds.size.y;
+
         List<GameObject> nearbyTiles = new List<GameObject>();
         GameObject parentTile = entity.GetComponent<Entity>().parentTile;
 
@@ -604,8 +613,8 @@ public class TileManager : MonoBehaviour
                         continue;
                     }
 
-                    //add the tiles
-                    nearbyTiles.Add(GetTileAtPosition(new Vector3(x, parentTile.transform.position.y, z)));
+                    //add the tiles, also account for verticallity
+                    nearbyTiles.Add(GetHighestTile(new Vector3(x, parentTile.transform.position.y, z), tileHeight));
                 }
             }
         }
@@ -614,11 +623,11 @@ public class TileManager : MonoBehaviour
             Vector3 parentPos = parentTile.transform.position;
 
             //only cardinal direction
-            nearbyTiles.Add(GetTileAtPosition(new Vector3(parentPos.x - 1, parentPos.y, parentPos.z)));
-            nearbyTiles.Add(GetTileAtPosition(new Vector3(parentPos.x + 1, parentPos.y, parentPos.z)));
+            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x - 1, parentPos.y, parentPos.z), tileHeight));
+            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x + 1, parentPos.y, parentPos.z), tileHeight));
 
-            nearbyTiles.Add(GetTileAtPosition(new Vector3(parentPos.x, parentPos.y, parentPos.z - 1)));
-            nearbyTiles.Add(GetTileAtPosition(new Vector3(parentPos.x, parentPos.y, parentPos.z + 1)));
+            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x, parentPos.y, parentPos.z - 1), tileHeight));
+            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x, parentPos.y, parentPos.z + 1), tileHeight));
         }
 
         //remove any null tiles
@@ -633,7 +642,7 @@ public class TileManager : MonoBehaviour
     /// <param name="pos"></param>
     /// <param name="tileHeight"></param>
     /// <returns></returns>
-    public GameObject FindHighestTile(Vector3 pos, float tileHeight)
+    public GameObject GetHighestTile(Vector3 pos, float tileHeight)
     {
         GameObject tile;
 

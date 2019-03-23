@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class TileProperties : MonoBehaviour
 {
+    [HideInInspector]
+    public GameObject manager;
+
     //used for pathfinding
+    [HideInInspector]
     public GameObject previous;
 
-    public float heuristic3D;
+    [HideInInspector]
+    public float heuristic;
 
-    public float path3DDistance;
+    [HideInInspector]
+    public float pathDistance;
 
+    [HideInInspector]
     public bool isParent = false;
+    [HideInInspector]
     public bool isWall = false;
-
-    public GameObject manager;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +38,7 @@ public class TileProperties : MonoBehaviour
         
     }
 
-    public float Manhattan3DDistance(Vector3 start, Vector3 end)
+    public float ManhattanDistance(Vector3 start, Vector3 end)
     {
         //estimate of how far this is from the end point
         return Vector3.Distance(start,end);
@@ -41,7 +47,7 @@ public class TileProperties : MonoBehaviour
     //cost to reach this vertex from the start plus heuristic vlaue
     public float GetWeightedDistance()
     {
-        return path3DDistance + heuristic3D;
+        return pathDistance + heuristic;
     }
 
     /// <summary>
@@ -50,8 +56,10 @@ public class TileProperties : MonoBehaviour
     /// <returns></returns>
     public bool IsWall()
     {
+        //get tile height
         float height = GetComponent<Renderer>().bounds.size.y;
 
+        //Find tiles above the current one
         Vector3 pos = transform.position;
         pos.y += height;
 
@@ -61,8 +69,13 @@ public class TileProperties : MonoBehaviour
 
         GameObject aboveTwo = manager.GetComponent<TileManager>().GetTileAtPosition(pos);
 
-        //tiles found above, so this is a wall
-        if (aboveOne != null && aboveTwo != null)
+        //go down 3 tiles (1 below)
+        pos.y -= height * 3;
+
+        GameObject oneBelow = manager.GetComponent<TileManager>().GetTileAtPosition(pos);
+
+        //tiles found above or tile found below and above, so this is a wall, 
+        if (aboveOne != null && aboveTwo != null || (oneBelow != null && aboveOne != null))
         {
             return true;
         }
