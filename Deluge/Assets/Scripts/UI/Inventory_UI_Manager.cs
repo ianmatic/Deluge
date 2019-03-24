@@ -41,7 +41,21 @@ public class Inventory_UI_Manager : MonoBehaviour
     public Texture2D pack_frame_offhand;
     public Texture2D pack_frame_useable;
 
-    // Display daya
+    // Indicator Info
+    int[] currentItemPos = new int[] { 0, 0 };          //{ x, y }
+    public GameObject defaultItemIndicator;
+    public GameObject defaultItemInvisible;
+    public GameObject itemIndicatorContainer;
+    private List<GameObject> indicatorSlots;
+    enum direction
+    {
+        up,
+        down,
+        left,
+        right
+    }
+
+    // Display data
     bool displaying = true;
     Vector3 displayVec;
 
@@ -56,22 +70,34 @@ public class Inventory_UI_Manager : MonoBehaviour
         itemIcons = new List<GameObject>();
         itemIcons.Add(defaultItemIcon);
 
+        indicatorSlots = new List<GameObject>();
+        indicatorSlots.Add(defaultItemIndicator);
+
         displayVec = Vector3.one;
 
-        // Add all the items as children of the itemContainer
+        // Add all the items sprite and background holders as children of their containers
+        // Slot Bg's
         for (int i = 0; i < 19; i++)
         {   
             GameObject newItemSlot = Instantiate(defaultItemSlot, itemContainer.transform);
             itemSlots.Add(newItemSlot);
             newItemSlot.transform.localScale = displayVec;
         }
-
+        // Icon Bg's
         for (int i = 0; i < 19; i++)
         {
             GameObject newItemIcon = Instantiate(defaultItemIcon, itemIconContainer.transform);
             itemIcons.Add(newItemIcon);
             newItemIcon.transform.localScale = displayVec;
         }
+        // Indicator slots
+        for (int i = 0; i < 19; i++)
+        {
+            GameObject newIndicatorSlot = Instantiate(defaultItemInvisible, itemIndicatorContainer.transform);
+            indicatorSlots.Add(newIndicatorSlot);
+            newIndicatorSlot.transform.localScale = displayVec;
+        }
+        indicatorSlots[0] = defaultItemIndicator;
 
         // Move the bits off the screen
         ToggleAssets();
@@ -84,8 +110,26 @@ public class Inventory_UI_Manager : MonoBehaviour
         {
             ToggleAssets();
         }
+
+        // Update the item indicator and left panel based on which input the player gave
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            MoveIndicator(direction.up);
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            MoveIndicator(direction.down);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            MoveIndicator(direction.left);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            MoveIndicator(direction.right);
+        }
     }
-    
+
     /// <summary>
     /// Puts the assets from this scene on screen and puts main UI assets off
     /// </summary>
@@ -165,14 +209,18 @@ public class Inventory_UI_Manager : MonoBehaviour
         itemIcons[slotNumber].GetComponent<RawImage>().texture = itemData.sprite;
     }
 
-    /// <summary>
-    /// Updates the left side info panel with information from a given item
-    /// </summary>
-    void UpdateInfoPanel(GameObject itemGO)
+    void UpdateInfoPanelByGO(GameObject itemGO)
     {
         // Get the Item script so we don't have to keep calling GetComponent<whatever>()
         Item item = itemGO.GetComponent<Item>();
+        UpdateInfoPanel(item);
+    }
 
+    /// <summary>
+    /// Updates the left side info panel with information from a given item
+    /// </summary>
+    void UpdateInfoPanel(Item item)
+    {
         // Update icon
         panelItemIcon.GetComponent<RawImage>().texture = item.sprite;
 
@@ -190,5 +238,78 @@ public class Inventory_UI_Manager : MonoBehaviour
 
 
         // TODO: Create spells to update spell info from
+    }
+
+    /// <summary>
+    /// Moves the indicator based on a given direction passed in
+    /// </summary>
+    /// <param name="d"></param>
+    void MoveIndicator(direction d)
+    {
+        const int width = 4;
+        const int height = 5;
+
+        // Set the old one to be invisible
+        int position = (currentItemPos[1] * currentItemPos[0]) + currentItemPos[0];
+        indicatorSlots[position] = defaultItemInvisible;
+
+        // Update the position in code
+        switch (d)
+        {
+            case direction.up:
+                if (currentItemPos[1] == 0)
+                {
+                    currentItemPos[1] = height-1;
+                }
+                else
+                {
+                    currentItemPos[1]++;
+                }
+                break;
+
+            case direction.down:
+                if (currentItemPos[1] == height-1)
+                {
+                    currentItemPos[1] = 0;
+                }
+                else
+                {
+                    currentItemPos[1]--;
+                }
+                break;
+
+            case direction.left:
+                if (currentItemPos[0] == 0)
+                {
+                    currentItemPos[0] = width - 1;
+                }
+                else
+                {
+                    currentItemPos[0]--;
+                }
+                break;
+
+            case direction.right:
+                if (currentItemPos[0] == width-1)
+                {
+                    currentItemPos[0] = 0;
+                }
+                else
+                {
+                    currentItemPos[0]++;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+
+        // Set the new one to be visible
+        position = (currentItemPos[1] * currentItemPos[0]) + currentItemPos[0];
+        indicatorSlots[position] = defaultItemSlot;
+
+        // Update the left side with the current item
+        UpdateInfoPanel(mainPack[currentItemPos[0], currentItemPos[1]]);
     }
 }

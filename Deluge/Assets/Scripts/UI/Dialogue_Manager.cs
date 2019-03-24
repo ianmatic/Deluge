@@ -141,7 +141,6 @@ public class Dialogue_Manager : MonoBehaviour
             //Unpause
             GameData.ToggleGameplayPaused();
         }
-
     }
 
     public void TriggerDialogue(TextAsset current)
