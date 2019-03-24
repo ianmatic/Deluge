@@ -21,6 +21,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
+            //more than 1 instance, so destroy the current one
             Destroy(gameObject);
             return;
         }
