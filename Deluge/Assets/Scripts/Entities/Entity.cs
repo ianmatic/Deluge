@@ -24,15 +24,24 @@ public class Entity : MonoBehaviour
     // FIELDS
 
     // Basic Stats
+    [HideInInspector]
     public int health;
+    [HideInInspector]
     public int maxHealth;
+    [HideInInspector]
     public int attack;
+    [HideInInspector]
     public int defense;
+    [HideInInspector]
     public float vamp;
+    [HideInInspector]
     public bool respawning = false;
+    [HideInInspector]
     public bool inCombat;
 
+    [HideInInspector]
     public FaceDirection direction = FaceDirection.none;
+    [HideInInspector]
     public entityType type;
 
     // Inventory
@@ -41,20 +50,25 @@ public class Entity : MonoBehaviour
     public GameObject[,] inventory;
 
     //Tile system
+    [HideInInspector]
     public GameObject manager;
 
     //this is the tile that the entity snaps to
+    [HideInInspector]
     public GameObject parentTile;
 
     //Turn system
+    [HideInInspector]
     public bool doingTurn;
+    [HideInInspector]
     public float maxTime;
 
 
 
     //smooth Movement
+    [HideInInspector]
     public float smoothSpeed = 0.25f;
-
+    [HideInInspector]
     public Vector3 velocity;
 
     // Start is called before the first frame update
@@ -63,6 +77,7 @@ public class Entity : MonoBehaviour
         //default health values
         health = 10;
         maxHealth = 20;
+        attack = 4;
 
         manager = GameObject.FindGameObjectWithTag("manager");
 
@@ -194,6 +209,23 @@ public class Entity : MonoBehaviour
         int dmgCalc = attack - target.GetComponent<Entity>().defense;
         target.GetComponent<Entity>().health -= dmgCalc;
 
+        switch (target.GetComponent<Entity>().type)
+        {
+            case entityType.enemy:
+                if (target.GetComponent<Entity>().health > 0)
+                {
+                    FindObjectOfType<AudioManager>().PlaySound("enemyHurtSound");
+                }
+                else
+                {
+                    FindObjectOfType<AudioManager>().PlaySound("enemyDeathSound");
+                }
+
+                break;
+            case entityType.player:
+                break;
+        }
+
         //limit health
         if (health + dmgCalc > maxHealth)
         {
@@ -218,6 +250,7 @@ public class Entity : MonoBehaviour
                 entity.GetComponent<PlayerData>().Respawn();
                 break;
             case entityType.enemy:
+
                 //update combat order and parent tile
                 entity.GetComponent<Entity>().doingTurn = false;
                 entity.GetComponent<Entity>().parentTile.GetComponent<TileProperties>().isParent = false;

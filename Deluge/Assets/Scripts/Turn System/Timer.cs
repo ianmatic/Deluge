@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
+    [HideInInspector]
     public float remainingTime;
 
     // Start is called before the first frame update

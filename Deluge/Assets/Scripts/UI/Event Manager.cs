@@ -48,10 +48,12 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //subsribe to for when chest opens
     public delegate void ChestOpenAction();
 
     public static event ChestOpenAction OnChestOpen;
 
+    //accessor to be used in other classes
     public static void ChestOpen()
     {
         if (OnChestOpen != null)

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ChestData : MonoBehaviour
 {
+    [HideInInspector]
     public List<GameObject> items;
 
+    [HideInInspector]
     public bool opened = false;
 
     // Start is called before the first frame update

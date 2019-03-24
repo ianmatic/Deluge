@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    //specify in Unity
+    //specify in inspector
     public string targetScene;
     public bool needLoadScreen;
 

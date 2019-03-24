@@ -5,14 +5,19 @@ using UnityEngine;
 public class TurnManager : MonoBehaviour
 {
     //all enemies in the scene
+    [HideInInspector]
     public List<GameObject> enemies;
+
+    //entities that are in fight
+    [HideInInspector]
+    public List<GameObject> combatEntities;
 
     private GameObject player;
 
     //which enemy is having its turn
     private int counter;
 
-    public List<GameObject> combatEntities;
+    private float timer = 0.35f;
 
     // Start is called before the first frame update
     void Start()
@@ -43,43 +48,62 @@ public class TurnManager : MonoBehaviour
                 player.GetComponent<Entity>().inCombat = true;
 
                 GetComponent<CameraManager>().target = combatEntities[counter];
-                combatEntities[counter].GetComponent<Entity>().doingTurn = true;
 
-                //do specific code for different entities, player handled in playerData
-                switch (combatEntities[counter].GetComponent<Entity>().type)
+                //timer has been triggered
+                if (timer < .35f)
                 {
-                    case entityType.enemy:
-                        //end turn
-                        if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.05)
-                        {
-                            foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                    timer -= Time.deltaTime;
+                }
+                else
+                {
+                    //timer hasn't been triggered yet, so doing turn
+                    combatEntities[counter].GetComponent<Entity>().doingTurn = true;
+
+                    //do specific code for different entities, player handled in playerData
+                    switch (combatEntities[counter].GetComponent<Entity>().type)
+                    {
+                        case entityType.enemy:
+                            //end turn
+                            if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.35f)
                             {
-                                GetComponent<ShaderManager>().Untint(tile);
+                                foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                                {
+                                    GetComponent<ShaderManager>().Untint(tile);
+                                }
+
+                                foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                                {
+                                    GetComponent<ShaderManager>().TintRed(tile);
+                                }
+
+                                combatEntities[counter].GetComponent<EnemyData>().ProcessTurn();
+
+                                //trigger end of turn timer
+                                timer = combatEntities[counter].GetComponent<Timer>().remainingTime;
+                                combatEntities[counter].GetComponent<Entity>().doingTurn = false;
+                            }
+                            break;
+                        case entityType.player:
+                            
+                            //trigger end of turn timer 
+                            if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.05f)
+                            {
+                                timer = 0.349f;
+                                combatEntities[counter].GetComponent<Entity>().doingTurn = false;
                             }
 
-                            //A* pathfinding
-                            combatEntities[counter].GetComponent<EnemyData>().pathToPlayer =
-                                GetComponent<TileManager>().FindPath(combatEntities[counter], player);
 
-                            foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
-                            {
-                                GetComponent<ShaderManager>().TintRed(tile);
-                            }
-
-                            combatEntities[counter].GetComponent<EnemyData>().ProcessTurn();
-
-                            combatEntities[counter].GetComponent<Entity>().doingTurn = false;
-                            counter++;
-                        }
-                        break;
-                    case entityType.player:
-                        //out of time
-                        if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.05)
-                        {
-                            combatEntities[counter].GetComponent<Entity>().doingTurn = false;
-                            counter++;
-                        }
-                        break;
+                            break;
+                    }
+                }
+            
+                //timer has ended
+                if (timer <= 0.0f)
+                {
+                    //advance to next entity
+                    combatEntities[counter].GetComponent<Entity>().doingTurn = false;
+                    counter++;
+                    timer = 0.35f;
                 }
 
                 //last entity ended turn
@@ -87,7 +111,7 @@ public class TurnManager : MonoBehaviour
                 {
                     //go back to player
                     counter = 0;
-                }     
+                }
             }
             //end combat
             else
@@ -142,7 +166,7 @@ public class TurnManager : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             //n tiles proximity
-            if (Vector3.Distance(player.transform.position, enemy.transform.position) < 5)
+            if (enemy.GetComponent<EnemyData>().pathToPlayer.Count > 0 && enemy.GetComponent<EnemyData>().pathToPlayer.Count < 10)
             {
                 enemy.GetComponent<Entity>().inCombat = true;
                 nearbyEnemies.Add(enemy);
@@ -179,6 +203,7 @@ public class TurnManager : MonoBehaviour
 
         }
 
+        //attack each enemy
         foreach (GameObject enemy in hittableEnemies)
         {
             player.GetComponent<Entity>().Attack(enemy);

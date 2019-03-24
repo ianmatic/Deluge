@@ -9,21 +9,29 @@ public class PlayerData : MonoBehaviour
     private UI_Manager ui_manager;
     private GameObject manager;
 
-    //which way the player is facing
+    //update player directionality
     bool newInput = false;
 
+    [HideInInspector]
     public string weaponSelected;
+    [HideInInspector]
     public List<GameObject> actionTiles;
+    [HideInInspector]
     public GameObject interactTile;
+    [HideInInspector]
     public List<GameObject> interactiveObjects;
+    [HideInInspector]
+    AudioManager audioManager;
 
 
     // Inventory
     public int invWidth;
     public int invHeight;
 
+    [HideInInspector]
     public int counter = 0;
 
+    [HideInInspector]
     public int divisor = 10;
 
     /// <summary>
@@ -43,6 +51,13 @@ public class PlayerData : MonoBehaviour
         GetComponent<Entity>().health = 18;
         GetComponent<Entity>().maxHealth = 34;
         GetComponent<Entity>().type = entityType.player;
+        GetComponent<Entity>().attack = 4;
+
+        audioManager = FindObjectOfType<AudioManager>();
+
+        //put on top of player and link to player
+        audioManager.gameObject.transform.position = transform.position;
+        audioManager.gameObject.transform.parent = transform;
     }
 
     /// <summary>
@@ -69,6 +84,17 @@ public class PlayerData : MonoBehaviour
     /// </summary>
     void CheckPlayerInputs(bool inCombat)
     {
+
+        //press tab to speedup
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            Time.timeScale = 10.0f;
+        }
+        else
+        {
+            Time.timeScale = 1.0f;
+        }
+
         //can't move, fight, or interact when paused
         if (!GameData.FullPaused)
         {
@@ -80,6 +106,9 @@ public class PlayerData : MonoBehaviour
 
             if (inCombat)
             {
+                //while the current song isn't set, transition
+                audioManager.TransitionToSong("combatTheme");
+
                 //player's turn
                 if (GetComponent<Entity>().doingTurn)
                 {
@@ -154,6 +183,9 @@ public class PlayerData : MonoBehaviour
             }
             else
             {
+                //while the current song isn't set, transition
+                audioManager.TransitionToSong("exploreTheme");
+
                 //no movement when in dialogue
                 if (!GameData.GameplayPaused)
                 {
@@ -283,14 +315,17 @@ public class PlayerData : MonoBehaviour
                 case Inventory.main_item.bow:
                     inventory.currentMain = Inventory.main_item.axe;
                     weaponSelected = "axe";
+                    audioManager.PlaySound("axeEquipSound");
                     break;
                 case Inventory.main_item.axe:
                     inventory.currentMain = Inventory.main_item.spear;
                     weaponSelected = "spear";
+                    audioManager.PlaySound("spearEquipSound");
                     break;
                 case Inventory.main_item.spear:
                     inventory.currentMain = Inventory.main_item.bow;
                     weaponSelected = "bow";
+                    audioManager.PlaySound("bowEquipSound");
                     break;
 
                 default:

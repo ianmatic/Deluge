@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    [HideInInspector]
     public GameObject target;
 
+    [HideInInspector]
     public Camera cam;
 
     private float smoothSpeed = 0.125f;

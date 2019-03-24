@@ -1,19 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 
 public class EnemyData : MonoBehaviour
 {
+    [HideInInspector]
     public List<GameObject> pathToPlayer;
-    private GameObject player;
+    [HideInInspector]
     public GameObject manager;
+    [HideInInspector]
     public List<GameObject> wanderTiles;
+
+    private GameObject player;
 
     private float wanderTimer = 1.0f;
 
-    enum EnemyType
+    GameObject currentStartTile;
+    GameObject currentEndTile;
+
+    //set in inspector
+    public EnemyType type;
+
+    public enum EnemyType
     {
-        melee
+        melee,
+        archer
     }
 
     // Start is called before the first frame update
@@ -23,7 +35,7 @@ public class EnemyData : MonoBehaviour
         manager = GameObject.FindGameObjectWithTag("manager");
         pathToPlayer = new List<GameObject>();
         wanderTiles = new List<GameObject>();
-        GetComponent<Entity>().maxTime = 0.5f;
+        GetComponent<Entity>().maxTime = 1.0f;
         GetComponent<Entity>().type = entityType.enemy;
         GetComponent<Entity>().health = 10;
     }
@@ -54,11 +66,16 @@ public class EnemyData : MonoBehaviour
                         //wander to random tile if number is not beyond list indices
                         if (randomNumber < wanderTiles.Count)
                         {
-                            //update direction
-                            GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
-                                GetComponent<Entity>().parentTile, wanderTiles[randomNumber]);
+                            //don't go through walls
+                            if (!wanderTiles[randomNumber].GetComponent<TileProperties>().isWall)
+                            {
+                                //update direction and parentTile
+                                GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                                    GetComponent<Entity>().parentTile, wanderTiles[randomNumber]);
 
-                            GetComponent<Entity>().SetTileAsParentTile(wanderTiles[randomNumber]);
+                                GetComponent<Entity>().SetTileAsParentTile(wanderTiles[randomNumber]);
+                            }
+
                         }
 
 
@@ -66,13 +83,32 @@ public class EnemyData : MonoBehaviour
 
 
                     //reset timer
-                    wanderTimer = 1.0f;
+                    wanderTimer = Random.Range(.8f, 1.2f);
                 }
             }
             else
             {
-                wanderTimer = 1.0f;
+                //reset timer
+                wanderTimer = Random.Range(.8f, 1.2f);
             }
+
+
+            //A* Pathfinding
+            //if the parent tiles have changed since last path was found is the other part
+            if (currentStartTile != GetComponent<Entity>().parentTile || currentEndTile != player.GetComponent<Entity>().parentTile)
+            {
+                //try to find a path
+                if (Vector3.Distance(player.transform.position, transform.position) < 10)
+                {
+                    pathToPlayer = manager.GetComponent<TileManager>().FindPath(gameObject, player);
+                }
+                //set tiles regardless of success of A*
+                currentStartTile = GetComponent<Entity>().parentTile;
+                currentEndTile = player.GetComponent<Entity>().parentTile;
+            }
+
+
+
 
             #region testing directionality of enemies with tinting
             if (GetComponent<Entity>().direction == FaceDirection.forward)
@@ -112,24 +148,48 @@ public class EnemyData : MonoBehaviour
     public void CalculateAction()
     {
         //Actual pathfinding is calculated in Turn Manager
-
-        //approach the player
-        if (pathToPlayer.Count > 2)
+        switch (type)
         {
-            //update directionality
-            GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
-                GetComponent<Entity>().parentTile, pathToPlayer[1]);
+            case EnemyType.melee:
+                //approach the player
+                if (pathToPlayer.Count > 2)
+                {
+                    //update directionality
+                    GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                        GetComponent<Entity>().parentTile, pathToPlayer[1]);
 
-            GetComponent<Entity>().SetTileAsParentTile(pathToPlayer[1]);
-        }
-        //attack the player
-        else if (pathToPlayer.Count <= 2)
-        {
-            GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
-                GetComponent<Entity>().parentTile, player.GetComponent<Entity>().parentTile);
+                    GetComponent<Entity>().SetTileAsParentTile(pathToPlayer[1]);
+                }
+                //attack the player (2 because includes enemy's and player's tiles)
+                else if (pathToPlayer.Count == 2)
+                {
+                    GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                        GetComponent<Entity>().parentTile, player.GetComponent<Entity>().parentTile);
 
-            GetComponent<Entity>().Attack(player);
+                    GetComponent<Entity>().Attack(player);
+                }
+                break;
+            case EnemyType.archer:
+                //approach the player
+                if (pathToPlayer.Count > 5)
+                {
+                    //update directionality
+                    GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                        GetComponent<Entity>().parentTile, pathToPlayer[1]);
+
+                    GetComponent<Entity>().SetTileAsParentTile(pathToPlayer[1]);
+                }
+                //attack the player (2 because includes enemy's and player's tiles)
+                else if (pathToPlayer.Count > 1)
+                {
+                    GetComponent<Entity>().direction = UpdateDirectionBasedOnTiles(
+                        GetComponent<Entity>().parentTile, player.GetComponent<Entity>().parentTile);
+
+                    GetComponent<Entity>().Attack(player);
+                }
+                break;
         }
+        
     }
 
     /// <summary>
