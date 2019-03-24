@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class TileProperties : MonoBehaviour
@@ -29,7 +30,12 @@ public class TileProperties : MonoBehaviour
 
         manager = GameObject.FindGameObjectWithTag("manager");
 
-        isWall = IsWall();
+        //only needed for gameplay scenes
+        if (SceneManager.GetActiveScene().name != "menuScene")
+        {
+            isWall = IsWall();
+        }
+
     }
 
     // Update is called once per frame

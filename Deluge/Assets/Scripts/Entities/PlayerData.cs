@@ -20,6 +20,8 @@ public class PlayerData : MonoBehaviour
     public GameObject interactTile;
     [HideInInspector]
     public List<GameObject> interactiveObjects;
+    [HideInInspector]
+    AudioManager audioManager;
 
 
     // Inventory
@@ -50,6 +52,12 @@ public class PlayerData : MonoBehaviour
         GetComponent<Entity>().maxHealth = 34;
         GetComponent<Entity>().type = entityType.player;
         GetComponent<Entity>().attack = 4;
+
+        audioManager = FindObjectOfType<AudioManager>();
+
+        //put on top of player and link to player
+        audioManager.gameObject.transform.position = transform.position;
+        audioManager.gameObject.transform.parent = transform;
     }
 
     /// <summary>
@@ -98,6 +106,9 @@ public class PlayerData : MonoBehaviour
 
             if (inCombat)
             {
+                //while the current song isn't set, transition
+                audioManager.TransitionToSong("combatTheme");
+
                 //player's turn
                 if (GetComponent<Entity>().doingTurn)
                 {
@@ -172,6 +183,9 @@ public class PlayerData : MonoBehaviour
             }
             else
             {
+                //while the current song isn't set, transition
+                audioManager.TransitionToSong("exploreTheme");
+
                 //no movement when in dialogue
                 if (!GameData.GameplayPaused)
                 {
@@ -301,14 +315,17 @@ public class PlayerData : MonoBehaviour
                 case Inventory.main_item.bow:
                     inventory.currentMain = Inventory.main_item.axe;
                     weaponSelected = "axe";
+                    audioManager.PlaySound("axeEquipSound");
                     break;
                 case Inventory.main_item.axe:
                     inventory.currentMain = Inventory.main_item.spear;
                     weaponSelected = "spear";
+                    audioManager.PlaySound("spearEquipSound");
                     break;
                 case Inventory.main_item.spear:
                     inventory.currentMain = Inventory.main_item.bow;
                     weaponSelected = "bow";
+                    audioManager.PlaySound("bowEquipSound");
                     break;
 
                 default:

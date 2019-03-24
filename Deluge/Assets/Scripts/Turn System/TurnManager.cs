@@ -203,6 +203,7 @@ public class TurnManager : MonoBehaviour
 
         }
 
+        //attack each enemy
         foreach (GameObject enemy in hittableEnemies)
         {
             player.GetComponent<Entity>().Attack(enemy);

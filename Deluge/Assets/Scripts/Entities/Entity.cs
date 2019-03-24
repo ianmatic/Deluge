@@ -209,6 +209,23 @@ public class Entity : MonoBehaviour
         int dmgCalc = attack - target.GetComponent<Entity>().defense;
         target.GetComponent<Entity>().health -= dmgCalc;
 
+        switch (target.GetComponent<Entity>().type)
+        {
+            case entityType.enemy:
+                if (target.GetComponent<Entity>().health > 0)
+                {
+                    FindObjectOfType<AudioManager>().PlaySound("enemyHurtSound");
+                }
+                else
+                {
+                    FindObjectOfType<AudioManager>().PlaySound("enemyDeathSound");
+                }
+
+                break;
+            case entityType.player:
+                break;
+        }
+
         //limit health
         if (health + dmgCalc > maxHealth)
         {
@@ -233,6 +250,7 @@ public class Entity : MonoBehaviour
                 entity.GetComponent<PlayerData>().Respawn();
                 break;
             case entityType.enemy:
+
                 //update combat order and parent tile
                 entity.GetComponent<Entity>().doingTurn = false;
                 entity.GetComponent<Entity>().parentTile.GetComponent<TileProperties>().isParent = false;
