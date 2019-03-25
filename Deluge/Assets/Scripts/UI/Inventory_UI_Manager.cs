@@ -112,21 +112,24 @@ public class Inventory_UI_Manager : MonoBehaviour
         }
 
         // Update the item indicator and left panel based on which input the player gave
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (displaying)
         {
-            MoveIndicator(direction.up);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            MoveIndicator(direction.down);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            MoveIndicator(direction.left);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            MoveIndicator(direction.right);
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveIndicator(direction.up);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveIndicator(direction.down);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveIndicator(direction.left);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveIndicator(direction.right);
+            }
         }
     }
 
@@ -172,6 +175,10 @@ public class Inventory_UI_Manager : MonoBehaviour
                 if(playerInventory.mainPack[x, y] != null)
                 {
                     PlaceItem(mainPack[x, y], x, y);
+                }
+                else
+                {
+
                 }
             }
         }
