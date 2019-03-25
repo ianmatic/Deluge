@@ -26,10 +26,10 @@ public class Inventory : MonoBehaviour
     void Awake()
     {
         mainPack = new Item[4, 5];
-        AddItem(testItem.GetComponent<Item>());
-        AddItem(testItem.GetComponent<Item>());
-
         currentMain = main_item.spear;
+
+        AddItem(testItem.GetComponent<Item>());
+        AddItem(testItem.GetComponent<Item>());
     }
 
     /// <summary>

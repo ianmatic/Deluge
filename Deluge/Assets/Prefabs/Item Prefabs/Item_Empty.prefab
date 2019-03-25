@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3039995148782886908
+--- !u!1 &2008794417286410681
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6628578405877918395}
-  - component: {fileID: 3039995148782886909}
+  - component: {fileID: 2117667092}
+  - component: {fileID: 5060554916430420989}
   m_Layer: 0
-  m_Name: Item_Generic
+  m_Name: Item_Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6628578405877918395
+--- !u!4 &2117667092
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3039995148782886908}
+  m_GameObject: {fileID: 2008794417286410681}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,35 +31,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3039995148782886909
+--- !u!114 &5060554916430420989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3039995148782886908}
+  m_GameObject: {fileID: 2008794417286410681}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c004a1921b3edf4e9c21694e86ac516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemID: 0
-  sprite: {fileID: 2800000, guid: c73255347bc43b04a9f2ea59925ddf2c, type: 3}
+  itemID: 69
+  sprite: {fileID: 2800000, guid: 3011833fa68c0784c9e32d4347a7205e, type: 3}
   ItemType: 0
-  bonusAtk: 1
-  bonusDef: 1
-  bonusHP: 5
-  bonusMaxHP: 2
+  bonusAtk: 0
+  bonusDef: 0
+  bonusHP: 0
+  bonusMaxHP: 0
   experience: 0
   experienceCap: 100
   level: 0
   levelCap: 3
-  levelOneBonus: 3
-  levelTwoBonus: 3
-  levelThreeBonus: 3
+  levelOneBonus: 0
+  levelTwoBonus: 0
+  levelThreeBonus: 0
   bonusTime: 0
   bonusVamp: 0
   healthPerTurn: 0
-  itemName: Default
-  itemFlavor: Welcome to Flavor Text Town
+  itemName: <Select Item>
+  itemFlavor: ' '
   questItem: 0

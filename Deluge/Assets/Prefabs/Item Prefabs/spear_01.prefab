@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6628578405877918395}
   - component: {fileID: 3039995148782886909}
   m_Layer: 0
-  m_Name: Item_Generic
+  m_Name: spear_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemID: 0
-  sprite: {fileID: 2800000, guid: c73255347bc43b04a9f2ea59925ddf2c, type: 3}
+  sprite: {fileID: 2800000, guid: ba3a1d43bbcb76940b9e2bb7bbce86a3, type: 3}
   ItemType: 0
-  bonusAtk: 1
-  bonusDef: 1
-  bonusHP: 5
+  bonusAtk: 2
+  bonusDef: 2
+  bonusHP: 2
   bonusMaxHP: 2
   experience: 0
   experienceCap: 100
@@ -60,6 +60,6 @@ MonoBehaviour:
   bonusTime: 0
   bonusVamp: 0
   healthPerTurn: 0
-  itemName: Default
-  itemFlavor: Welcome to Flavor Text Town
+  itemName: SPEAR OF STABBY
+  itemFlavor: Stabby stabby stab
   questItem: 0

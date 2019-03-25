@@ -47,6 +47,10 @@ public class Inventory_UI_Manager : MonoBehaviour
     public GameObject defaultItemInvisible;
     public GameObject itemIndicatorContainer;
     private List<GameObject> indicatorSlots;
+
+    // Empty Item for mainPack
+    public GameObject emptyItem;
+
     enum direction
     {
         up,
@@ -70,9 +74,6 @@ public class Inventory_UI_Manager : MonoBehaviour
         itemIcons = new List<GameObject>();
         itemIcons.Add(defaultItemIcon);
 
-        indicatorSlots = new List<GameObject>();
-        indicatorSlots.Add(defaultItemIndicator);
-
         displayVec = Vector3.one;
 
         // Add all the items sprite and background holders as children of their containers
@@ -90,6 +91,8 @@ public class Inventory_UI_Manager : MonoBehaviour
             itemIcons.Add(newItemIcon);
             newItemIcon.transform.localScale = displayVec;
         }
+
+        /*
         // Indicator slots
         for (int i = 0; i < 19; i++)
         {
@@ -98,6 +101,7 @@ public class Inventory_UI_Manager : MonoBehaviour
             newIndicatorSlot.transform.localScale = displayVec;
         }
         indicatorSlots[0] = defaultItemIndicator;
+        */
 
         // Move the bits off the screen
         ToggleAssets();
@@ -178,7 +182,8 @@ public class Inventory_UI_Manager : MonoBehaviour
                 }
                 else
                 {
-
+                    mainPack[x, y] = emptyItem.GetComponent<Item>();
+                    PlaceItem(emptyItem.GetComponent<Item>(), x, y);
                 }
             }
         }
@@ -253,12 +258,8 @@ public class Inventory_UI_Manager : MonoBehaviour
     /// <param name="d"></param>
     void MoveIndicator(direction d)
     {
-        const int width = 4;
         const int height = 5;
-
-        // Set the old one to be invisible
-        int position = (currentItemPos[1] * currentItemPos[0]) + currentItemPos[0];
-        indicatorSlots[position] = defaultItemInvisible;
+        const int width = 4;
 
         // Update the position in code
         switch (d)
@@ -311,12 +312,18 @@ public class Inventory_UI_Manager : MonoBehaviour
                 break;
         }
 
+        // Move to the position of where the indicator should be
+        int position = (currentItemPos[1] * currentItemPos[0]) + currentItemPos[0];
+        defaultItemIndicator.transform.position = mainPack[currentItemPos[0], currentItemPos[1]].transform.position;
 
+        /*
         // Set the new one to be visible
         position = (currentItemPos[1] * currentItemPos[0]) + currentItemPos[0];
-        indicatorSlots[position] = defaultItemSlot;
-
+        GameObject replacement = Instantiate(defaultItemSlot, itemIndicatorContainer.transform);
+        indicatorSlots.Insert(position, replacement);
+        
         // Update the left side with the current item
         UpdateInfoPanel(mainPack[currentItemPos[0], currentItemPos[1]]);
+        */
     }
 }
