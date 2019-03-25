@@ -55,6 +55,24 @@ public class npcData : MonoBehaviour
         GameData.ToggleGameplayPaused();
 
         dialogueManager.GetComponent<Dialogue_Manager>().TriggerDialogue(currentDialogue);
+
+
+        //update face direction
+        switch (player.GetComponent<Entity>().direction)
+        {
+            case FaceDirection.backward:
+                GetComponent<Entity>().direction = FaceDirection.forward;
+                break;
+            case FaceDirection.forward:
+                GetComponent<Entity>().direction = FaceDirection.backward;
+                break;
+            case FaceDirection.left:
+                GetComponent<Entity>().direction = FaceDirection.right;
+                break;
+            case FaceDirection.right:
+                GetComponent<Entity>().direction = FaceDirection.left;
+                break;
+        }
     }
 
     /// <summary>

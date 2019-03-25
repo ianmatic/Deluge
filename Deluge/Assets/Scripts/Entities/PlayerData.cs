@@ -116,7 +116,7 @@ public class PlayerData : MonoBehaviour
                     SelectWeapon();
 
                     //select direction via Arrow Keys
-                    if (Input.GetKey(KeyCode.UpArrow))
+                    if (Input.GetKey(KeyCode.DownArrow))
                     {
                         GetComponent<Entity>().direction = FaceDirection.forward;
                         newInput = true;
@@ -131,7 +131,7 @@ public class PlayerData : MonoBehaviour
                         GetComponent<Entity>().direction = FaceDirection.right;
                         newInput = true;
                     }
-                    else if (Input.GetKey(KeyCode.DownArrow))
+                    else if (Input.GetKey(KeyCode.UpArrow))
                     {
                         GetComponent<Entity>().direction = FaceDirection.backward;
                         newInput = true;
@@ -154,7 +154,7 @@ public class PlayerData : MonoBehaviour
                     //movement
                     if (Input.GetKeyDown(KeyCode.W))
                     {
-                        GetComponent<Entity>().MoveDirection(FaceDirection.forward);
+                        GetComponent<Entity>().MoveDirection(FaceDirection.backward);
                         GetComponent<Timer>().remainingTime = 0;
                     }
                     if (Input.GetKeyDown(KeyCode.A))
@@ -169,7 +169,7 @@ public class PlayerData : MonoBehaviour
                     }
                     if (Input.GetKeyDown(KeyCode.S))
                     {
-                        GetComponent<Entity>().MoveDirection(FaceDirection.backward);
+                        GetComponent<Entity>().MoveDirection(FaceDirection.forward);
                         GetComponent<Timer>().remainingTime = 0;
                     }
 
@@ -211,7 +211,7 @@ public class PlayerData : MonoBehaviour
                     }
 
                     //able to hold key in free roam mode
-                    if (Input.GetKey(KeyCode.W) && counter % divisor == 0)
+                    if (Input.GetKey(KeyCode.S) && counter % divisor == 0)
                     {
                         GetComponent<Entity>().direction = FaceDirection.forward;
                         GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
@@ -226,7 +226,7 @@ public class PlayerData : MonoBehaviour
                         GetComponent<Entity>().direction = FaceDirection.right;
                         GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
                     }
-                    if (Input.GetKey(KeyCode.S) && counter % divisor == 0)
+                    if (Input.GetKey(KeyCode.W) && counter % divisor == 0)
                     {
                         GetComponent<Entity>().direction = FaceDirection.backward;
                         GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);

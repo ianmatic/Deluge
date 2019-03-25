@@ -2553,7 +2553,7 @@ PrefabInstance:
     - target: {fileID: 5487916392433375639, guid: 154ea1f062d47c440a843c6a4868f983,
         type: 3}
       propertyPath: dialogueList.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5487916392433375639, guid: 154ea1f062d47c440a843c6a4868f983,
         type: 3}
@@ -28143,22 +28143,22 @@ PrefabInstance:
     - target: {fileID: 5445681149421423111, guid: 6b1be1747fc6f564eb008f856a6e3b3d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5445681149421423111, guid: 6b1be1747fc6f564eb008f856a6e3b3d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5445681149421423111, guid: 6b1be1747fc6f564eb008f856a6e3b3d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5445681149421423111, guid: 6b1be1747fc6f564eb008f856a6e3b3d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5445681149421423111, guid: 6b1be1747fc6f564eb008f856a6e3b3d,
         type: 3}

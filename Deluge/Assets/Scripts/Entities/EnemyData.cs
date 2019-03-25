@@ -106,29 +106,6 @@ public class EnemyData : MonoBehaviour
                 currentStartTile = GetComponent<Entity>().parentTile;
                 currentEndTile = player.GetComponent<Entity>().parentTile;
             }
-
-
-
-
-            #region testing directionality of enemies with tinting
-            if (GetComponent<Entity>().direction == FaceDirection.forward)
-            {
-                manager.GetComponent<ShaderManager>().TintBlue(gameObject);
-            }
-            else if (GetComponent<Entity>().direction == FaceDirection.backward)
-            {
-                manager.GetComponent<ShaderManager>().TintRed(gameObject);
-            }
-            else if (GetComponent<Entity>().direction == FaceDirection.right)
-            {
-                manager.GetComponent<ShaderManager>().TintGreen(gameObject);
-            }
-            else if (GetComponent<Entity>().direction == FaceDirection.left)
-            {
-                manager.GetComponent<ShaderManager>().Untint(gameObject);
-            }
-            #endregion
-
         }
     }
 
@@ -205,12 +182,12 @@ public class EnemyData : MonoBehaviour
         //z + 1
         if (currentParent.transform.position.z < futureParent.transform.position.z)
         {
-            return FaceDirection.forward;
+            return FaceDirection.backward;
         }
         //z - 1
         else if (currentParent.transform.position.z > futureParent.transform.position.z)
         {
-            return FaceDirection.backward;
+            return FaceDirection.forward;
         }
         //x + 1
         else if (currentParent.transform.position.x < futureParent.transform.position.x)
