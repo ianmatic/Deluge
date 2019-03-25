@@ -20,6 +20,12 @@ public class CameraManager : MonoBehaviour
         offset = new Vector3(-5, 7, -8);
         target = GameObject.FindGameObjectWithTag("Player");
         cam = Camera.main;
+
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+
+        //put on top of camera and link to camera
+        audioManager.gameObject.transform.position = cam.transform.position;
+        audioManager.gameObject.transform.parent = cam.transform;
     }
 
     void FixedUpdate()

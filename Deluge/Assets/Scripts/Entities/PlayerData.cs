@@ -54,10 +54,6 @@ public class PlayerData : MonoBehaviour
         GetComponent<Entity>().attack = 4;
 
         audioManager = FindObjectOfType<AudioManager>();
-
-        //put on top of player and link to player
-        audioManager.gameObject.transform.position = transform.position;
-        audioManager.gameObject.transform.parent = transform;
     }
 
     /// <summary>

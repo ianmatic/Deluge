@@ -267,6 +267,12 @@ public class TileManager : MonoBehaviour
                             continue;
                         }
 
+                        //don't check tiles occupied already unless it's the players one
+                        if (loopTile.GetComponent<TileProperties>().isParent && loopTile.transform.position != endPos)
+                        {
+                            continue;
+                        }
+
                         //don't check walls (tiles that have 2 tiles above it)
                         if (loopTile.GetComponent<TileProperties>().isWall)
                         {
