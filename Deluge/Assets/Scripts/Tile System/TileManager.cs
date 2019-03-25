@@ -475,7 +475,7 @@ public class TileManager : MonoBehaviour
             }
             else if (player.GetComponent<PlayerData>().weaponSelected == "spear")
             {
-                if (direction == FaceDirection.forward)
+                if (direction == FaceDirection.backward)
                 {
                     tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
 
@@ -487,7 +487,7 @@ public class TileManager : MonoBehaviour
 
                     tiles.Add(GetHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight));
                 }
-                else if (direction == FaceDirection.backward)
+                else if (direction == FaceDirection.forward)
                 {
                     tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight));
 
@@ -502,7 +502,7 @@ public class TileManager : MonoBehaviour
             }
             else if (player.GetComponent<PlayerData>().weaponSelected == "bow")
             {
-                if (direction == FaceDirection.forward)
+                if (direction == FaceDirection.backward)
                 {
                     tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight));
 
@@ -514,7 +514,7 @@ public class TileManager : MonoBehaviour
 
                     tiles.Add(GetHighestTile(parentTilePosition + new Vector3(3, 0, 0), tileHeight));
                 }
-                else if (direction == FaceDirection.backward)
+                else if (direction == FaceDirection.forward)
                 {
                     tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -3), tileHeight));
 
