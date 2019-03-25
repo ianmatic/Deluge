@@ -8,7 +8,6 @@ public enum FaceDirection
     right,
     forward,
     backward,
-    none
 }
 
 public enum entityType
@@ -40,7 +39,7 @@ public class Entity : MonoBehaviour
     public bool inCombat;
 
     [HideInInspector]
-    public FaceDirection direction = FaceDirection.none;
+    public FaceDirection direction = FaceDirection.forward;
     [HideInInspector]
     public entityType type;
 
@@ -91,6 +90,9 @@ public class Entity : MonoBehaviour
 
         parentTile = manager.GetComponent<TileManager>().UpdateParentTile(temporaryParent, null);
 
+        //set intial direction
+        transform.rotation = SetOrientation(direction);
+
         inventory = new GameObject[invWidth, invHeight];
 
         doingTurn = false;
@@ -103,30 +105,33 @@ public class Entity : MonoBehaviour
     {
         if (!GameData.GameplayPaused)
         {
-            //handle death
-            if (health <= 0)
+            //empty currently
+        }
+
+        //also update animations if not paused
+        //handle death
+        if (health <= 0)
+        {
+            KillEntity(gameObject);
+        }
+        else
+        {
+            //respawning should be instant, no smooth movement
+            if (!respawning)
             {
-                KillEntity(gameObject);
+                UpdateMovementSmoothly();
+                UpdateRotationSmoothly();
             }
             else
             {
-                //respawning should be instant, no smooth movement
-                if (!respawning)
-                {
-                    UpdateMovementSmoothly();
-                }
-                else
-                {
-                    //only respawn for 1 frame
-                    respawning = false;
-                    transform.position = new Vector3(parentTile.transform.position.x,
-                                     parentTile.transform.position.y + .75f, parentTile.transform.position.z);
-                }
+                //only respawn for 1 frame
+                respawning = false;
+                transform.position = new Vector3(parentTile.transform.position.x,
+                                 parentTile.transform.position.y + .75f, parentTile.transform.position.z);
+                transform.rotation = SetOrientation(direction);
             }
-
-
-
         }
+
     }
 
     /// <summary>
@@ -162,6 +167,37 @@ public class Entity : MonoBehaviour
     }
 
     /// <summary>
+    /// smooths the rotation of the go
+    /// </summary>
+    public void UpdateRotationSmoothly()
+    {
+        Quaternion currentOrientation = gameObject.transform.rotation;
+
+        //default value, should be update in direction
+        Quaternion targetOrientation = Quaternion.Euler(0, 0, 0);
+
+        //find what orientation should be used
+        switch (direction)
+        {
+            case FaceDirection.forward:
+                targetOrientation = Quaternion.Euler(0, 0, 0);
+                break;
+            case FaceDirection.backward:
+                targetOrientation = Quaternion.Euler(0, 180, 0);
+                break;
+            case FaceDirection.right:
+                targetOrientation = Quaternion.Euler(0, 270, 0);
+                break;
+            case FaceDirection.left:
+                targetOrientation = Quaternion.Euler(0, 90, 0);
+                break;
+        }
+
+        //update orientation
+        transform.rotation = Quaternion.Lerp(currentOrientation, targetOrientation, .1f);
+    }
+
+    /// <summary>
     /// This function only handles 2d movement, vertical movement is handled by UpdateParentTile
     /// </summary>
     /// <param name="direction"></param>
@@ -171,8 +207,8 @@ public class Entity : MonoBehaviour
         Vector3 targetPosition = parentTile.transform.position;
         //handle 2d movement
         if (direction == FaceDirection.forward)
-        { 
-            targetPosition.z += 1;
+        {
+            targetPosition.z -= 1;
         }
         else if (direction == FaceDirection.right)
         {
@@ -180,7 +216,7 @@ public class Entity : MonoBehaviour
         }
         else if (direction == FaceDirection.backward)
         {
-            targetPosition.z -= 1;
+            targetPosition.z += 1;
         }
         else if (direction == FaceDirection.left)
         {
@@ -261,9 +297,29 @@ public class Entity : MonoBehaviour
                 manager.GetComponent<TurnManager>().enemies.Remove(entity);
 
                 //finally, eliminate the enemy
-                Destroy(entity);            
+                Destroy(entity);
                 break;
         }
 
+    }
+
+    public Quaternion SetOrientation(FaceDirection direction)
+    {
+        //find what orientation should be used
+        switch (direction)
+        {
+            case FaceDirection.forward:
+                return Quaternion.Euler(0, 180, 0);
+            case FaceDirection.backward:
+                return Quaternion.Euler(0, 0, 0);
+            case FaceDirection.right:
+                return Quaternion.Euler(0, 270, 0);
+            case FaceDirection.left:
+                return Quaternion.Euler(0, 90, 0);
+
+        }
+
+        //somehow no orientation found (something's broken)
+        return Quaternion.Euler(0, 0, 0);
     }
 }
