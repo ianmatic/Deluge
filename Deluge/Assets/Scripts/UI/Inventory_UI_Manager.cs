@@ -6,22 +6,13 @@ using UnityEngine.UI;
 public class Inventory_UI_Manager : MonoBehaviour
 {
     // FIELDS
-    // Pulling data from other places
-    public Inventory playerInventory;
+    // Pulling data from other places           //TODO: Continue redoing inventory system starting
+    public Inventory playerInventory;           //      from the PlaceItem function
     public GameObject mainUI;
     Item[,] mainPack;
 
     // Pulling gameobject UI data
     public GameObject parentContainer;
-
-    // Setting up item container overlays
-    public GameObject itemContainer;
-    public GameObject defaultItemSlot;
-    List<GameObject> itemSlots;
-
-    public GameObject itemIconContainer;
-    public GameObject defaultItemIcon;
-    List<GameObject> itemIcons;
 
     // Setting up left container
     public GameObject panelItemIcon;
@@ -43,10 +34,15 @@ public class Inventory_UI_Manager : MonoBehaviour
 
     // Indicator Info
     int[] currentItemPos = new int[] { 0, 0 };          //{ x, y }
-    public GameObject defaultItemIndicator;
-    public GameObject defaultItemInvisible;
-    public GameObject itemIndicatorContainer;
-    private List<GameObject> indicatorSlots;
+    public GameObject itemIndicator;
+
+    // Setting up item container overlays
+    private const int WIDTH = 4;
+    private const int HEIGHT = 5;
+    GameObject[,] itemSlots = new GameObject[WIDTH, HEIGHT];
+    public GameObject slotContainer;
+    public GameObject defaultItemSlot;
+    public GameObject defaultItemIcon;  // Get to item icons by finding the zeroth child of a given slot
 
     // Empty Item for mainPack
     public GameObject emptyItem;
@@ -68,14 +64,8 @@ public class Inventory_UI_Manager : MonoBehaviour
     {
         mainUI.GetComponent<UI_Manager>().ToggleAssets();
 
-        itemSlots = new List<GameObject>();
-        itemSlots.Add(defaultItemSlot);
-
-        itemIcons = new List<GameObject>();
-        itemIcons.Add(defaultItemIcon);
-
-        displayVec = Vector3.one;
-
+        #region old code (gross)
+        /*  REDOING MAIN PACK DISPLAYING
         // Add all the items sprite and background holders as children of their containers
         // Slot Bg's
         for (int i = 0; i < 19; i++)
@@ -83,25 +73,17 @@ public class Inventory_UI_Manager : MonoBehaviour
             GameObject newItemSlot = Instantiate(defaultItemSlot, itemContainer.transform);
             itemSlots.Add(newItemSlot);
             newItemSlot.transform.localScale = displayVec;
-        }
-        // Icon Bg's
-        for (int i = 0; i < 19; i++)
-        {
-            GameObject newItemIcon = Instantiate(defaultItemIcon, itemIconContainer.transform);
-            itemIcons.Add(newItemIcon);
-            newItemIcon.transform.localScale = displayVec;
-        }
 
-        /*
-        // Indicator slots
-        for (int i = 0; i < 19; i++)
-        {
-            GameObject newIndicatorSlot = Instantiate(defaultItemInvisible, itemIndicatorContainer.transform);
-            indicatorSlots.Add(newIndicatorSlot);
-            newIndicatorSlot.transform.localScale = displayVec;
+            // Add all the item icons and set them as children of the containers
+            //GameObject newItemIcon = Instantiate(defaultItemIcon, newItemSlot.transform);
+            //newItemIcon.transform.localScale = displayVec;
+            itemIcons.Add(itemSlots[i].transform.GetChild(0).gameObject);
         }
-        indicatorSlots[0] = defaultItemIndicator;
         */
+        #endregion
+
+        // Instantiate all containers and add item icons as their children
+        InstantiateContainers();
 
         // Move the bits off the screen
         ToggleAssets();
@@ -194,31 +176,29 @@ public class Inventory_UI_Manager : MonoBehaviour
     /// </summary>
     void PlaceItem(Item itemData, int xPos, int yPos)
     {
-        // Find the slot to put the item into
-        int slotNumber = (yPos * xPos) + xPos;
-
         // Pull the item's type
         switch (itemData.ItemType)
         {
             case Item.itemType.hat:
-                itemSlots[slotNumber].GetComponent<RawImage>().texture = pack_frame_hat;
+                itemSlots[xPos, yPos].GetComponent<RawImage>().texture = pack_frame_hat;
                 break;
             case Item.itemType.offhand:
-                itemSlots[slotNumber].GetComponent<RawImage>().texture = pack_frame_offhand;
+                itemSlots[xPos, yPos].GetComponent<RawImage>().texture = pack_frame_offhand;
                 break;
             case Item.itemType.torso:
-                itemSlots[slotNumber].GetComponent<RawImage>().texture = pack_frame_torso;
+                itemSlots[xPos, yPos].GetComponent<RawImage>().texture = pack_frame_torso;
                 break;
             case Item.itemType.weapon:
-                itemSlots[slotNumber].GetComponent<RawImage>().texture = pack_frame_weapon;
+                itemSlots[xPos, yPos].GetComponent<RawImage>().texture = pack_frame_weapon;
                 break;
+            case Item.itemType.empty:
             case Item.itemType.useable:
-                itemSlots[slotNumber].GetComponent<RawImage>().texture = pack_frame_useable;
+                itemSlots[xPos, yPos].GetComponent<RawImage>().texture = pack_frame_useable;
                 break;
         }
 
         // Pull the item's sprite
-        itemIcons[slotNumber].GetComponent<RawImage>().texture = itemData.sprite;
+        //itemIcons[xPos, yPos].GetComponent<RawImage>().texture = itemData.sprite;
     }
 
     void UpdateInfoPanelByGO(GameObject itemGO)
@@ -258,27 +238,13 @@ public class Inventory_UI_Manager : MonoBehaviour
     /// <param name="d"></param>
     void MoveIndicator(direction d)
     {
-        const int height = 5;
-        const int width = 4;
-
         // Update the position in code
         switch (d)
         {
             case direction.up:
                 if (currentItemPos[1] == 0)
                 {
-                    currentItemPos[1] = height-1;
-                }
-                else
-                {
-                    currentItemPos[1]++;
-                }
-                break;
-
-            case direction.down:
-                if (currentItemPos[1] == height-1)
-                {
-                    currentItemPos[1] = 0;
+                    currentItemPos[1] = HEIGHT - 1;
                 }
                 else
                 {
@@ -286,10 +252,21 @@ public class Inventory_UI_Manager : MonoBehaviour
                 }
                 break;
 
+            case direction.down:
+                if (currentItemPos[1] == HEIGHT - 1)
+                {
+                    currentItemPos[1] = 0;
+                }
+                else
+                {
+                    currentItemPos[1]++;
+                }
+                break;
+
             case direction.left:
                 if (currentItemPos[0] == 0)
                 {
-                    currentItemPos[0] = width - 1;
+                    currentItemPos[0] = WIDTH - 1;
                 }
                 else
                 {
@@ -298,7 +275,7 @@ public class Inventory_UI_Manager : MonoBehaviour
                 break;
 
             case direction.right:
-                if (currentItemPos[0] == width-1)
+                if (currentItemPos[0] == WIDTH - 1)
                 {
                     currentItemPos[0] = 0;
                 }
@@ -313,17 +290,31 @@ public class Inventory_UI_Manager : MonoBehaviour
         }
 
         // Move to the position of where the indicator should be
-        int position = (currentItemPos[1] * currentItemPos[0]) + currentItemPos[0];
-        defaultItemIndicator.transform.position = mainPack[currentItemPos[0], currentItemPos[1]].transform.position;
+        itemIndicator.transform.position = itemSlots[currentItemPos[0], currentItemPos[1]].transform.position;
+    }
 
-        /*
-        // Set the new one to be visible
-        position = (currentItemPos[1] * currentItemPos[0]) + currentItemPos[0];
-        GameObject replacement = Instantiate(defaultItemSlot, itemIndicatorContainer.transform);
-        indicatorSlots.Insert(position, replacement);
-        
-        // Update the left side with the current item
-        UpdateInfoPanel(mainPack[currentItemPos[0], currentItemPos[1]]);
-        */
+    /// <summary>
+    /// Instantiates all the containers on startupS
+    /// </summary>
+    void InstantiateContainers()
+    {
+        // Set the default container into the first slot
+        itemSlots[0, 0] = defaultItemSlot;
+
+        // Create an object to base all others on
+        GameObject itemSlotNoIcon = defaultItemSlot;
+        itemSlotNoIcon.transform.DetachChildren();
+
+        // Populate all other slots with containers based on the above defined one
+        for (int y = 0; y < HEIGHT; y++)
+        {
+            for (int x = 0; x < WIDTH; x++)
+            {
+                if (itemSlots[x, y] == null)
+                {
+                    itemSlots[x, y] = Instantiate(itemSlotNoIcon, slotContainer.transform);
+                }
+            }
+        }
     }
 }

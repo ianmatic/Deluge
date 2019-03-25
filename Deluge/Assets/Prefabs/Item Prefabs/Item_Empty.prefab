@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 69
   sprite: {fileID: 2800000, guid: 3011833fa68c0784c9e32d4347a7205e, type: 3}
-  ItemType: 0
+  ItemType: 5
   bonusAtk: 0
   bonusDef: 0
   bonusHP: 0

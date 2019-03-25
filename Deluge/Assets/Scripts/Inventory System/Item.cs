@@ -11,7 +11,8 @@ public class Item : MonoBehaviour
         hat,
         torso,
         offhand,
-        useable
+        useable,
+        empty
     }
 
     // Identifiers
