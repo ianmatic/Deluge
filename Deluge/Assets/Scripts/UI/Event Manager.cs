@@ -9,6 +9,7 @@ public class EventManager : MonoBehaviour
 
     public static event DialogueExitAction OnDialogueExit;
 
+
     //accessor to be used in other classes
     public static void DialogueExit()
     {
@@ -61,4 +62,22 @@ public class EventManager : MonoBehaviour
             OnChestOpen();
         }
     }
+
+    //subscribe to for when player's turn starts
+    public delegate void PlayerTurnAction();
+
+    public static event PlayerTurnAction OnPlayerTurn;
+
+    //accessor to be used in other classes
+
+    public static void PlayerTurnStart()
+    {
+        if (OnPlayerTurn != null)
+        {
+            OnPlayerTurn();
+        }
+    }
+
+
+
 }

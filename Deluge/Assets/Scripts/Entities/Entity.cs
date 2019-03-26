@@ -199,10 +199,13 @@ public class Entity : MonoBehaviour
 
     /// <summary>
     /// This function only handles 2d movement, vertical movement is handled by UpdateParentTile
+    /// returns true if moving to new tile, false otherwise
     /// </summary>
     /// <param name="direction"></param>
-    public void MoveDirection(FaceDirection direction)
+    public bool MoveDirection(FaceDirection direction)
     {
+        GameObject oldParent = parentTile;
+
         //where the object wants to go
         Vector3 targetPosition = parentTile.transform.position;
         //handle 2d movement
@@ -227,6 +230,17 @@ public class Entity : MonoBehaviour
         if (Vector3.Distance(new Vector3(transform.position.x, transform.position.y - .75f, transform.position.z), parentTile.transform.position) < 1.75)
         {
             parentTile = manager.GetComponent<TileManager>().UpdateParentTile(targetPosition, parentTile);
+        }
+
+        //if they are the same tile, movement failed
+        if (parentTile == oldParent)
+        {
+            return false;
+        }
+        else
+        {
+            //successfully moved to new tile
+            return true;
         }
     }
 
