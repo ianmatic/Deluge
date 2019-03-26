@@ -150,23 +150,37 @@ public class PlayerData : MonoBehaviour
                     //movement
                     if (Input.GetKeyDown(KeyCode.W))
                     {
-                        GetComponent<Entity>().MoveDirection(FaceDirection.backward);
-                        GetComponent<Timer>().remainingTime = 0;
+                        if (GetComponent<Entity>().MoveDirection(FaceDirection.backward))
+                        {
+                            //successful movement
+                            GetComponent<Timer>().remainingTime = 0;
+                        }
+
                     }
                     if (Input.GetKeyDown(KeyCode.A))
                     {
-                        GetComponent<Entity>().MoveDirection(FaceDirection.left);
-                        GetComponent<Timer>().remainingTime = 0;
+                        if (GetComponent<Entity>().MoveDirection(FaceDirection.left))
+                        {
+                            //successful movement
+                            GetComponent<Timer>().remainingTime = 0;
+                        }
                     }
                     if (Input.GetKeyDown(KeyCode.D))
                     {
-                        GetComponent<Entity>().MoveDirection(FaceDirection.right);
-                        GetComponent<Timer>().remainingTime = 0;
+                        if (GetComponent<Entity>().MoveDirection(FaceDirection.right))
+                        {
+                            //successful movement
+                            GetComponent<Timer>().remainingTime = 0;
+                        }
+
                     }
                     if (Input.GetKeyDown(KeyCode.S))
                     {
-                        GetComponent<Entity>().MoveDirection(FaceDirection.forward);
-                        GetComponent<Timer>().remainingTime = 0;
+                        if (GetComponent<Entity>().MoveDirection(FaceDirection.forward))
+                        {
+                            //successful movement
+                            GetComponent<Timer>().remainingTime = 0;
+                        }
                     }
 
                     //attack

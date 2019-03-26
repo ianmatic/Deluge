@@ -33,13 +33,16 @@ public static class GameData
 
 
     /// <summary>
-    /// Toggles pausing
+    /// Toggles pausing, used to stop all events
     /// </summary>
     public static void ToggleGameplayPaused()
     {
         gameplayPaused = !gameplayPaused;
     }
 
+    /// <summary>
+    /// Toggles gameplay pause, used to stop player movement but allow background events
+    /// </summary>
     public static void ToggleFullPaused()
     {
         fullPaused = !fullPaused;

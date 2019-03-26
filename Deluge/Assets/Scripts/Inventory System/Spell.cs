@@ -9,21 +9,54 @@ public class Spell : MonoBehaviour
     {
         enhancement, //sword does more vamp damage, bigger range etc.
         effect,  //healing, more resistance, etc.
-        attack //fireball, ice vortex, etc., probably rename this when i think of better name
+        targeted //fireball, ice vortex, etc.
     }
 
     //set in inspector
     public SpellType type;
 
+    //set in inspector
+    private string name;
+
     // Start is called before the first frame update
     void Start()
     {
+        switch (type)
+        {
+            //add the appropriate capability to the player
+            case SpellType.enhancement:
+                GameObject.FindGameObjectWithTag("Player").AddComponent<Enhancement>();
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Enhancement>().enhancementName = name;
+                    break;
+            case SpellType.effect:
+                GameObject.FindGameObjectWithTag("Player").AddComponent<Effect>();
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Effect>().effectName = name;
+                break;
+            case SpellType.targeted:
+                GameObject.FindGameObjectWithTag("Player").AddComponent<Targeted>();
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Targeted>().targetedName = name;
+                break;
+        }
 
     }
 
-    // Update is called once per frame
-    void Update()
+    //remove capability from player
+    void OnDestroy()
     {
-        
+        switch (type)
+        {
+            //remove the appropriate capability from the player
+            case SpellType.enhancement:
+                Destroy(GameObject.FindGameObjectWithTag("Player").AddComponent<Enhancement>());
+                break;
+            case SpellType.effect:
+                Destroy(GameObject.FindGameObjectWithTag("Player").AddComponent<Effect>());
+                break;
+            case SpellType.targeted:
+                Destroy(GameObject.FindGameObjectWithTag("Player").AddComponent<Targeted>());
+                break;
+
+
+        }
     }
 }
