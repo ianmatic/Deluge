@@ -3,7 +3,28 @@ guid: 3efdeab4e8df73c45b98ab98f8fc4921
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerInventory: {instanceID: 0}
+  - mainUI: {instanceID: 0}
+  - parentContainer: {instanceID: 0}
+  - panelItemIcon: {instanceID: 0}
+  - panelNameText: {instanceID: 0}
+  - panelItemExperienceBar: {instanceID: 0}
+  - panelItemSpellText: {instanceID: 0}
+  - panelItemSpellIcon: {instanceID: 0}
+  - panelFlavorText: {instanceID: 0}
+  - pack_frame_hat: {fileID: 2800000, guid: da533a5918cc0654999e94e9df54e9fa, type: 3}
+  - pack_frame_torso: {fileID: 2800000, guid: cb6aafc4ec4f77f45a6c7476c6e529b4, type: 3}
+  - pack_frame_weapon: {fileID: 2800000, guid: 1179cf99fa5549b49a0c22ca4aa83dff, type: 3}
+  - pack_frame_offhand: {fileID: 2800000, guid: d49c089999eb3a54aab9334ee4407448,
+      type: 3}
+  - pack_frame_useable: {fileID: 2800000, guid: 0b4cc9b7657a59a49beb9635559c9fef,
+      type: 3}
+  - itemIndicator: {instanceID: 0}
+  - slotContainer: {instanceID: 0}
+  - defaultItemSlot: {instanceID: 0}
+  - defaultItemIcon: {instanceID: 0}
+  - emptyItem: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

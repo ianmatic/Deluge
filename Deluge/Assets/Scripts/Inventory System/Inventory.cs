@@ -40,14 +40,14 @@ public class Inventory : MonoBehaviour
     public bool AddItem(Item newItem)
     {
         // Cycle through the whole inventory pack looking for an open slot
-        for (int i = 0; i < mainPack.GetLength(1); i++)
+        for (int y = 0; y < mainPack.GetLength(1); y++)
         {
-            for (int j = 0; j < mainPack.GetLength(0); j++)
+            for (int x = 0; x < mainPack.GetLength(0); x++)
             {
                 // If a slot is open, set the item in that slot and return true
-                if (mainPack[j, i] == null)
+                if (mainPack[x, y] == null)
                 {
-                    mainPack[j, i] = newItem;
+                    mainPack[x, y] = newItem;
                     return true;
                 }
             }
