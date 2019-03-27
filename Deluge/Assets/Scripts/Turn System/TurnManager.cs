@@ -111,6 +111,7 @@ public class TurnManager : MonoBehaviour
                 {
                     //go back to player
                     counter = 0;
+                    EventManager.PlayerTurnStart();
                 }
             }
             //end combat

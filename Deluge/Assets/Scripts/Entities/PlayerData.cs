@@ -137,6 +137,59 @@ public class PlayerData : MonoBehaviour
                         newInput = false;
                     }
 
+                    //cast spell
+                    if (Input.GetKeyDown(KeyCode.F))
+                    {
+
+                        //has a spell equiped
+                        if (GetComponent<Inventory>().currentOffHand != null && 
+                            GetComponent<Inventory>().currentOffHand.GetComponent<Spell>() != null)
+                        {
+                            Spell spell = GetComponent<Inventory>().currentOffHand.GetComponent<Spell>();
+
+                            //Determine the kind of spell
+                            Targeted targetedSpell;
+                            Enhancement enhancementSpell;
+                            Effect effectSpell;
+
+                            //targeted
+                            if (spell.GetComponent<Targeted>() != null)
+                            {
+                                targetedSpell = spell.GetComponent<Targeted>();
+
+                                //activate the spell if not already active 
+                                if (!targetedSpell.active)
+                                {
+                                    targetedSpell.Activate();
+                                }
+                            }
+                            //enhancement
+                            else if (spell.GetComponent<Enhancement>() != null)
+                            {
+                                enhancementSpell = spell.GetComponent<Enhancement>();
+
+
+                                //activate the spell if not already active 
+                                if (!enhancementSpell.active)
+                                {
+                                    enhancementSpell.Activate();
+                                }
+                            }
+                            //effect
+                            else if (spell.GetComponent<Effect>() != null)
+                            {
+                                effectSpell = spell.GetComponent<Effect>();
+
+                                //activate the spell if not already active
+                                if (!effectSpell.active)
+                                {
+                                    effectSpell.Activate();
+                                }
+                            }
+
+                        } 
+                    }
+
                     //find action tiles
                     actionTiles = manager.GetComponent<TileManager>().
                          FindActionTiles(gameObject, GetComponent<Entity>().direction);

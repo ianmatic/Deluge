@@ -5,12 +5,19 @@ using UnityEngine;
 public class Enhancement : MonoBehaviour
 {
     //set in inspector->spell
+    [HideInInspector]
     public string enhancementName;
 
     [HideInInspector]
     public int length; //how many turns the enhancement lasts
+    [HideInInspector]
+    public bool active;
 
     private GameObject player;
+
+    private int turnsRemaining; //how many turns the effect has left
+
+
 
 
 
@@ -18,6 +25,11 @@ public class Enhancement : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        active = false;
+        turnsRemaining = length;
+
+        EventManager.OnPlayerTurn += UpdateTurn;
+
 
         //setup functionality
         Setup();
@@ -26,7 +38,11 @@ public class Enhancement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //active spell, so do purpose
+        if (active)
+        {
+            ActiveState();
+        }
     }
 
     /// <summary>
@@ -49,5 +65,32 @@ public class Enhancement : MonoBehaviour
     /// </summary>
     void ActiveState()
     {
+    }
+
+    /// <summary>
+    /// Activates the uses of the spell
+    /// </summary>
+    public void Activate()
+    {
+        active = true;
+    }
+
+    /// <summary>
+    /// Updates the amount of turns left
+    /// </summary>
+    public void UpdateTurn()
+    {
+        turnsRemaining -= 1;
+
+        if (turnsRemaining == -1)
+        {
+            active = false;
+            turnsRemaining = length;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.OnPlayerTurn -= UpdateTurn;
     }
 }

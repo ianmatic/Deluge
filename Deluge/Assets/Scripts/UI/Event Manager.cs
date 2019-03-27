@@ -78,6 +78,11 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        
+    }
+
 
 
 }

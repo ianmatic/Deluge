@@ -16,7 +16,10 @@ public class Spell : MonoBehaviour
     public SpellType type;
 
     //set in inspector
-    private string name;
+    public string spellName;
+
+    //set in inspector, how many turns this spell lasts when cast
+    public int length;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +29,18 @@ public class Spell : MonoBehaviour
             //add the appropriate capability to the player
             case SpellType.enhancement:
                 GameObject.FindGameObjectWithTag("Player").AddComponent<Enhancement>();
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Enhancement>().enhancementName = name;
-                    break;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Enhancement>().enhancementName = spellName;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Enhancement>().length = length;
+                break;
             case SpellType.effect:
                 GameObject.FindGameObjectWithTag("Player").AddComponent<Effect>();
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Effect>().effectName = name;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Effect>().effectName = spellName;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Effect>().length = length;
                 break;
             case SpellType.targeted:
                 GameObject.FindGameObjectWithTag("Player").AddComponent<Targeted>();
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Targeted>().targetedName = name;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Targeted>().targetedName = spellName;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<Targeted>().length = length;
                 break;
         }
 

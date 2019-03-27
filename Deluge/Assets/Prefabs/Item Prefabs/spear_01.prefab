@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6628578405877918395}
   - component: {fileID: 3039995148782886909}
+  - component: {fileID: 4410142769385633365}
   m_Layer: 0
   m_Name: spear_01
   m_TagString: Untagged
@@ -63,3 +64,17 @@ MonoBehaviour:
   itemName: SPEAR OF STABBY
   itemFlavor: Stabby stabby stab
   questItem: 0
+--- !u!114 &4410142769385633365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039995148782886908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27efe5d17c3b8a4da7f5f707c5a25a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  spellName: blazingWeapon
