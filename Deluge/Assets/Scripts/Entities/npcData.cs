@@ -6,12 +6,20 @@ public class npcData : MonoBehaviour
 {
     //Set in inspector
     public List<TextAsset> dialogueList;
+    public GameObject reward;
 
     [HideInInspector]
     public GameObject dialogueManager;
 
     private TextAsset currentDialogue;
     private GameObject player;
+
+    [HideInInspector]
+    public bool questActive = false;
+    [HideInInspector]
+    public bool questConcluded = false;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -87,11 +95,39 @@ public class npcData : MonoBehaviour
     /// Activates when the player ends interaction with npc, subscribed to OnDialogueExit
     /// </summary>
     public void OnPlayerEnd()
-    { 
+    {
         //Update current dialogue here if needed
+
+        //quest hasn't been completed yet
+        if (!questConcluded)
+        {
+            //quest start
+            if (!GameObject.FindGameObjectWithTag("chest").GetComponent<ChestData>().opened && !questActive)
+            {
+                FindObjectOfType<AudioManager>().PlaySound("questStartSound");
+
+                //set quest to active
+                questActive = true;
+            }
+            //quest end
+            else if (GameObject.FindGameObjectWithTag("chest").GetComponent<ChestData>().opened)
+            {
+                GivePlayerReward();
+                FindObjectOfType<AudioManager>().PlaySound("questEndSound");
+                questConcluded = true;
+                questActive = false;
+            }
+        }
+
 
         GameData.ToggleGameplayPaused();
 
         dialogueManager.GetComponent<Dialogue_Manager>().EndDialogue();
+    }
+
+    public void GivePlayerReward()
+    {
+        player.GetComponent<Inventory>().AddItem(reward.GetComponent<Item>());
+        player.GetComponent<Inventory>().currentOffHand = reward.GetComponent<Item>();
     }
 }

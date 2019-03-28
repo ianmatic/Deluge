@@ -4,15 +4,20 @@ using UnityEngine;
 [System.Serializable]
 public class Sound
 {
+    //set in inspector
     public string name;
+    public bool loop;
     public AudioClip clip;
+
+
     [HideInInspector]
     public float volume = 0.0f;
     [HideInInspector]
     public float pitch = 1.0f;
-    public bool loop;
+    [HideInInspector]
+    public AudioSource source;
 
 
     [HideInInspector]
-    public AudioSource source;
+    public bool fading = false;
 }

@@ -134,12 +134,17 @@ public class Dialogue_Manager : MonoBehaviour
         //end dialogue
         else
         {
+            EventManager.DialogueExit();
+
+            //Don't need this, but keeping it just in case
+            /*
             ToggleAssets();
             displaying = false;
             currentTextLine = 0;
 
             //Unpause
             GameData.ToggleGameplayPaused();
+            */
         }
     }
 

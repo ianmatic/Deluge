@@ -38,6 +38,8 @@ public class AudioManager : MonoBehaviour
             sound.source.volume = sound.volume;
 
             sound.source.spatialBlend = 1.0f;
+
+            sound.source.loop = sound.loop;
         }
 
 
@@ -79,7 +81,15 @@ public class AudioManager : MonoBehaviour
         currentSong = s;
 
         //play it
-        s.source.Play();
+        if (s.source.time == 0.0f)
+        {
+            s.source.Play();
+        }
+        else
+        {
+            s.source.UnPause();
+        }
+
     }
 
     /// <summary>
@@ -103,12 +113,14 @@ public class AudioManager : MonoBehaviour
         {
             //still have to keep fading
             song.source.volume -= 0.01f;
+            song.fading = true;
             return false;
         }
         else
         {
             //done fading
-            song.source.Stop();
+            song.source.Pause();
+            song.fading = false;
             return true;
         }
     }
@@ -151,7 +163,7 @@ public class AudioManager : MonoBehaviour
     /// <returns></returns>
     public void TransitionToSong(string name)
     {
-        //songs are different, so transition
+        //songs are different, so transition, or the song isn't at full volume
         if (currentSong.name != name)
         {
             //fading out
@@ -181,6 +193,11 @@ public class AudioManager : MonoBehaviour
                     currentSong = song;
                 }
             }
+        }
+        //songs are the same, so just fade back in the song
+        else if (currentSong.fading)
+        {
+            FadeIn(currentSong.name);
         }
 
     }

@@ -2585,6 +2585,11 @@ PrefabInstance:
       propertyPath: dialogueList.Array.data[2]
       value: 
       objectReference: {fileID: 4900000, guid: 65c775c4e7da21b479d6c52d6e14c669, type: 3}
+    - target: {fileID: 5487916392433375639, guid: 154ea1f062d47c440a843c6a4868f983,
+        type: 3}
+      propertyPath: reward
+      value: 
+      objectReference: {fileID: 131033862}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 154ea1f062d47c440a843c6a4868f983, type: 3}
 --- !u!4 &119327207 stripped
@@ -21441,7 +21446,7 @@ MonoBehaviour:
   currentMain: 0
   currentHat: {fileID: 0}
   currentTorso: {fileID: 0}
-  currentOffHand: {fileID: 131033863}
+  currentOffHand: {fileID: 0}
 --- !u!1001 &1046790820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40009,6 +40014,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: shader_testing_tile
       objectReference: {fileID: 0}
+    - target: {fileID: 1470851312021578640, guid: d9f9fdc25ebd34d47af1218dd3a58211,
+        type: 3}
+      propertyPath: m_TagString
+      value: EditorOnly
+      objectReference: {fileID: 0}
     - target: {fileID: 1470851312021578644, guid: d9f9fdc25ebd34d47af1218dd3a58211,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -45048,7 +45058,7 @@ PrefabInstance:
     - target: {fileID: 9210001435925413495, guid: 74ee162c25e84b949857762dc69d0e30,
         type: 3}
       propertyPath: sounds.Array.size
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 9210001435925413495, guid: 74ee162c25e84b949857762dc69d0e30,
         type: 3}
@@ -45180,5 +45190,25 @@ PrefabInstance:
       propertyPath: sounds.Array.data[10].clip
       value: 
       objectReference: {fileID: 8300000, guid: 298d99818cec9e544b3ab7c9755439b6, type: 3}
+    - target: {fileID: 9210001435925413495, guid: 74ee162c25e84b949857762dc69d0e30,
+        type: 3}
+      propertyPath: sounds.Array.data[11].name
+      value: questStartSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210001435925413495, guid: 74ee162c25e84b949857762dc69d0e30,
+        type: 3}
+      propertyPath: sounds.Array.data[11].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 012c3800fb74dc440be7ac8d32ec17e9, type: 3}
+    - target: {fileID: 9210001435925413495, guid: 74ee162c25e84b949857762dc69d0e30,
+        type: 3}
+      propertyPath: sounds.Array.data[12].name
+      value: questEndSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210001435925413495, guid: 74ee162c25e84b949857762dc69d0e30,
+        type: 3}
+      propertyPath: sounds.Array.data[12].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 91e1c27cd5cc9d2428035980c1ae55e1, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74ee162c25e84b949857762dc69d0e30, type: 3}

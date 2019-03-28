@@ -47,6 +47,7 @@ public class Spell : MonoBehaviour
         if (!parent.GetComponent<Entity>().inCombat)
         {
             turnsRemaining = length;
+            active = false;
         }
 
         //active spell, so do purpose
@@ -116,6 +117,7 @@ public class Spell : MonoBehaviour
         {
             case "deflection":
                 parent.GetComponent<Entity>().deflection = 0;
+                FindObjectOfType<ShaderManager>().Untint(parent);
                 break;
             case "Ice Shard":
 
