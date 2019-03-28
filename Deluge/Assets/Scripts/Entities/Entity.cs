@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum FaceDirection
 {
@@ -105,12 +106,19 @@ public class Entity : MonoBehaviour
         doingTurn = false;
         inCombat = false;
         //TODO: Populate inventory from save data or generation
+
+        FindObjectOfType<AudioManager>().Setup();
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!GameData.GameplayPaused)
+        {
+            //empty for now
+        }
+
+        if (!GameData.FullPaused)
         {
             //also update animations if not paused
             //handle death
@@ -135,8 +143,16 @@ public class Entity : MonoBehaviour
                     transform.rotation = SetOrientation(direction);
                 }
             }
-
         }
+
+        //reached the end
+        //if (parentTile == GameObject.FindGameObjectWithTag("exit") && tag == "Player")
+        //{
+            SceneManager.LoadScene("menuScene");
+       // }
+
+
+
 
 
     }
