@@ -54,8 +54,6 @@ public class PlayerData : MonoBehaviour
         GetComponent<Entity>().attack = 4;
 
         audioManager = FindObjectOfType<AudioManager>();
-
-        FindObjectOfType<ShaderManager>().TintBluePulse(GameObject.FindGameObjectWithTag("EditorOnly"));
     }
 
     /// <summary>

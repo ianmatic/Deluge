@@ -40024,7 +40024,7 @@ PrefabInstance:
     - target: {fileID: 1470851312021578640, guid: d9f9fdc25ebd34d47af1218dd3a58211,
         type: 3}
       propertyPath: m_TagString
-      value: EditorOnly
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1470851312021578644, guid: d9f9fdc25ebd34d47af1218dd3a58211,
         type: 3}
