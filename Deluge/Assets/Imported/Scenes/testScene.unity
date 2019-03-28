@@ -1925,6 +1925,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1327426399}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &95861430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1470851312021578640, guid: d9f9fdc25ebd34d47af1218dd3a58211,
+    type: 3}
+  m_PrefabInstance: {fileID: 1888610021}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &98347007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1470851312021578644, guid: d9f9fdc25ebd34d47af1218dd3a58211,
@@ -17334,7 +17340,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unlitDefault: {fileID: 4800000, guid: 2bf7ad3001b34924ca29d3751cbbc6c0, type: 3}
   unlitColorShift: {fileID: 4800000, guid: 69d3f586438ee744ea8e0b08a2e8fd54, type: 3}
-  testObject: {fileID: 0}
+  unlitColorPulse: {fileID: 4800000, guid: c9f9c24e080d69143868718c83ad61b6, type: 3}
+  testObject: {fileID: 95861430}
 --- !u!4 &807365422 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1470851312021578644, guid: d9f9fdc25ebd34d47af1218dd3a58211,

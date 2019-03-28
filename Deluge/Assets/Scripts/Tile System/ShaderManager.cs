@@ -6,6 +6,7 @@ public class ShaderManager : MonoBehaviour
 {
     public Shader unlitDefault;
     public Shader unlitColorShift;
+    public Shader unlitColorPulse;
     public GameObject testObject;
 
     private Vector3 tintVec;
@@ -29,15 +30,15 @@ public class ShaderManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            TintRed(testObject);
+            TintRedPulse(testObject);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            TintGreen(testObject);
+            TintGreenPulse(testObject);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            TintBlue(testObject);
+            TintBluePulse(testObject);
         }
     }
 
@@ -56,7 +57,7 @@ public class ShaderManager : MonoBehaviour
     /// <param name="target"></param>
     public void TintRedPulse(GameObject target)
     {
-        target.GetComponent<MeshRenderer>().material.shader = unlitColorShift;
+        target.GetComponent<MeshRenderer>().material.shader = unlitColorPulse;
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_RED_VEC_ADDRESS, 1.0f);    // Red Value
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_GREEN_VEC_ADDRESS, 1.4f);    // Green Value
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_BLUE_VEC_ADDRESS, 1.4f);    // Blue Value
@@ -68,7 +69,7 @@ public class ShaderManager : MonoBehaviour
     /// <param name="target"></param>
     public void TintGreenPulse(GameObject target)
     {
-        target.GetComponent<MeshRenderer>().material.shader = unlitColorShift;
+        target.GetComponent<MeshRenderer>().material.shader = unlitColorPulse;
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_RED_VEC_ADDRESS, 1.4f);    // Red Value
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_GREEN_VEC_ADDRESS, 1.0f);    // Green Value
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_BLUE_VEC_ADDRESS, 1.4f);    // Blue Value
@@ -80,7 +81,7 @@ public class ShaderManager : MonoBehaviour
     /// <param name="target"></param>
     public void TintBluePulse(GameObject target)
     {
-        target.GetComponent<MeshRenderer>().material.shader = unlitColorShift;
+        target.GetComponent<MeshRenderer>().material.shader = unlitColorPulse;
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_RED_VEC_ADDRESS, 1.4f);    // Red Value
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_GREEN_VEC_ADDRESS, 1.4f);    // Green Value
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_BLUE_VEC_ADDRESS, 1.0f);    // Blue Value
