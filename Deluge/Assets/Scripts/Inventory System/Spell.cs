@@ -5,6 +5,7 @@ using UnityEngine;
 public class Spell : MonoBehaviour
 {
     [HideInInspector]
+    //not going to use for now
     public enum SpellType
     {
         enhancement, //sword does more vamp damage, bigger range etc.
@@ -12,7 +13,11 @@ public class Spell : MonoBehaviour
         targeted //fireball, ice vortex, etc.
     }
 
+    [HideInInspector]
+    public bool active;
+
     //set in inspector
+    [HideInInspector] //not going to use for now
     public SpellType type;
 
     //set in inspector
@@ -21,48 +26,138 @@ public class Spell : MonoBehaviour
     //set in inspector, how many turns this spell lasts when cast
     public int length;
 
+    protected int turnsRemaining; //how many turns the effect has left
+
+    private GameObject parent;
+
     // Start is called before the first frame update
     void Start()
     {
-        switch (type)
+        turnsRemaining = length;
+
+        parent = GameObject.FindGameObjectWithTag("Player");
+
+        EventManager.OnPlayerTurn += UpdateTurn;
+
+        Setup();
+    }
+
+    void Update()
+    {
+        if (!parent.GetComponent<Entity>().inCombat)
         {
-            //add the appropriate capability to the player
-            case SpellType.enhancement:
-                GameObject.FindGameObjectWithTag("Player").AddComponent<Enhancement>();
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Enhancement>().enhancementName = spellName;
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Enhancement>().length = length;
-                break;
-            case SpellType.effect:
-                GameObject.FindGameObjectWithTag("Player").AddComponent<Effect>();
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Effect>().effectName = spellName;
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Effect>().length = length;
-                break;
-            case SpellType.targeted:
-                GameObject.FindGameObjectWithTag("Player").AddComponent<Targeted>();
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Targeted>().targetedName = spellName;
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Targeted>().length = length;
-                break;
+            turnsRemaining = length;
         }
 
+        //active spell, so do purpose
+        if (active)
+        {
+            ActiveState();
+        }
+        //unactive spell, so reset
+        else
+        {
+            UnActiveState();
+        }
     }
 
     //remove capability from player
     void OnDestroy()
     {
-        switch (type)
+        EventManager.OnPlayerTurn -= Update;
+    }
+
+    /// <summary>
+    /// Every single spell needs to be individually programmed (overlap will exist), do so here if you add a spell,
+    /// setup Start() stuff in here
+    /// </summary>
+    protected virtual void Setup()
+    {
+        switch (spellName)
         {
-            //remove the appropriate capability from the player
-            case SpellType.enhancement:
-                Destroy(GameObject.FindGameObjectWithTag("Player").AddComponent<Enhancement>());
+            //deflects damage from enemy attacks, lasts 3 turns
+            case "deflection":
                 break;
-            case SpellType.effect:
-                Destroy(GameObject.FindGameObjectWithTag("Player").AddComponent<Effect>());
+            //deflects damage from 
+            case "blazingWeapon":
                 break;
-            case SpellType.targeted:
-                Destroy(GameObject.FindGameObjectWithTag("Player").AddComponent<Targeted>());
+            //deflects damage from 
+            case "iceShard":
                 break;
+        }
+    }
 
+    /// <summary>
+    /// Every single spell needs to be individually programmed (overlap will exist), do so here
+    /// setup Update() stuff in here
+    /// Runs when spell active
+    /// </summary>
+    void ActiveState()
+    {
+        switch (spellName)
+        {
+            case "deflection":
+                parent.GetComponent<Entity>().deflection = 3;
+                break;
+            case "Ice Shard":
 
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Every single spell needs to be individually programmed (overlap will exist), do so here
+    /// setup Update() stuff in here
+    /// Runs when spell not active
+    /// </summary>
+    void UnActiveState()
+    {
+        switch (spellName)
+        {
+            case "deflection":
+                parent.GetComponent<Entity>().deflection = 0;
+                break;
+            case "Ice Shard":
+
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Activates the uses of the spell
+    /// </summary>
+    public void Activate()
+    {
+        active = true;
+
+        switch (spellName)
+        {
+            //visual and audio cues
+            case "deflection":
+                FindObjectOfType<ShaderManager>().TintGreenPulse(parent);
+                FindObjectOfType<AudioManager>().PlaySound("magicShieldSound");
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Updates the amount of turns left
+    /// </summary>
+    public void UpdateTurn()
+    {
+        turnsRemaining -= 1;
+
+        if (turnsRemaining == -1)
+        {
+            active = false;
+            turnsRemaining = length;
+
+            switch (spellName)
+            {
+                case "deflection":
+                    FindObjectOfType<ShaderManager>().Untint(parent);
+                    break;
+            }
         }
     }
 }

@@ -37,6 +37,8 @@ public class Entity : MonoBehaviour
     public bool respawning = false;
     [HideInInspector]
     public bool inCombat;
+    [HideInInspector]
+    public int outGoingDamage = 0;
 
     [HideInInspector]
     public FaceDirection direction = FaceDirection.forward;
@@ -70,10 +72,15 @@ public class Entity : MonoBehaviour
     [HideInInspector]
     public Vector3 velocity;
 
+
+    //Spell variables
+    [HideInInspector]
+    public int deflection = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        //default health values
+        //default values
         health = 10;
         maxHealth = 20;
         attack = 4;
@@ -105,32 +112,32 @@ public class Entity : MonoBehaviour
     {
         if (!GameData.GameplayPaused)
         {
-            //empty currently
-        }
-
-        //also update animations if not paused
-        //handle death
-        if (health <= 0)
-        {
-            KillEntity(gameObject);
-        }
-        else
-        {
-            //respawning should be instant, no smooth movement
-            if (!respawning)
+            //also update animations if not paused
+            //handle death
+            if (health <= 0)
             {
-                UpdateMovementSmoothly();
-                UpdateRotationSmoothly();
+                KillEntity(gameObject);
             }
             else
             {
-                //only respawn for 1 frame
-                respawning = false;
-                transform.position = new Vector3(parentTile.transform.position.x,
-                                 parentTile.transform.position.y + .75f, parentTile.transform.position.z);
-                transform.rotation = SetOrientation(direction);
+                //respawning should be instant, no smooth movement
+                if (!respawning)
+                {
+                    UpdateMovementSmoothly();
+                    UpdateRotationSmoothly();
+                }
+                else
+                {
+                    //only respawn for 1 frame
+                    respawning = false;
+                    transform.position = new Vector3(parentTile.transform.position.x,
+                                     parentTile.transform.position.y + .75f, parentTile.transform.position.z);
+                    transform.rotation = SetOrientation(direction);
+                }
             }
+
         }
+
 
     }
 
@@ -244,6 +251,10 @@ public class Entity : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the selected tile as the parent tile :O
+    /// </summary>
+    /// <param name="tile"></param>
     public void SetTileAsParentTile(GameObject tile)
     {
         parentTile = manager.GetComponent<TileManager>().UpdateParentTile(tile.transform.position, parentTile);
@@ -256,9 +267,17 @@ public class Entity : MonoBehaviour
     public void Attack(GameObject target)
     {
         // Resolve Damage
-        int dmgCalc = attack - target.GetComponent<Entity>().defense;
-        target.GetComponent<Entity>().health -= dmgCalc;
+        outGoingDamage = attack - target.GetComponent<Entity>().defense;
 
+        target.GetComponent<Entity>().health -= outGoingDamage;
+
+        health -= target.GetComponent<Entity>().deflection;
+
+        print(gameObject.name + " lost " + target.GetComponent<Entity>().deflection + " health due to deflection");
+
+
+
+        //GO being attacked
         switch (target.GetComponent<Entity>().type)
         {
             case entityType.enemy:
@@ -273,25 +292,37 @@ public class Entity : MonoBehaviour
 
                 break;
             case entityType.player:
+                if (target.GetComponent<Entity>().health > 0)
+                {
+                    FindObjectOfType<AudioManager>().PlaySound("playerHurtSound");
+                }
+                else
+                {
+                    FindObjectOfType<AudioManager>().PlaySound("playerDeathSound");
+                }
                 break;
         }
 
         //limit health
-        if (health + dmgCalc > maxHealth)
+        if (health + outGoingDamage > maxHealth)
         {
             health = maxHealth;
         }
         else
         {
-            health += dmgCalc;
+            health += Mathf.RoundToInt((float)outGoingDamage / 2);
         }
-
 
         print(name + " attacked " + target.name);
         // TODO: Trigger Attack Animation
 
     }
 
+
+    /// <summary>
+    /// Call this when killing a target, it handles cleanup and actually destroys the GO
+    /// </summary>
+    /// <param name="entity"></param>
     public void KillEntity(GameObject entity)
     {
         switch (entity.GetComponent<Entity>().type)
@@ -317,6 +348,11 @@ public class Entity : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Returns an orientation based on the direction of the GO
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     public Quaternion SetOrientation(FaceDirection direction)
     {
         //find what orientation should be used
@@ -335,5 +371,28 @@ public class Entity : MonoBehaviour
 
         //somehow no orientation found (something's broken)
         return Quaternion.Euler(0, 0, 0);
+    }
+
+    /// <summary>
+    /// Gets the current spell, returns either a spell if found or null if not
+    /// </summary>
+    /// <returns></returns>
+    public Spell DetermineActiveSpell()
+    {
+        //has an inventory
+        if (GetComponent<Inventory>() != null)
+        {
+            //has an offhand equipped
+            if (GetComponent<Inventory>().currentOffHand != null)
+            {
+                //has a spell equipped
+                if (GetComponent<Inventory>().currentOffHand.GetComponent<Spell>() != null)
+                {
+                    return GetComponent<Inventory>().currentOffHand.GetComponent<Spell>();
+                }
+            }
+        }
+
+        return null;
     }
 }

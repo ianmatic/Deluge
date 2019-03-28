@@ -147,46 +147,11 @@ public class PlayerData : MonoBehaviour
                         {
                             Spell spell = GetComponent<Inventory>().currentOffHand.GetComponent<Spell>();
 
-                            //Determine the kind of spell
-                            Targeted targetedSpell;
-                            Enhancement enhancementSpell;
-                            Effect effectSpell;
-
-                            //targeted
-                            if (spell.GetComponent<Targeted>() != null)
+                            //activate the spell if not already active 
+                            if (!spell.active)
                             {
-                                targetedSpell = spell.GetComponent<Targeted>();
-
-                                //activate the spell if not already active 
-                                if (!targetedSpell.active)
-                                {
-                                    targetedSpell.Activate();
-                                }
+                                spell.Activate();
                             }
-                            //enhancement
-                            else if (spell.GetComponent<Enhancement>() != null)
-                            {
-                                enhancementSpell = spell.GetComponent<Enhancement>();
-
-
-                                //activate the spell if not already active 
-                                if (!enhancementSpell.active)
-                                {
-                                    enhancementSpell.Activate();
-                                }
-                            }
-                            //effect
-                            else if (spell.GetComponent<Effect>() != null)
-                            {
-                                effectSpell = spell.GetComponent<Effect>();
-
-                                //activate the spell if not already active
-                                if (!effectSpell.active)
-                                {
-                                    effectSpell.Activate();
-                                }
-                            }
-
                         } 
                     }
 
