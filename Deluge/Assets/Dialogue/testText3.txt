@@ -1,5 +1,5 @@
-#JEFF#What?
-#PLAYER#Can i have the thing back? :3
-#JEFF# no lol
-#PLAYER# :(
-#JEFF# >:D
+#WIZARD#What?
+#PLAYER#What do I do now?
+#WIZARD#You must pass through this area, climb to the heavens, and reach the place that is red.
+#PLAYER#What does that mean? A place that is red?
+#WIZARD#You'll know it when you see it.

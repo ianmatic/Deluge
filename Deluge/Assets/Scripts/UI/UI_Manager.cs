@@ -44,6 +44,9 @@ public class UI_Manager : MonoBehaviour
     float playerTime;
     float playerMaxTime;
 
+    //pausing
+    GameObject pauseText;
+
     // Recyclable Components
     Vector3 tempVec3;
 
@@ -90,6 +93,8 @@ public class UI_Manager : MonoBehaviour
 
         // Turn the UI on
         ToggleAssets();
+
+        pauseText = GameObject.Find("PauseText");
     }
 
     // Update is called once per frame
@@ -102,6 +107,16 @@ public class UI_Manager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             ToggleAssets();
+        }
+
+        //toggle pause text being displayed
+        if (GameData.FullPaused)
+        {
+            pauseText.SetActive(true);
+        }
+        else
+        {
+            pauseText.SetActive(false);
         }
     }
 

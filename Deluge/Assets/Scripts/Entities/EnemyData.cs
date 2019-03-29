@@ -38,6 +38,8 @@ public class EnemyData : MonoBehaviour
         GetComponent<Entity>().maxTime = 1.0f;
         GetComponent<Entity>().type = entityType.enemy;
         GetComponent<Entity>().health = 10;
+        GetComponent<Entity>().vamp = 0;
+        GetComponent<Entity>().attack = 4;
     }
 
     // Update is called once per frame

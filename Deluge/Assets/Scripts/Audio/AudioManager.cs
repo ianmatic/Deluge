@@ -12,6 +12,8 @@ public class AudioManager : MonoBehaviour
     [HideInInspector]
     public Sound currentSong;
 
+    private bool transitioning = false;
+
     void Awake()
     {
         //only allow 1 instance of audiomanager (singleton)
@@ -46,9 +48,71 @@ public class AudioManager : MonoBehaviour
         //play menuTheme on startup
         if (SceneManager.GetActiveScene().name == "menuScene")
         {
-            PlaySound("menuTheme");
+            Sound s = Array.Find(sounds, sound => sound.name == "menuTheme");
+            s.source.volume = 1.0f;
+            PlaySong("menuTheme");
         }
 
+    }
+
+    void Update()
+    {
+        //song loaded in
+        if (currentSong.source != null && !transitioning)
+        {
+            //pause music
+            if (GameData.FullPaused)
+            {
+                currentSong.source.Pause();
+            }
+            //play music
+            else
+            {
+                //resume music
+                if (!currentSong.source.isPlaying && !GameData.FullPaused)
+                {
+                    currentSong.source.UnPause();
+                }
+
+                //reduce volume of music for dialogue
+                if (GameData.GameplayPaused)
+                {
+                    TurnDownVolume(0.3f);
+                }
+                //turn back up
+                else
+                {
+                    TurnUpVolume(1.0f);
+                }
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// Decreases volume of currentSong to target value
+    /// </summary>
+    /// <param name="target"></param>
+    public void TurnDownVolume(float target)
+    {
+        //reduce volume
+        if (currentSong.source.volume > target)
+        {
+            currentSong.source.volume -= 0.01f;
+        }
+    }
+
+    /// <summary>
+    /// Increases volume of currentSong to target value
+    /// </summary>
+    /// <param name="target"></param>
+    public void TurnUpVolume(float target)
+    {
+        //increase volume
+        if (currentSong.source.volume < target)
+        {
+            currentSong.source.volume += 0.01f;
+        }
     }
 
 
@@ -163,11 +227,13 @@ public class AudioManager : MonoBehaviour
     /// <returns></returns>
     public void TransitionToSong(string name)
     {
+        transitioning = true;
+
         //songs are different, so transition, or the song isn't at full volume
         if (currentSong.name != name)
         {
             //fading out
-            if (currentSong == null || FadeOut(currentSong.name))
+            if (currentSong == null || currentSong.source == null || FadeOut(currentSong.name))
             {
                 //done fading out
 
@@ -191,6 +257,7 @@ public class AudioManager : MonoBehaviour
                 {
                     //done fading
                     currentSong = song;
+                    transitioning = false;
                 }
             }
         }
@@ -199,6 +266,29 @@ public class AudioManager : MonoBehaviour
         {
             FadeIn(currentSong.name);
         }
+        else
+        {
+            transitioning = false;
+        }
 
+    }
+
+    public void Setup()
+    {
+        //setup each sound
+        foreach (Sound sound in sounds)
+        {
+            if (sound.source == null)
+            {
+                sound.source = gameObject.AddComponent<AudioSource>();
+
+                sound.source.clip = sound.clip;
+                sound.source.volume = sound.volume;
+
+                sound.source.spatialBlend = 1.0f;
+
+                sound.source.loop = sound.loop;
+            }
+        }
     }
 }

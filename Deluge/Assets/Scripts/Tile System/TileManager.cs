@@ -23,6 +23,11 @@ public class TileManager : MonoBehaviour
         {
             tiles.Add(tile.transform.position, tile);
         }
+
+        foreach (GameObject tile in GameObject.FindGameObjectsWithTag("exit"))
+        {
+            tiles.Add(tile.transform.position, tile);
+        }
     }
 
 
@@ -435,102 +440,141 @@ public class TileManager : MonoBehaviour
         Vector3 parentTilePosition = player.GetComponent<Entity>().parentTile.transform.position;
         float tileHeight = player.GetComponent<Entity>().parentTile.GetComponent<Renderer>().bounds.size.y;
 
-        for (float y = parentTilePosition.y + tileHeight; y >= parentTilePosition.y - tileHeight; y -= tileHeight)
+        //determine tiles based on weapon
+        if (player.GetComponent<PlayerData>().weaponSelected == "axe")
         {
-            //determine tiles based on weapon
-            if (player.GetComponent<PlayerData>().weaponSelected == "axe")
+            //By default, sword hits top right and adjacent, relative to direction
+            //z + 1
+            if (direction == FaceDirection.backward)
             {
-                //By default, sword hits top right and adjacent, relative to direction
-                //z + 1
-                if (direction == FaceDirection.backward)
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight, 3));
+
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 1), tileHeight, 3));
+
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight, 3));
+            }
+            //x + 1                                     
+            else if (direction == FaceDirection.right)
+            {
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight, 3));
+
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, -1), tileHeight, 3));
+
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight, 3));
+            }
+            //z - 1
+            else if (direction == FaceDirection.forward)
+            {
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight, 3));
+
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, -1), tileHeight, 3));
+
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight, 3));
+            }
+            //x - 1
+            else if (direction == FaceDirection.left)
+            {
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight, 3));
+
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 1), tileHeight, 3));
+
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight, 3));
+            }
+        }
+        else if (player.GetComponent<PlayerData>().weaponSelected == "spear")
+        {
+            if (direction == FaceDirection.backward)
+            {
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight, 3));
+
+                //check for edge case first
+                if (!GetAboveOrBelowTile(tiles, parentTilePosition, parentTilePosition + new Vector3(0, 0, 2), tileHeight))
                 {
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 1), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
+                    //check normal case
+                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight, 3));
                 }
-                //x + 1                                     
-                else if (direction == FaceDirection.right)
+
+            }
+            else if (direction == FaceDirection.right)
+            {
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight, 3));
+
+                //check for edge case first
+                if (!GetAboveOrBelowTile(tiles, parentTilePosition, parentTilePosition + new Vector3(2,0,0), tileHeight))
                 {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, -1), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
+                    //check normal case
+                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight, 3));
                 }
-                //z - 1
-                else if (direction == FaceDirection.forward)
+
+            }
+            else if (direction == FaceDirection.forward)
+            { 
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight, 3));
+
+                //check for edge case first
+                if (!GetAboveOrBelowTile(tiles, parentTilePosition, parentTilePosition + new Vector3(0, 0, -2), tileHeight))
                 {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, -1), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
+                    //check normal case
+                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight, 3));
                 }
-                //x - 1
-                else if (direction == FaceDirection.left)
+
+            }
+            else if (direction == FaceDirection.left)
+            {
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight, 3));
+
+                //check for edge case first
+                if (!GetAboveOrBelowTile(tiles, parentTilePosition, parentTilePosition + new Vector3(-2, 0, 0), tileHeight))
                 {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 1), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
+                    //check normal case
+                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-2, 0, 0), tileHeight, 3));
                 }
             }
-            else if (player.GetComponent<PlayerData>().weaponSelected == "spear")
+        }
+        else if (player.GetComponent<PlayerData>().weaponSelected == "bow")
+        {
+            if (direction == FaceDirection.backward)
             {
-                if (direction == FaceDirection.backward)
-                {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 1), tileHeight));
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight, 3));
 
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight));
-                }
-                else if (direction == FaceDirection.right)
+                //check for edge case first
+                if (!GetAboveOrBelowTile(tiles, parentTilePosition, parentTilePosition + new Vector3(0, 0, 3), tileHeight))
                 {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(1, 0, 0), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight));
-                }
-                else if (direction == FaceDirection.forward)
-                {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -1), tileHeight));
-                }
-                else if (direction == FaceDirection.left)
-                {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-1, 0, 0), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-2, 0, 0), tileHeight));
+                    //check normal case
+                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 3), tileHeight, 3));
                 }
             }
-            else if (player.GetComponent<PlayerData>().weaponSelected == "bow")
+            else if (direction == FaceDirection.right)
             {
-                if (direction == FaceDirection.backward)
-                {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 2), tileHeight));
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight, 3));
 
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, 3), tileHeight));
+                //check for edge case first
+                if (!GetAboveOrBelowTile(tiles, parentTilePosition, parentTilePosition + new Vector3(3,0,0), tileHeight))
+                {
+                    //check normal case
+                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(3,0,0), tileHeight, 3));
                 }
-                else if (direction == FaceDirection.right)
-                {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(2, 0, 0), tileHeight));
+            }
+            else if (direction == FaceDirection.forward)
+            {
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight, 3));
 
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(3, 0, 0), tileHeight));
+                //check for edge case first
+                if (!GetAboveOrBelowTile(tiles, parentTilePosition, parentTilePosition + new Vector3(0, 0, -3), tileHeight))
+                {
+                    //check normal case
+                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -3), tileHeight, 3));
                 }
-                else if (direction == FaceDirection.forward)
-                {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -3), tileHeight));
+            }
+            else if (direction == FaceDirection.left)
+            {
+                tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-2, 0, 0), tileHeight, 3));
 
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(0, 0, -2), tileHeight));
-                }
-                else if (direction == FaceDirection.left)
+                //check for edge case first
+                if (!GetAboveOrBelowTile(tiles, parentTilePosition, parentTilePosition + new Vector3(-3, 0, 0), tileHeight))
                 {
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-3, 0, 0), tileHeight));
-
-                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-2, 0, 0), tileHeight));
+                    //check normal case
+                    tiles.Add(GetHighestTile(parentTilePosition + new Vector3(-3, 0, 0), tileHeight, 3));
                 }
             }
         }
@@ -583,7 +627,7 @@ public class TileManager : MonoBehaviour
         }
 
         //check for vertical interactivity
-        return GetHighestTile(parentTilePosition, tileHeight);
+        return GetHighestTile(parentTilePosition, tileHeight, 3);
     }
 
     /// <summary>
@@ -613,7 +657,7 @@ public class TileManager : MonoBehaviour
                     }
 
                     //add the tiles, also account for verticallity
-                    nearbyTiles.Add(GetHighestTile(new Vector3(x, parentTile.transform.position.y, z), tileHeight));
+                    nearbyTiles.Add(GetHighestTile(new Vector3(x, parentTile.transform.position.y, z), tileHeight, 3));
                 }
             }
         }
@@ -622,11 +666,11 @@ public class TileManager : MonoBehaviour
             Vector3 parentPos = parentTile.transform.position;
 
             //only cardinal direction
-            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x - 1, parentPos.y, parentPos.z), tileHeight));
-            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x + 1, parentPos.y, parentPos.z), tileHeight));
+            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x - 1, parentPos.y, parentPos.z), tileHeight, 3));
+            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x + 1, parentPos.y, parentPos.z), tileHeight, 3));
 
-            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x, parentPos.y, parentPos.z - 1), tileHeight));
-            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x, parentPos.y, parentPos.z + 1), tileHeight));
+            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x, parentPos.y, parentPos.z - 1), tileHeight, 3));
+            nearbyTiles.Add(GetHighestTile(new Vector3(parentPos.x, parentPos.y, parentPos.z + 1), tileHeight, 3));
         }
 
         //remove any null tiles
@@ -636,17 +680,20 @@ public class TileManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Finds the highest tile of 3, starts from top and goes down
+    /// Finds the highest tile of range, starts from top and goes down
     /// </summary>
     /// <param name="pos"></param>
     /// <param name="tileHeight"></param>
     /// <returns></returns>
-    public GameObject GetHighestTile(Vector3 pos, float tileHeight)
+    public GameObject GetHighestTile(Vector3 pos, float tileHeight, int range)
     {
         GameObject tile;
 
+        //ex, range of 9, deviation in each direction = 4
+        int deviation = (range - 1) / 2;
+
         //loop from top to bottom
-        for (float y = pos.y + tileHeight; y >= pos.y - tileHeight; y -= tileHeight)
+        for (float y = pos.y + (tileHeight * deviation); y >= pos.y - (tileHeight * deviation); y -= tileHeight)
         {
             tile = GetTileAtPosition(new Vector3(pos.x, y, pos.z));
 
@@ -660,5 +707,62 @@ public class TileManager : MonoBehaviour
         //no tile found
         return null;
 
+    }
+
+
+    /// <summary>
+    /// Finds the lowest tile of range, starts from down and goes up
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="tileHeight"></param>
+    /// <returns></returns>
+    public GameObject GetLowestTile(Vector3 pos, float tileHeight, int range)
+    {
+        GameObject tile;
+
+        //ex, range of 9, deviation in each direction = 4
+        int deviation = (range - 1) / 2;
+
+        //loop from top to bottom
+        for (float y = pos.y - (tileHeight * deviation); y <= pos.y + (tileHeight * deviation); y += tileHeight)
+        {
+            tile = GetTileAtPosition(new Vector3(pos.x, y, pos.z));
+
+            //found tile, no need to keep checking
+            if (tile != null)
+            {
+                return tile;
+            }
+        }
+
+        //no tile found
+        return null;
+    }
+
+    /// <summary>
+    /// //Helper function for FindActionTiles
+    /// Used for edge cases when player can hit a tile 2 above or below (like when the weapon range is greater than 1)
+    /// Returns true if found edge tile, false otherwise
+    /// </summary>
+    /// <returns></returns>
+    public bool GetAboveOrBelowTile(List<GameObject> tiles, Vector3 parentTilePosition, Vector3 targetPos, float tileHeight)
+    {
+        //check for going up or down
+        if (tiles[tiles.Count - 1] != null)
+        {
+            //check above
+            if (tiles[tiles.Count - 1].transform.position.y == parentTilePosition.y + tileHeight)
+            {
+                tiles.Add(GetHighestTile(targetPos, tileHeight, 5));
+                return true;
+            }
+            //check below
+            else if (tiles[tiles.Count - 1].transform.position.y == parentTilePosition.y - tileHeight)
+            {
+                tiles.Add(GetLowestTile(targetPos, tileHeight, 5));
+                return true;
+            }
+        }
+        return false;
     }
 }
