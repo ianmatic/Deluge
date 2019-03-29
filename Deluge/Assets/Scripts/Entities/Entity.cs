@@ -85,6 +85,7 @@ public class Entity : MonoBehaviour
         health = 10;
         maxHealth = 20;
         attack = 4;
+        vamp = 0;
 
         manager = GameObject.FindGameObjectWithTag("manager");
 
@@ -146,10 +147,10 @@ public class Entity : MonoBehaviour
         }
 
         //reached the end
-        //if (parentTile == GameObject.FindGameObjectWithTag("exit") && tag == "Player")
-        //{
+        if (parentTile == GameObject.FindGameObjectWithTag("exit") && tag == "Player")
+        {
             SceneManager.LoadScene("menuScene");
-       // }
+        }
 
 
 
@@ -326,7 +327,7 @@ public class Entity : MonoBehaviour
         }
         else
         {
-            health += Mathf.RoundToInt((float)outGoingDamage / 2);
+            health += (int)vamp;
         }
 
         print(name + " attacked " + target.name);

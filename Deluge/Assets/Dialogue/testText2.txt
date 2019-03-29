@@ -1,5 +1,5 @@
-#PLAYER#Hi, heres yo thing
-#JEFF#omg its my thing
-#PLAYER#ye
-#JEFF#<3
-#PLAYER#:3
+#STRANGER#Ah, I see you have successfully passed my trial.
+#PLAYER#What? I thought you needed help.
+#STRANGER#I am a wizard. After all, how do you think I have the ability to grant powers?
+#PLAYER#I didn't really think about it.
+#WIZARD#Enough talk! Here is the power I promised (Press F to use in combat).

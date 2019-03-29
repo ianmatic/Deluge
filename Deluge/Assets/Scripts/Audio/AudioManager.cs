@@ -48,6 +48,8 @@ public class AudioManager : MonoBehaviour
         //play menuTheme on startup
         if (SceneManager.GetActiveScene().name == "menuScene")
         {
+            Sound s = Array.Find(sounds, sound => sound.name == "menuTheme");
+            s.source.volume = 1.0f;
             PlaySong("menuTheme");
         }
 

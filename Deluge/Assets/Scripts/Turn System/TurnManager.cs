@@ -66,15 +66,15 @@ public class TurnManager : MonoBehaviour
                             //end turn
                             if (combatEntities[counter].GetComponent<Timer>().remainingTime < 0.35f)
                             {
-                                foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
-                                {
-                                    GetComponent<ShaderManager>().Untint(tile);
-                                }
+                                //foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                                //{
+                                //    GetComponent<ShaderManager>().Untint(tile);
+                                //}
 
-                                foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
-                                {
-                                    GetComponent<ShaderManager>().TintRed(tile);
-                                }
+                                //foreach (GameObject tile in combatEntities[counter].GetComponent<EnemyData>().pathToPlayer)
+                                //{
+                                //    GetComponent<ShaderManager>().TintRed(tile);
+                                //}
 
                                 combatEntities[counter].GetComponent<EnemyData>().ProcessTurn();
 

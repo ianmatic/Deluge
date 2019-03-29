@@ -51,7 +51,8 @@ public class PlayerData : MonoBehaviour
         GetComponent<Entity>().health = 18;
         GetComponent<Entity>().maxHealth = 34;
         GetComponent<Entity>().type = entityType.player;
-        GetComponent<Entity>().attack = 4;
+        GetComponent<Entity>().attack = 5;
+        GetComponent<Entity>().vamp = 2.0f;
 
         audioManager = FindObjectOfType<AudioManager>();
     }
@@ -261,18 +262,18 @@ public class PlayerData : MonoBehaviour
                     }
 
                     #region temporarilyHighlightInteractTile
-                    if (interactTile != null)
-                    {
-                        manager.GetComponent<ShaderManager>().Untint(interactTile);
-                    }
+                    //if (interactTile != null)
+                    //{
+                    //    manager.GetComponent<ShaderManager>().Untint(interactTile);
+                    //}
 
                     //update interact tile after direction is set
                     interactTile = manager.GetComponent<TileManager>().FindInteractTile(gameObject, GetComponent<Entity>().direction);
 
-                    if (interactTile != null)
-                    {
-                        manager.GetComponent<ShaderManager>().TintGreen(interactTile);
-                    }
+                    //if (interactTile != null)
+                    //{
+                    //    manager.GetComponent<ShaderManager>().TintGreen(interactTile);
+                    //}
                     #endregion
 
                     //increment counter if a key is being held

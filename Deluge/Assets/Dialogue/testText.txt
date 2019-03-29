@@ -1,7 +1,7 @@
-#PLAYER#Hi, how ya doin
-#JEFF#Good thx can u get thing for me
-#PLAYER#no lol im not ur dad
-#JEFF#pls?
-#PLAYER#ok
-#JEFF#kthx
-#PLAYER# np :) <3
+#STRANGER#Please help me!
+#PLAYER#What's wrong?
+#STRANGER#I need to get to that glowing red box up there, but there are monsters in the way!
+#PLAYER#Why should I help you?
+#STRANGER#I can give you the power to deflect damage.
+#PLAYER#Sounds good to me.
+#STRANGER#Thank you! Please hurry!
