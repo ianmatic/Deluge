@@ -31,7 +31,7 @@ public class Useable : Item
 
 
     // Applies the effects of the useable item to the item holder
-    private void ApplyEffects(GameObject user)
+    public void ApplyEffects(GameObject user)
     {
         // Get the holder component
         UpdateHolder(user);

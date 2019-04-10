@@ -8,6 +8,8 @@ public class Inventory_UI_Manager : MonoBehaviour
     // FIELDS
     // Pulling data from other places           //TODO: Continue redoing inventory system starting
     public Inventory playerInventory;           //      from the PlaceItem function
+    public GameObject playerGO;
+    private Entity player;
     public GameObject mainUI;
     Item[,] mainPack;
 
@@ -63,26 +65,12 @@ public class Inventory_UI_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Toggle the assets of the main ui to move it off screen
         mainUI.GetComponent<UI_Manager>().ToggleAssets();
         itemIcons = new List<GameObject>();
 
-        #region old code (gross)
-        /*  REDOING MAIN PACK DISPLAYING
-        // Add all the items sprite and background holders as children of their containers
-        // Slot Bg's
-        for (int i = 0; i < 19; i++)
-        {   
-            GameObject newItemSlot = Instantiate(defaultItemSlot, itemContainer.transform);
-            itemSlots.Add(newItemSlot);
-            newItemSlot.transform.localScale = displayVec;
-
-            // Add all the item icons and set them as children of the containers
-            //GameObject newItemIcon = Instantiate(defaultItemIcon, newItemSlot.transform);
-            //newItemIcon.transform.localScale = displayVec;
-            itemIcons.Add(itemSlots[i].transform.GetChild(0).gameObject);
-        }
-        */
-        #endregion
+        // Pull the player entity script
+        player = playerGO.GetComponent<Entity>();
 
         // Instantiate all containers and add item icons as their children
         InstantiateContainers();
@@ -117,6 +105,10 @@ public class Inventory_UI_Manager : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 MoveIndicator(direction.right);
+            }
+            else if(Input.GetKeyDown(KeyCode.Return))
+            {
+                UseItem(mainPack[currentItemPos[0], currentItemPos[1]]);
             }
         }
     }
@@ -244,6 +236,42 @@ public class Inventory_UI_Manager : MonoBehaviour
     }
 
     /// <summary>
+    /// Uses or equips a given item from the inventory based on the item's type
+    /// </summary>
+    /// <param name="item"></param>
+    void UseItem(Item _item)
+    {
+        // Set the actual item into it's proper slot
+        switch (_item.ItemType)
+        {
+            case Item.itemType.weapon:
+                //TODO: Break up weapon types into axes, spears, and bows
+                break;
+            case Item.itemType.hat:
+                playerInventory.currentHat = _item;
+                break;
+            case Item.itemType.torso:
+                playerInventory.currentTorso = _item;
+                break;
+            case Item.itemType.offhand:
+                playerInventory.currentOffHand = _item;
+                break;
+            case Item.itemType.useable:
+                _item.GetComponent<Useable>().ApplyEffects(playerGO);
+                break;
+            case Item.itemType.empty:
+                // Don't do anything
+                break;
+            default:
+                Debug.Log("Inventory UI Manager UseItem() fxn broken");
+                break;
+        }
+
+        // Update the UI to show the newly placed item
+        UpdateFromInventory();
+    }
+
+    /// <summary>
     /// Pulls the current inventory informaiton from the player inventory item and adds to mainPack
     /// </summary>
     void UpdateFromInventory()
@@ -325,21 +353,10 @@ public class Inventory_UI_Manager : MonoBehaviour
     }
 
     /// <summary>
-    /// Goes through and zeros out all the item icon positions relative to their parents
-    /// </summary>
-    void ResetItemIconZeros()
-    {
-        foreach(GameObject icon in itemIcons)
-        {
-            icon.transform.localPosition = Vector3.zero;
-        }
-    }
-
-    /// <summary>
     /// Calls UpdateInfoPanel with the given game object's item script
     /// </summary>
     /// <param name="itemGO"></param>
-    void UpdateInfoPanelByGO(GameObject itemGO)
+    void UpdateInfoPanel(GameObject itemGO)
     {
         // Get the Item script so we don't have to keep calling GetComponent<whatever>()
         Item item = itemGO.GetComponent<Item>();
@@ -351,7 +368,6 @@ public class Inventory_UI_Manager : MonoBehaviour
     /// </summary>
     void UpdateInfoPanel(Item item)
     {
-        Debug.Log(item);
         if (item != null)
         {
             // Update icon

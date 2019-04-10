@@ -20378,6 +20378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 1044376873}
+  playerGO: {fileID: 1044376866}
   mainUI: {fileID: 1197027538}
   parentContainer: {fileID: 882738877}
   panelItemIcon: {fileID: 1441609195}
