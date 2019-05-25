@@ -144,6 +144,7 @@ MonoBehaviour:
   vamp: 0
   respawning: 0
   inCombat: 0
+  outGoingDamage: 0
   direction: 4
   type: 0
   invWidth: 0
@@ -154,6 +155,7 @@ MonoBehaviour:
   maxTime: 0
   smoothSpeed: 0.25
   velocity: {x: 0, y: 0, z: 0}
+  deflection: 0
 --- !u!1 &4342690904807982224
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +214,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: b6045a4550670cb4494a9ee4423cca28, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -303,7 +305,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: b6045a4550670cb4494a9ee4423cca28, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
