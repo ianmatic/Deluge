@@ -107,7 +107,7 @@ public class TurnManager : MonoBehaviour
                 }
 
                 //last entity ended turn
-                if (counter == combatEntities.Count)
+                if (counter >= combatEntities.Count)
                 {
                     //go back to player
                     counter = 0;
@@ -172,8 +172,14 @@ public class TurnManager : MonoBehaviour
                 enemy.GetComponent<Entity>().inCombat = true;
                 nearbyEnemies.Add(enemy);
             }
+            //can't detect player
             else
             {
+                //already in combat, but can't detect player
+                if (enemy.GetComponent<Entity>().inCombat)
+                {
+                    counter = 0;
+                }
                 enemy.GetComponent<Entity>().inCombat = false;
             }
         }
