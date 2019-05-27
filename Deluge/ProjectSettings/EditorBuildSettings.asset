@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Imported/Scenes/menuScene.unity
     guid: 5cd9fe23f05d24548ae3d394b3a56eb5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Imported/Scenes/loadScene.unity
     guid: a444c3e606c4f794382ae7b855933554
   - enabled: 1

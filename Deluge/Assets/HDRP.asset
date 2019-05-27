@@ -151,8 +151,8 @@ MonoBehaviour:
     supportShadowMask: 1
     supportSSR: 0
     supportSSAO: 1
-    supportSubsurfaceScattering: 1
-    increaseSssSampleCount: 0
+    supportSubsurfaceScattering: 0
+    increaseSssSampleCount: 1
     supportVolumetrics: 1
     increaseResolutionOfVolumetrics: 0
     supportLightLayers: 0
@@ -193,7 +193,7 @@ MonoBehaviour:
       maxShadowRequests: 128
       shadowMapsDepthBits: 32
       useDynamicViewportRescale: 1
-      shadowQuality: 0
+      shadowQuality: 2
     decalSettings:
       drawDistance: 1000
       atlasWidth: 4096
