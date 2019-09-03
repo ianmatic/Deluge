@@ -29,10 +29,10 @@ public class PlayerData : MonoBehaviour
     public int invHeight;
 
     [HideInInspector]
-    public int counter = 0;
+    public double counter = 0.0f;
 
     [HideInInspector]
-    public int divisor = 10;
+    public double divisor;
 
     /// <summary>
     /// Called on the first frame of existance
@@ -223,42 +223,45 @@ public class PlayerData : MonoBehaviour
                     //moving diagonally
                     if (Mathf.Abs(GetComponent<Entity>().velocity.x) > 0 && Mathf.Abs(GetComponent<Entity>().velocity.z) > 0)
                     {
-                        GetComponent<Entity>().smoothSpeed = .175f;
-                        divisor = 14;
+                        GetComponent<Entity>().smoothSpeed = 7.175f;
+                        divisor = 2.85f;
                     }
                     else
                     {
-                        GetComponent<Entity>().smoothSpeed = .25f;
-                        divisor = 10;
+                        GetComponent<Entity>().smoothSpeed = 10.25f;
+                        divisor = 4.0f;
                     }
 
-                    //reset counter on first frame of key press
-                    if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A)
-                        || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
-                    {
-                        counter = 0;
-                    }
-
-                    //able to hold key in free roam mode
-                    if (Input.GetKey(KeyCode.S) && counter % divisor == 0)
+                    bool moved = false;
+                    //able to hold key in free roam mode, paced movement unless initial key press, then immediate movement
+                    if ((Input.GetKey(KeyCode.S) && counter > (1.0f / divisor)) || (Input.GetKeyDown(KeyCode.S) && counter == 0.0f))
                     {
                         GetComponent<Entity>().direction = FaceDirection.forward;
                         GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                        moved = true;
                     }
-                    if (Input.GetKey(KeyCode.A) && counter % divisor == 0)
+                    if ((Input.GetKey(KeyCode.A) && counter > (1.0f / divisor)) || (Input.GetKeyDown(KeyCode.A) && counter == 0.0f))
                     {
                         GetComponent<Entity>().direction = FaceDirection.left;
                         GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                        moved = true;
                     }
-                    if (Input.GetKey(KeyCode.D) && counter % divisor == 0)
+                    if ((Input.GetKey(KeyCode.D) && counter > (1.0f / divisor)) || (Input.GetKeyDown(KeyCode.D) && counter == 0.0f))
                     {
                         GetComponent<Entity>().direction = FaceDirection.right;
                         GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                        moved = true;
                     }
-                    if (Input.GetKey(KeyCode.W) && counter % divisor == 0)
+                    if ((Input.GetKey(KeyCode.W) && counter > (1.0f / divisor)) || (Input.GetKeyDown(KeyCode.W) && counter == 0.0f))
                     {
                         GetComponent<Entity>().direction = FaceDirection.backward;
                         GetComponent<Entity>().MoveDirection(GetComponent<Entity>().direction);
+                        moved = true;
+                    }
+
+                    if (moved)
+                    {
+                        counter = 0.0f;
                     }
 
                     #region temporarilyHighlightInteractTile
@@ -275,13 +278,16 @@ public class PlayerData : MonoBehaviour
                     //    manager.GetComponent<ShaderManager>().TintGreen(interactTile);
                     //}
                     #endregion
-
-                    //increment counter if a key is being held
+                    //increment timer if key being held
                     if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)
                         || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S))
                     {
-                        counter++;
+                        counter += Time.deltaTime;
+                    } else
+                    {
+                        counter = 0.0f;
                     }
+
                 }
 
 

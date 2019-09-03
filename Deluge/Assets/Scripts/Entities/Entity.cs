@@ -69,7 +69,7 @@ public class Entity : MonoBehaviour
 
     //smooth Movement
     [HideInInspector]
-    public float smoothSpeed = 0.25f;
+    public float smoothSpeed = 10.25f;
     [HideInInspector]
     public Vector3 velocity;
 
@@ -86,6 +86,7 @@ public class Entity : MonoBehaviour
         maxHealth = 20;
         attack = 4;
         vamp = 0;
+        smoothSpeed = 10.25f;
 
         manager = GameObject.FindGameObjectWithTag("manager");
 
@@ -167,7 +168,8 @@ public class Entity : MonoBehaviour
         Vector3 desiredPos = new Vector3(parentTile.transform.position.x,
                                  parentTile.transform.position.y + .75f, parentTile.transform.position.z);
 
-        velocity = Vector3.Lerp(transform.position, desiredPos, smoothSpeed) - transform.position;
+
+        velocity = Vector3.Lerp(transform.position, desiredPos, smoothSpeed * Time.deltaTime) - transform.position;
 
 
         //clamp speed
@@ -218,7 +220,7 @@ public class Entity : MonoBehaviour
         }
 
         //update orientation
-        transform.rotation = Quaternion.Lerp(currentOrientation, targetOrientation, .1f);
+        transform.rotation = Quaternion.Lerp(currentOrientation, targetOrientation, smoothSpeed * Time.deltaTime);
     }
 
     /// <summary>
