@@ -163,7 +163,7 @@ public class PlayerData : MonoBehaviour
                     //tint new tiles
                     foreach (GameObject tile in actionTiles)
                     {
-                        manager.GetComponent<ShaderManager>().TintBlue(tile);
+                        manager.GetComponent<ShaderManager>().TintRed(tile);
                     }
 
                     //movement

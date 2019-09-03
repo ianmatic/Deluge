@@ -23653,9 +23653,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2370f926361d98d43b70130f2fda4b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unlitDefault: {fileID: 4800000, guid: 2bf7ad3001b34924ca29d3751cbbc6c0, type: 3}
-  unlitColorShift: {fileID: 4800000, guid: 69d3f586438ee744ea8e0b08a2e8fd54, type: 3}
-  unlitColorPulse: {fileID: 4800000, guid: c9f9c24e080d69143868718c83ad61b6, type: 3}
+  litColorShift: {fileID: 4800000, guid: 69d3f586438ee744ea8e0b08a2e8fd54, type: 3}
+  litColorPulse: {fileID: 4800000, guid: c9f9c24e080d69143868718c83ad61b6, type: 3}
   testObject: {fileID: 0}
 --- !u!4 &807365422 stripped
 Transform:
@@ -35236,6 +35235,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DynamicOccludee
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5445681149421423105, guid: 6b1be1747fc6f564eb008f856a6e3b3d,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7984159535270841851, guid: 6b1be1747fc6f564eb008f856a6e3b3d,
         type: 3}
