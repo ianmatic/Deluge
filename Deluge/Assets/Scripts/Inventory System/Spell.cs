@@ -117,7 +117,7 @@ public class Spell : MonoBehaviour
         {
             case "deflection":
                 parent.GetComponent<Entity>().deflection = 0;
-                FindObjectOfType<ShaderManager>().Untint(parent);
+                FindObjectOfType<ShaderManager>().Untint(parent, false);
                 break;
             case "Ice Shard":
 
@@ -157,7 +157,7 @@ public class Spell : MonoBehaviour
             switch (spellName)
             {
                 case "deflection":
-                    FindObjectOfType<ShaderManager>().Untint(parent);
+                    FindObjectOfType<ShaderManager>().Untint(parent, false);
                     break;
             }
         }

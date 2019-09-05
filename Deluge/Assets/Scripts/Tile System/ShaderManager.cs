@@ -20,34 +20,21 @@ public class ShaderManager : MonoBehaviour
     private const string PULSE_GREEN_VEC_ADDRESS = "Vector1_6C03338A";
     private const string PULSE_BLUE_VEC_ADDRESS = "Vector1_71E5B973";
 
-    void Update()
-    {
-        // Testing shader swapping/update stuff
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            Untint(testObject);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            TintRedPulse(testObject);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            TintGreenPulse(testObject);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            TintBluePulse(testObject);
-        }
-    }
-
     /// <summary>
-    /// Removes the tint from a material
+    /// Removes the tint from a material, set different shader based on if mobile or not (for snow)
     /// </summary>
     /// <param name="target"></param>
-    public void Untint(GameObject target)
+    public void Untint(GameObject target, bool isStatic)
     {
-        target.GetComponent<MeshRenderer>().material.shader = Shader.Find("HDRP/Lit");
+        if (isStatic)
+        {
+            target.GetComponent<MeshRenderer>().material.shader = Shader.Find("Shader Graphs/SnowStatic");
+        }
+        else
+        {
+            target.GetComponent<MeshRenderer>().material.shader = Shader.Find("Shader Graphs/SnowMobile");
+        }
+
     }
 
     /// <summary>

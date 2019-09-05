@@ -98,7 +98,7 @@ public class PlayerData : MonoBehaviour
             //untint all old targeting
             foreach (GameObject tile in actionTiles)
             {
-                manager.GetComponent<ShaderManager>().Untint(tile);
+                manager.GetComponent<ShaderManager>().Untint(tile, true);
             }
 
             if (inCombat)
