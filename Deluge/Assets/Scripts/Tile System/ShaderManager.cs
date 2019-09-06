@@ -37,6 +37,14 @@ public class ShaderManager : MonoBehaviour
 
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            TintRedPulse(testObject);
+        }
+    }
+
     /// <summary>
     /// Tints a material red
     /// </summary>
@@ -45,8 +53,8 @@ public class ShaderManager : MonoBehaviour
     {
         target.GetComponent<MeshRenderer>().material.shader = litColorPulse;
         target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_RED_VEC_ADDRESS, 1.0f);    // Red Value
-        target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_GREEN_VEC_ADDRESS, 1.4f);    // Green Value
-        target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_BLUE_VEC_ADDRESS, 1.4f);    // Blue Value
+        target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_GREEN_VEC_ADDRESS, 1.6f);    // Green Value
+        target.GetComponent<MeshRenderer>().material.SetFloat(PULSE_BLUE_VEC_ADDRESS, 1.6f);    // Blue Value
     }
 
     /// <summary>

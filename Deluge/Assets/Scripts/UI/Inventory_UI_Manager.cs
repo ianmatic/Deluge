@@ -8,7 +8,7 @@ public class Inventory_UI_Manager : MonoBehaviour
     // FIELDS
     // Pulling data from other places           //TODO: Continue redoing inventory system starting
     public Inventory playerInventory;           //      from the PlaceItem function
-    public GameObject playerGO;
+    private GameObject playerGO;
     private Entity player;
     public GameObject mainUI;
     Item[,] mainPack;
@@ -65,6 +65,7 @@ public class Inventory_UI_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerGO = GameObject.FindGameObjectWithTag("Player");
         // Toggle the assets of the main ui to move it off screen
         mainUI.GetComponent<UI_Manager>().ToggleAssets();
         itemIcons = new List<GameObject>();
