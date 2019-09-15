@@ -18,6 +18,6 @@ EditorBuildSettings:
     path: Assets/Scenes/loadScene.unity
     guid: a444c3e606c4f794382ae7b855933554
   - enabled: 1
-    path: Assets/Scenes/testScene.unity
+    path: Assets/Scenes/magicLevel.unity
     guid: b786d000de79f6949933a7c611efe5df
   m_configObjects: {}
